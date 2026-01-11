@@ -36,7 +36,7 @@ public class WorkoutSession : AggregateRoot<WorkoutSessionId>
 
     private WorkoutSession() { } // Needed for EF Core
 
-    public static WorkoutSession Create(
+    public static WorkoutSession Start(
         UserId clientId,
         WorkoutPlan workoutPlan,
         TimeProvider timeProvider)
@@ -61,7 +61,7 @@ public class WorkoutSession : AggregateRoot<WorkoutSessionId>
         return session;
     }
 
-    public ErrorOr<Success> RecordExercise(
+    public ErrorOr<Success> CompleteExercise(
         ExerciseId exerciseId,
         int actualSets,
         TimeProvider timeProvider,
