@@ -60,5 +60,5 @@ public abstract class IntegrationTestBase
 
     protected HttpClient GetAnonymousClient() => TestingDatabaseFixture.CreateAnonymousClient();
 
-    protected CancellationToken CancellationToken => TestContext.Current!.CancellationToken;
+    protected CancellationToken CancellationToken => TestContext.Current!.Execution.CancellationToken;
 }
