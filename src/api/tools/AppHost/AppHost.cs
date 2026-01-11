@@ -29,7 +29,7 @@ var sqlServer = builder
         container.WithImage("mssql/server:2022-latest");
 
         // If desired, set SQL Server Port to a constant value
-        //container.WithHostPort(1800);
+        container.WithHostPort(2000);
     });
 
 var db = sqlServer
