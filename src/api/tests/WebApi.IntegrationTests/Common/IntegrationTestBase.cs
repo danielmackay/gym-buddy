@@ -7,7 +7,10 @@ namespace GymBuddy.Api.IntegrationTests.Common;
 /// <summary>
 /// Integration tests inherit from this to access helper classes.
 /// Uses TUnit hooks for setup/teardown.
+/// NotInParallel ensures tests run sequentially since they share a database
+/// and Respawn resets state before each test.
 /// </summary>
+[NotInParallel]
 public abstract class IntegrationTestBase
 {
     private IServiceScope _scope = null!;
