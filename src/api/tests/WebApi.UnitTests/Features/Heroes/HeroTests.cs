@@ -60,10 +60,10 @@ public class HeroTests
         // Arrange
 
         // Act
-        var act = () => Hero.Create(name!, alias!);
+        Hero Act() => Hero.Create(name!, alias!);
 
         // Assert
-        await Assert.That(act).ThrowsException()
+        await Assert.That(Act).ThrowsException()
             .WithMessageMatching("*Value cannot be null*");
     }
 

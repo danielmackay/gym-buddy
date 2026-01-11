@@ -46,10 +46,10 @@ public class TeamTests
         string? name = null;
 
         // Act
-        Action act = () => Team.Create(name!);
+        void Act() => Team.Create(name!);
 
         // Assert
-        await Assert.That(act).ThrowsException()
+        await Assert.That(Act).ThrowsException()
             .WithMessage("Value cannot be null. (Parameter 'Name')");
     }
 
