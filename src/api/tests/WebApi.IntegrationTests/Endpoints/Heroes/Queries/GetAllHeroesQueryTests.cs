@@ -5,9 +5,9 @@ using GymBuddy.Api.IntegrationTests.Common.Factories;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Heroes.Queries;
 
-public class GetAllHeroesQueryTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class GetAllHeroesQueryTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Query_ShouldReturnAllHeroes()
     {
         // Arrange
@@ -20,8 +20,8 @@ public class GetAllHeroesQueryTests(TestingDatabaseFixture fixture) : Integratio
         var result = await client.GETAsync<GetAllHeroesEndpoint, GetAllHeroesResponse>();
 
         // Assert
-        result.Response.IsSuccessStatusCode.Should().BeTrue();
-        result.Result.Should().NotBeNull();
-        result.Result!.Heroes.Should().HaveCount(entityCount);
+        await Assert.That(result.Response.IsSuccessStatusCode).IsTrue();
+        await Assert.That(result.Result).IsNotNull();
+        await Assert.That(result.Result!.Heroes).HasCount().EqualTo(entityCount);
     }
 }

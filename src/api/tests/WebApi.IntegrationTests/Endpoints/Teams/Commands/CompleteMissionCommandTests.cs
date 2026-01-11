@@ -9,9 +9,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Teams.Commands;
 
-public class CompleteMissionCommandTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class CompleteMissionCommandTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_ShouldCompleteMission()
     {
         // Arrange
@@ -32,9 +32,9 @@ public class CompleteMissionCommandTests(TestingDatabaseFixture fixture) : Integ
             .FirstOrDefaultAsync(CancellationToken);
         var mission = updatedTeam!.Missions.First();
 
-        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        updatedTeam!.Missions.Should().HaveCount(1);
-        updatedTeam.Status.Should().Be(TeamStatus.Available);
-        mission.Status.Should().Be(MissionStatus.Complete);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
+        await Assert.That(updatedTeam!.Missions).HasCount().EqualTo(1);
+        await Assert.That(updatedTeam.Status).IsEqualTo(TeamStatus.Available);
+        await Assert.That(mission.Status).IsEqualTo(MissionStatus.Complete);
     }
 }

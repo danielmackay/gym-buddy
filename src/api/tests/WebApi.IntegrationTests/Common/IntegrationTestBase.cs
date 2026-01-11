@@ -5,28 +5,33 @@ using GymBuddy.Api.Common.Persistence;
 namespace GymBuddy.Api.IntegrationTests.Common;
 
 /// <summary>
-/// Integration tests inherit from this to access helper classes
+/// Integration tests inherit from this to access helper classes.
+/// Uses TUnit hooks for setup/teardown.
 /// </summary>
-[Collection<TestingDatabaseFixtureCollection>]
-public abstract class IntegrationTestBase : IAsyncLifetime
+public abstract class IntegrationTestBase
 {
-    private readonly IServiceScope _scope;
-    private readonly TestingDatabaseFixture _fixture;
-    private readonly ApplicationDbContext _dbContext;
+    private IServiceScope _scope = null!;
+    private ApplicationDbContext _dbContext = null!;
 
-    protected IntegrationTestBase(TestingDatabaseFixture fixture)
+    /// <summary>
+    /// Setup for each test - resets the database and creates a new scope
+    /// </summary>
+    [Before(Test)]
+    public async Task SetupAsync()
     {
-        _fixture = fixture;
-        _scope = _fixture.CreateScope();
+        await TestingDatabaseFixture.ResetDatabaseAsync();
+        _scope = TestingDatabaseFixture.CreateScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     }
 
     /// <summary>
-    /// Setup for each test
+    /// Cleanup for each test - disposes the scope
     /// </summary>
-    public async ValueTask InitializeAsync()
+    [After(Test)]
+    public Task TeardownAsync()
     {
-        await _fixture.TestSetup();
+        _scope.Dispose();
+        return Task.CompletedTask;
     }
 
     protected IQueryable<T> GetQueryable<T>() where T : class => _dbContext.Set<T>().AsNoTracking();
@@ -50,13 +55,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         await _dbContext.SaveChangesAsync(CancellationToken);
     }
 
-    protected HttpClient GetAnonymousClient() => _fixture.AnonymousClient.Value;
+    protected HttpClient GetAnonymousClient() => TestingDatabaseFixture.CreateAnonymousClient();
 
-    protected CancellationToken CancellationToken => TestContext.Current.CancellationToken;
-
-    public ValueTask DisposeAsync()
-    {
-        _scope.Dispose();
-        return ValueTask.CompletedTask;
-    }
+    protected CancellationToken CancellationToken => TestContext.Current!.CancellationToken;
 }

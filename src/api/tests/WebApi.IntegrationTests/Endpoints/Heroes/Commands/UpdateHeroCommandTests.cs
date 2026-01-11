@@ -8,9 +8,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Heroes.Commands;
 
-public class UpdateHeroCommandTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class UpdateHeroCommandTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_ShouldUpdateHero()
     {
         // Arrange
@@ -36,19 +36,19 @@ public class UpdateHeroCommandTests(TestingDatabaseFixture fixture) : Integratio
         var result = await client.PUTAsync<UpdateHeroEndpoint, UpdateHeroRequest>(cmd);
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
         var item = await GetQueryable<Hero>().FirstAsync(dbHero => dbHero.Id == hero.Id, CancellationToken);
 
-        item.Should().NotBeNull();
-        item.Name.Should().Be(cmd.Name);
-        item.Alias.Should().Be(cmd.Alias);
-        item.PowerLevel.Should().Be(25);
-        item.Powers.Should().HaveCount(3);
-        item.UpdatedAt.Should().NotBe(hero.CreatedAt);
-        item.UpdatedAt.Should().BeCloseTo(createdTimeStamp, TimeSpan.FromSeconds(10));
+        await Assert.That(item).IsNotNull();
+        await Assert.That(item.Name).IsEqualTo(cmd.Name);
+        await Assert.That(item.Alias).IsEqualTo(cmd.Alias);
+        await Assert.That(item.PowerLevel).IsEqualTo(25);
+        await Assert.That(item.Powers).HasCount().EqualTo(3);
+        await Assert.That(item.UpdatedAt).IsNotNull();
+        await Assert.That(item.UpdatedAt!.Value).IsBetween(new DateTimeOffset(createdTimeStamp.AddSeconds(-10)), new DateTimeOffset(createdTimeStamp.AddSeconds(10)));
     }
 
-    [Fact]
+    [Test]
     public async Task Command_WhenHeroDoesNotExist_ShouldReturnNotFound()
     {
         // Arrange
@@ -64,9 +64,9 @@ public class UpdateHeroCommandTests(TestingDatabaseFixture fixture) : Integratio
         var result = await client.PUTAsync<UpdateHeroEndpoint, UpdateHeroRequest>(cmd);
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NotFound);
         var item = await GetQueryable<Hero>().FirstOrDefaultAsync(dbHero => dbHero.Id == heroId, CancellationToken);
 
-        item.Should().BeNull();
+        await Assert.That(item).IsNull();
     }
 }

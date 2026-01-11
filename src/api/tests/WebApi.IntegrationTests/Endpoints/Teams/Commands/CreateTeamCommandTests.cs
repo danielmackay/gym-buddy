@@ -7,9 +7,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Teams.Commands;
 
-public class CreateTeamCommandTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class CreateTeamCommandTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_ShouldCreateTeam()
     {
         // Arrange
@@ -20,11 +20,11 @@ public class CreateTeamCommandTests(TestingDatabaseFixture fixture) : Integratio
         var result = await client.POSTAsync<CreateTeamEndpoint, CreateTeamRequest>(cmd);
 
         // Assert
-        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
         var item = await GetQueryable<Team>().FirstAsync(CancellationToken);
 
-        item.Should().NotBeNull();
-        item.Name.Should().Be(cmd.Name);
-        item.CreatedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
+        await Assert.That(item).IsNotNull();
+        await Assert.That(item.Name).IsEqualTo(cmd.Name);
+        await Assert.That(item.CreatedAt).IsBetween(DateTime.Now.AddSeconds(-10), DateTime.Now.AddSeconds(10));
     }
 }

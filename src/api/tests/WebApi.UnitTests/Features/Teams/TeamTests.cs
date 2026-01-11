@@ -5,10 +5,10 @@ namespace GymBuddy.Api.UnitTests.Features.Teams;
 
 public class TeamTests
 {
-    [Theory]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
-    public void TeamId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
+    [Test]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
+    public async Task TeamId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
     {
         // Arrange
         Guid guid1 = Guid.Parse(stringGuid1);
@@ -20,13 +20,13 @@ public class TeamTests
         var areEqual = id1 == id2;
 
         // Assert
-        areEqual.Should().Be(isEqual);
-        id1.Value.Should().Be(guid1);
-        id2.Value.Should().Be(guid2);
+        await Assert.That(areEqual).IsEqualTo(isEqual);
+        await Assert.That(id1.Value).IsEqualTo(guid1);
+        await Assert.That(id2.Value).IsEqualTo(guid2);
     }
 
-    [Fact]
-    public void Create_WithValidNameAndAlias_ShouldSucceed()
+    [Test]
+    public async Task Create_WithValidNameAndAlias_ShouldSucceed()
     {
         // Arrange
         var name = "name";
@@ -35,12 +35,12 @@ public class TeamTests
         var team = Team.Create(name);
 
         // Assert
-        team.Should().NotBeNull();
-        team.Name.Should().Be(name);
+        await Assert.That(team).IsNotNull();
+        await Assert.That(team.Name).IsEqualTo(name);
     }
 
-    [Fact]
-    public void Create_WithNullNameAndAlias_ShouldThrow()
+    [Test]
+    public async Task Create_WithNullNameAndAlias_ShouldThrow()
     {
         // Arrange
         string? name = null;
@@ -49,11 +49,12 @@ public class TeamTests
         Action act = () => Team.Create(name!);
 
         // Assert
-        act.Should().Throw<ArgumentException>().WithMessage("Value cannot be null. (Parameter 'name')");
+        await Assert.That(act).ThrowsException()
+            .WithMessage("Value cannot be null. (Parameter 'Name')");
     }
 
-    [Fact]
-    public void AddHero_ShouldUpdateTeamPowerLevel()
+    [Test]
+    public async Task AddHero_ShouldUpdateTeamPowerLevel()
     {
         // Arrange
         var hero1 = Hero.Create("hero1", "alias1");
@@ -69,11 +70,11 @@ public class TeamTests
         team.AddHero(hero2);
 
         // Assert
-        team.TotalPowerLevel.Should().Be(14);
+        await Assert.That(team.TotalPowerLevel).IsEqualTo(14);
     }
 
-    [Fact]
-    public void RemoveHero_ShouldUpdateTeamPowerLevel()
+    [Test]
+    public async Task RemoveHero_ShouldUpdateTeamPowerLevel()
     {
         // Arrange
         var hero1 = Hero.Create("hero1", "alias1");
@@ -90,11 +91,11 @@ public class TeamTests
         team.RemoveHero(hero1);
 
         // Assert
-        team.TotalPowerLevel.Should().Be(4);
+        await Assert.That(team.TotalPowerLevel).IsEqualTo(4);
     }
 
-    [Fact]
-    public void ExecuteMission_ShouldUpdateTeamStatus()
+    [Test]
+    public async Task ExecuteMission_ShouldUpdateTeamStatus()
     {
         // Arrange
         var team = Team.Create("name");
@@ -104,13 +105,13 @@ public class TeamTests
         team.ExecuteMission("Mission");
 
         // Assert
-        team.Status.Should().Be(TeamStatus.OnMission);
-        team.Missions.Should().HaveCount(1);
-        team.Missions.Should().ContainSingle(x => x.Description == "Mission");
+        await Assert.That(team.Status).IsEqualTo(TeamStatus.OnMission);
+        await Assert.That(team.Missions).HasCount().EqualTo(1);
+        await Assert.That(team.Missions.Any(x => x.Description == "Mission")).IsTrue();
     }
 
-    [Fact]
-    public void ExecuteMission_WhenTeamNotAvailable_ShouldError()
+    [Test]
+    public async Task ExecuteMission_WhenTeamNotAvailable_ShouldError()
     {
         // Arrange
         var team = Team.Create("name");
@@ -121,12 +122,12 @@ public class TeamTests
         var result = team.ExecuteMission("Mission2");
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(TeamErrors.NotAvailable);
+        await Assert.That(result.IsError).IsTrue();
+        await Assert.That(result.FirstError).IsEqualTo(TeamErrors.NotAvailable);
     }
 
-    [Fact]
-    public void CompleteCurrentMission_ShouldUpdateTeamStatus()
+    [Test]
+    public async Task CompleteCurrentMission_ShouldUpdateTeamStatus()
     {
         // Arrange
         var team = Team.Create("name");
@@ -136,11 +137,11 @@ public class TeamTests
         team.CompleteCurrentMission();
 
         // Assert
-        team.Status.Should().Be(TeamStatus.Available);
+        await Assert.That(team.Status).IsEqualTo(TeamStatus.Available);
     }
 
-    [Fact]
-    public void CompleteCurrentMission_WhenNoMissionHasBeenExecuted_ShouldThrow()
+    [Test]
+    public async Task CompleteCurrentMission_WhenNoMissionHasBeenExecuted_ShouldThrow()
     {
         // Arrange
         var team = Team.Create("name");
@@ -149,12 +150,12 @@ public class TeamTests
         var result = team.CompleteCurrentMission();
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(TeamErrors.NotOnMission);
+        await Assert.That(result.IsError).IsTrue();
+        await Assert.That(result.FirstError).IsEqualTo(TeamErrors.NotOnMission);
     }
 
-    [Fact]
-    public void CompleteCurrentMission_WhenNotOnMission_ShouldError()
+    [Test]
+    public async Task CompleteCurrentMission_WhenNotOnMission_ShouldError()
     {
         // Arrange
         var team = Team.Create("name");
@@ -165,12 +166,12 @@ public class TeamTests
         var result = team.CompleteCurrentMission();
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(TeamErrors.NotOnMission);
+        await Assert.That(result.IsError).IsTrue();
+        await Assert.That(result.FirstError).IsEqualTo(TeamErrors.NotOnMission);
     }
 
-    [Fact]
-    public void ExecuteMission_WhenNoHeroes_ShouldError()
+    [Test]
+    public async Task ExecuteMission_WhenNoHeroes_ShouldError()
     {
         // Arrange
         var team = Team.Create("name");
@@ -179,12 +180,12 @@ public class TeamTests
         var result = team.ExecuteMission("Mission");
 
         // Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(TeamErrors.NoHeroes);
+        await Assert.That(result.IsError).IsTrue();
+        await Assert.That(result.FirstError).IsEqualTo(TeamErrors.NoHeroes);
     }
 
-    [Fact]
-    public void ExecuteMission_AfterAddingHero_ShouldSucceed()
+    [Test]
+    public async Task ExecuteMission_AfterAddingHero_ShouldSucceed()
     {
         // Arrange
         var team = Team.Create("name");
@@ -197,6 +198,6 @@ public class TeamTests
         var result = team.ExecuteMission("Mission");
 
         // Assert
-        result.IsError.Should().BeFalse();
+        await Assert.That(result.IsError).IsFalse();
     }
 }

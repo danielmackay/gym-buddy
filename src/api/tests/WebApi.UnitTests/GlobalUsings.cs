@@ -1,2 +1,3 @@
-global using Xunit;
-global using AwesomeAssertions;
+global using TUnit.Core;
+global using TUnit.Assertions;
+global using TUnit.Assertions.Extensions;

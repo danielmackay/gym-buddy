@@ -4,10 +4,10 @@ namespace GymBuddy.Api.UnitTests.Features.Teams;
 
 public class MissionTests
 {
-    [Theory]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
-    public void MissionId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
+    [Test]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
+    public async Task MissionId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
     {
         // Arrange
         Guid guid1 = Guid.Parse(stringGuid1);
@@ -19,8 +19,8 @@ public class MissionTests
         var areEqual = id1 == id2;
 
         // Assert
-        areEqual.Should().Be(isEqual);
-        id1.Value.Should().Be(guid1);
-        id2.Value.Should().Be(guid2);
+        await Assert.That(areEqual).IsEqualTo(isEqual);
+        await Assert.That(id1.Value).IsEqualTo(guid1);
+        await Assert.That(id2.Value).IsEqualTo(guid2);
     }
 }

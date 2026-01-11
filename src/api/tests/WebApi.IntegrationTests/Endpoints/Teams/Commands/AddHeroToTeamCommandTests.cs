@@ -9,9 +9,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Teams.Commands;
 
-public class AddHeroToTeamCommandTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class AddHeroToTeamCommandTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_ShouldAddHeroToTeam()
     {
         // Arrange
@@ -30,10 +30,10 @@ public class AddHeroToTeamCommandTests(TestingDatabaseFixture fixture) : Integra
             .WithSpecification(new TeamByIdSpec(team.Id))
             .FirstOrDefaultAsync(CancellationToken);
 
-        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        updatedTeam.Should().NotBeNull();
-        updatedTeam!.Heroes.Should().HaveCount(1);
-        updatedTeam.Heroes.First().Id.Should().Be(hero.Id);
-        updatedTeam.TotalPowerLevel.Should().Be(hero.PowerLevel);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
+        await Assert.That(updatedTeam).IsNotNull();
+        await Assert.That(updatedTeam!.Heroes).HasCount().EqualTo(1);
+        await Assert.That(updatedTeam.Heroes.First().Id).IsEqualTo(hero.Id);
+        await Assert.That(updatedTeam.TotalPowerLevel).IsEqualTo(hero.PowerLevel);
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.Logging;
 using GymBuddy.Api.Common.Interfaces;
 using System.Data.Common;
 
@@ -19,13 +20,13 @@ public class WebApiTestFactory : WebApplicationFactory<IWebApiMarker>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        // Redirect application logging to test output
-        builder.ConfigureLogging(_ =>
+        // Redirect application logging to test output using TUnit's TestContext
+        builder.ConfigureLogging(logging =>
         {
-            // x.ClearProviders();
-            // x.AddFilter(level => level >= LogLevel.Information);
-            // TODO: This doesnt work anymore - need to investigate
-            // x.Services.AddSingleton<ILoggerProvider>(new XUnitLoggerProvider(Output));
+            logging.ClearProviders();
+            logging.AddFilter(level => level >= LogLevel.Information);
+            // TUnit captures console output automatically, so we can use console logging
+            logging.AddConsole();
         });
 
         builder.UseSetting("ConnectionStrings:AppDb", _dbConnection.ConnectionString);

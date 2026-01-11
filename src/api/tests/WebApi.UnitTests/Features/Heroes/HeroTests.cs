@@ -4,10 +4,10 @@ namespace GymBuddy.Api.UnitTests.Features.Heroes;
 
 public class HeroTests
 {
-    [Theory]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
-    [InlineData("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
-    public void HeroId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
+    [Test]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "cc3431a8-4a31-4f76-af64-e8198279d7a4", false)]
+    [Arguments("c8ad9974-ca93-44a5-9215-2f4d9e866c7a", "c8ad9974-ca93-44a5-9215-2f4d9e866c7a", true)]
+    public async Task HeroId_ShouldBeComparable(string stringGuid1, string stringGuid2, bool isEqual)
     {
         // Arrange
         Guid guid1 = Guid.Parse(stringGuid1);
@@ -19,13 +19,13 @@ public class HeroTests
         var areEqual = id1 == id2;
 
         // Assert
-        areEqual.Should().Be(isEqual);
-        id1.Value.Should().Be(guid1);
-        id2.Value.Should().Be(guid2);
+        await Assert.That(areEqual).IsEqualTo(isEqual);
+        await Assert.That(id1.Value).IsEqualTo(guid1);
+        await Assert.That(id2.Value).IsEqualTo(guid2);
     }
 
-    [Fact]
-    public void Create_WithValidNameAndAlias_ShouldSucceed()
+    [Test]
+    public async Task Create_WithValidNameAndAlias_ShouldSucceed()
     {
         // Arrange
         var name = "name";
@@ -35,12 +35,12 @@ public class HeroTests
         var hero = Hero.Create(name, alias);
 
         // Assert
-        hero.Should().NotBeNull();
-        hero.Name.Should().Be(name);
-        hero.Alias.Should().Be(alias);
+        await Assert.That(hero).IsNotNull();
+        await Assert.That(hero.Name).IsEqualTo(name);
+        await Assert.That(hero.Alias).IsEqualTo(alias);
     }
 
-    [Fact]
+    [Test]
     public void Create_WithSameNameAndAlias_ShouldSucceed()
     {
         // Arrange
@@ -51,23 +51,24 @@ public class HeroTests
         Hero.Create(name, alias);
     }
 
-    [Theory]
-    [InlineData(null, "alias")]
-    [InlineData("name", null)]
-    [InlineData(null, null)]
-    public void Create_WithNullTitleOrAlias_ShouldThrow(string? name, string? alias)
+    [Test]
+    [Arguments(null, "alias")]
+    [Arguments("name", null)]
+    [Arguments(null, null)]
+    public async Task Create_WithNullTitleOrAlias_ShouldThrow(string? name, string? alias)
     {
         // Arrange
 
         // Act
-        Action act = () => Hero.Create(name!, alias!);
+        var act = () => Hero.Create(name!, alias!);
 
         // Assert
-        act.Should().Throw<ArgumentException>().WithMessage("Value cannot be null*");
+        await Assert.That(act).ThrowsException()
+            .WithMessageMatching("*Value cannot be null*");
     }
 
-    [Fact]
-    public void AddPower_ShouldUpdateHeroPowerLevel()
+    [Test]
+    public async Task AddPower_ShouldUpdateHeroPowerLevel()
     {
         // Act
         var hero = Hero.Create("name", "alias");
@@ -75,12 +76,12 @@ public class HeroTests
         hero.UpdatePowers(powers);
 
         // Assert
-        hero.PowerLevel.Should().Be(15);
-        hero.Powers.Should().HaveCount(2);
+        await Assert.That(hero.PowerLevel).IsEqualTo(15);
+        await Assert.That(hero.Powers).HasCount().EqualTo(2);
     }
 
-    [Fact]
-    public void RemovePower_ShouldUpdateHeroPowerLevel()
+    [Test]
+    public async Task RemovePower_ShouldUpdateHeroPowerLevel()
     {
         // Act
         var hero = Hero.Create("name", "alias");
@@ -91,12 +92,12 @@ public class HeroTests
         hero.UpdatePowers([new("Super-strength", 5)]);
 
         // Assert
-        hero.PowerLevel.Should().Be(5);
-        hero.Powers.Should().HaveCount(1);
+        await Assert.That(hero.PowerLevel).IsEqualTo(5);
+        await Assert.That(hero.Powers).HasCount().EqualTo(1);
     }
 
-    [Fact]
-    public void AddPower_ShouldRaisePowerLevelUpdatedEvent()
+    [Test]
+    public async Task AddPower_ShouldRaisePowerLevelUpdatedEvent()
     {
         // Act
         var hero = Hero.Create("name", "alias");
@@ -105,20 +106,22 @@ public class HeroTests
 
         // Assert
         var domainEvents = hero.PopDomainEvents();
-        domainEvents.Should().NotBeNull();
-        domainEvents.Should().HaveCount(1);
-        domainEvents.First().Should().BeOfType<PowerLevelUpdatedEvent>()
-            .Which.Invoking(e =>
-            {
-                e.Hero.PowerLevel.Should().Be(10);
-                e.Hero.Id.Should().Be(hero.Id);
-                e.Hero.Name.Should().Be(hero.Name);
-            }).Invoke();
-        hero.Powers.Should().ContainSingle("Super-strength");
+        await Assert.That(domainEvents).IsNotNull();
+        await Assert.That(domainEvents).HasCount().EqualTo(1);
+        
+        var firstEvent = domainEvents.First();
+        await Assert.That(firstEvent).IsTypeOf<PowerLevelUpdatedEvent>();
+        
+        var powerLevelEvent = (PowerLevelUpdatedEvent)firstEvent;
+        await Assert.That(powerLevelEvent.Hero.PowerLevel).IsEqualTo(10);
+        await Assert.That(powerLevelEvent.Hero.Id).IsEqualTo(hero.Id);
+        await Assert.That(powerLevelEvent.Hero.Name).IsEqualTo(hero.Name);
+        
+        await Assert.That(hero.Powers.Select(p => p.Name)).Contains("Super-strength");
     }
 
-    [Fact]
-    public void RemovePower_ShouldRaisePowerLevelUpdatedEvent()
+    [Test]
+    public async Task RemovePower_ShouldRaisePowerLevelUpdatedEvent()
     {
         // Act
         var hero = Hero.Create("name", "alias");
@@ -127,12 +130,15 @@ public class HeroTests
 
         // Assert
         var domainEvents = hero.PopDomainEvents();
-        domainEvents.Should().NotBeNull();
-        domainEvents.Should().HaveCount(1);
-        domainEvents.Should().AllSatisfy(e => e.Should().BeOfType<PowerLevelUpdatedEvent>());
-        domainEvents.Last()
-            .As<PowerLevelUpdatedEvent>()
-            .Hero.PowerLevel.Should().Be(10);
-        hero.Powers.Should().HaveCount(1);
+        await Assert.That(domainEvents).IsNotNull();
+        await Assert.That(domainEvents).HasCount().EqualTo(1);
+        
+        var lastEvent = domainEvents.Last();
+        await Assert.That(lastEvent).IsTypeOf<PowerLevelUpdatedEvent>();
+        
+        var powerLevelEvent = (PowerLevelUpdatedEvent)lastEvent;
+        await Assert.That(powerLevelEvent.Hero.PowerLevel).IsEqualTo(10);
+        
+        await Assert.That(hero.Powers).HasCount().EqualTo(1);
     }
 }

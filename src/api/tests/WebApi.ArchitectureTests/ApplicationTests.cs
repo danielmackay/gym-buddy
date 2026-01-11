@@ -3,21 +3,15 @@ using GymBuddy.Api.ArchitectureTests.Common;
 
 namespace GymBuddy.Api.ArchitectureTests;
 
-public class ApplicationTests: TestBase
+public class ApplicationTests : TestBase
 {
-    private readonly ITestOutputHelper _output;
-
-    public ApplicationTests(ITestOutputHelper output)
-    {
-        _output = output;
-    }
-    
-    [Fact]
-    public void CommandHandlers_Should_HaveCorrectSuffix()
+    [Test]
+    public async Task CommandHandlers_Should_HaveCorrectSuffix()
     {
         // Arrange
+        var output = TestContext.Current!.OutputWriter;
         var commandTypes = Types
-            .InAssembly(RootAssembly)
+            .InAssembly(WebApiAssembly)
             .That()
             .ResideInNamespaceContaining(CommandsAssemblyName)
             .GetTypes()
@@ -28,7 +22,7 @@ public class ApplicationTests: TestBase
             ))
             .ToList();
         
-        commandTypes.Dump(_output);
+        commandTypes.Dump(output);
         
         // Act
         var invalidNames = commandTypes
@@ -36,15 +30,16 @@ public class ApplicationTests: TestBase
             .ToList();
         
         // Assert
-        invalidNames.Should().BeEmpty();
+        await Assert.That(invalidNames).IsEmpty();
     }
 
-    [Fact]
-    public void QueryHandlers_Should_HaveCorrectSuffix()
+    [Test]
+    public async Task QueryHandlers_Should_HaveCorrectSuffix()
     {
         // Arrange
+        var output = TestContext.Current!.OutputWriter;
         var commandTypes = Types
-            .InAssembly(RootAssembly)
+            .InAssembly(WebApiAssembly)
             .That()
             .ResideInNamespaceContaining(QueriesAssemblyName)
             .GetTypes()
@@ -55,7 +50,7 @@ public class ApplicationTests: TestBase
             ))
             .ToList();
         
-        commandTypes.Dump(_output);
+        commandTypes.Dump(output);
         
         // Act
         var invalidNames = commandTypes
@@ -63,6 +58,6 @@ public class ApplicationTests: TestBase
             .ToList();
         
         // Assert
-        invalidNames.Should().BeEmpty();
+        await Assert.That(invalidNames).IsEmpty();
     }
 }

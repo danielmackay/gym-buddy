@@ -1,44 +1,35 @@
-using AwesomeAssertions.Execution;
-using AwesomeAssertions.Primitives;
 using System.Text;
 using TestResult = NetArchTest.Rules.TestResult;
 
 namespace GymBuddy.Api.ArchitectureTests.Common;
 
-public class TestResultAssertions : ReferenceTypeAssertions<TestResult, TestResultAssertions>
+/// <summary>
+/// TUnit-compatible assertion helper for NetArchTest TestResult
+/// </summary>
+public static class TestResultAssertions
 {
-    private readonly AssertionChain _chain;
-
-    public TestResultAssertions(TestResult instance, AssertionChain chain) : base(instance, chain)
+    /// <summary>
+    /// Asserts that the TestResult is successful, otherwise fails with detailed type information
+    /// </summary>
+    public static async Task ShouldBeSuccessful(this TestResult result, string? because = null)
     {
-        _chain = chain;
-    }
-
-    protected override string Identifier => "TestResult";
-
-    [CustomAssertion]
-    public AndConstraint<TestResultAssertions> BeSuccessful(string because = "", params object[] becauseArgs)
-    {
-        _chain
-            .BecauseOf(because, becauseArgs)
-            .Given(() => Subject)
-            .ForCondition(s => s.IsSuccessful)
-            .FailWith(GetFailureMessage());
-
-        return new AndConstraint<TestResultAssertions>(this);
-    }
-
-    private string GetFailureMessage()
-    {
-        if (Subject.IsSuccessful)
-            return string.Empty;
+        if (result.IsSuccessful)
+        {
+            await Assert.That(true).IsTrue();
+            return;
+        }
 
         var sb = new StringBuilder();
+        sb.AppendLine(because ?? "The architecture test failed.");
         sb.AppendLine("The following types failed the test:");
 
-        foreach (var name in Subject.FailingTypeNames)
-            sb.AppendLine(name);
+        foreach (var name in result.FailingTypeNames ?? [])
+        {
+            sb.AppendLine($"  - {name}");
+        }
 
-        return sb.ToString();
+        await Assert.That(result.IsSuccessful)
+            .IsTrue()
+            .Because(sb.ToString());
     }
 }

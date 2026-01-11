@@ -7,9 +7,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Heroes.Commands;
 
-public class CreateHeroCommandTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class CreateHeroCommandTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_ShouldCreateHero()
     {
         // Arrange
@@ -29,14 +29,14 @@ public class CreateHeroCommandTests(TestingDatabaseFixture fixture) : Integratio
         var result = await client.POSTAsync<CreateHeroEndpoint, CreateHeroRequest, CreateHeroResponse>(cmd);
 
         // Assert
-        result.Response.StatusCode.Should().Be(HttpStatusCode.OK);
+        await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         var item = await GetQueryable<Hero>().FirstAsync(CancellationToken);
 
-        item.Should().NotBeNull();
-        item.Name.Should().Be(cmd.Name);
-        item.Alias.Should().Be(cmd.Alias);
-        item.PowerLevel.Should().Be(25);
-        item.Powers.Should().HaveCount(3);
-        item.CreatedAt.Should().BeCloseTo(DateTime.Now, TimeSpan.FromSeconds(10));
+        await Assert.That(item).IsNotNull();
+        await Assert.That(item.Name).IsEqualTo(cmd.Name);
+        await Assert.That(item.Alias).IsEqualTo(cmd.Alias);
+        await Assert.That(item.PowerLevel).IsEqualTo(25);
+        await Assert.That(item.Powers).HasCount().EqualTo(3);
+        await Assert.That(item.CreatedAt).IsBetween(DateTime.Now.AddSeconds(-10), DateTime.Now.AddSeconds(10));
     }
 }

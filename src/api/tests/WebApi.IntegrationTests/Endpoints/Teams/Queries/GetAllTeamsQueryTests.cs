@@ -5,9 +5,9 @@ using GymBuddy.Api.IntegrationTests.Common.Factories;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Teams.Queries;
 
-public class GetAllTeamsQueryTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class GetAllTeamsQueryTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Query_ShouldReturnAllTeams()
     {
         // Arrange
@@ -20,12 +20,12 @@ public class GetAllTeamsQueryTests(TestingDatabaseFixture fixture) : Integration
         var result = await client.GETAsync<GetAllTeamsEndpoint, GetAllTeamsResponse>();
 
         // Assert
-        result.Response.IsSuccessStatusCode.Should().BeTrue();
-        result.Result.Should().NotBeNull();
-        result.Result!.Teams.Should().HaveCount(entityCount);
+        await Assert.That(result.Response.IsSuccessStatusCode).IsTrue();
+        await Assert.That(result.Result).IsNotNull();
+        await Assert.That(result.Result!.Teams).HasCount().EqualTo(entityCount);
 
         var firstTeam = result.Result.Teams.First();
-        firstTeam.Id.Should().NotBeEmpty();
-        firstTeam.Name.Should().NotBeEmpty();
+        await Assert.That(firstTeam.Id).IsNotEqualTo(Guid.Empty);
+        await Assert.That(firstTeam.Name).IsNotNull().And.IsNotEmpty();
     }
 }

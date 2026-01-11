@@ -1,3 +1,4 @@
-global using AwesomeAssertions;
+global using TUnit.Core;
+global using TUnit.Assertions;
+global using TUnit.Assertions.Extensions;
 global using NetArchTest.Rules;
-global using Xunit;

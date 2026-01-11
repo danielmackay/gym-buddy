@@ -5,49 +5,48 @@ using GymBuddy.Api.IntegrationTests.Common.Infrastructure.Web;
 namespace GymBuddy.Api.IntegrationTests.Common;
 
 /// <summary>
-/// Initializes and resets the database before and after each test. Shared across all integration tests.
+/// Global test infrastructure for integration tests using TUnit's assembly hooks.
+/// Initializes and manages the database container lifecycle.
 /// </summary>
-// ReSharper disable once ClassNeverInstantiated.Global
-public class TestingDatabaseFixture : IAsyncLifetime
+public static class TestingDatabaseFixture
 {
-    private readonly TestDatabase _database = new();
-    private WebApiTestFactory _factory = null!;
-    private IServiceScopeFactory _scopeFactory = null!;
+    private static readonly TestDatabase Database = new();
+    private static WebApiTestFactory s_factory = null!;
+    private static IServiceScopeFactory s_scopeFactory = null!;
 
     /// <summary>
-    /// Global setup for tests
+    /// Global setup for all tests - runs once before any test in the assembly
     /// </summary>
-    public async ValueTask InitializeAsync()
+    [Before(Assembly)]
+    public static async Task InitializeAsync(AssemblyHookContext _)
     {
-        await _database.InitializeAsync();
-        _factory = new WebApiTestFactory(_database.DbConnection);
-        _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
+        await Database.InitializeAsync();
+        s_factory = new WebApiTestFactory(Database.DbConnection);
+        s_scopeFactory = s_factory.Services.GetRequiredService<IServiceScopeFactory>();
     }
 
     /// <summary>
-    /// Setup for each test
+    /// Global cleanup for all tests - runs once after all tests in the assembly
     /// </summary>
-    public async Task TestSetup()
+    [After(Assembly)]
+    public static async Task DisposeAsync(AssemblyHookContext _)
     {
-        await _database.ResetAsync();
+        await Database.DisposeAsync();
+        await s_factory.DisposeAsync();
     }
 
     /// <summary>
-    /// Global cleanup for tests
+    /// Resets the database before each test
     /// </summary>
-    public async ValueTask DisposeAsync()
+    public static async Task ResetDatabaseAsync()
     {
-        await _database.DisposeAsync();
-        await _factory.DisposeAsync();
+        await Database.ResetAsync();
     }
 
-    // NOTE: If you need an authenticated client, create a similar method that performance the authentication,
+    // NOTE: If you need an authenticated client, create a similar method that performs the authentication,
     // adds the appropriate headers and returns the authenticated client
     // For an example of this see https://github.com/SSWConsulting/Northwind365
-    public Lazy<HttpClient> AnonymousClient => new(_factory.CreateClient());
+    public static HttpClient CreateAnonymousClient() => s_factory.CreateClient();
 
-    public IServiceScope CreateScope() => _scopeFactory.CreateScope();
+    public static IServiceScope CreateScope() => s_scopeFactory.CreateScope();
 }
-
-[CollectionDefinition]
-public class TestingDatabaseFixtureCollection : ICollectionFixture<TestingDatabaseFixture>;

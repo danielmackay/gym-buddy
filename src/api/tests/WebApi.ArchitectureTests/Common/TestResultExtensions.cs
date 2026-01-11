@@ -1,25 +1,22 @@
-﻿using AwesomeAssertions.Execution;
 using TestResult = NetArchTest.Rules.TestResult;
 
 namespace GymBuddy.Api.ArchitectureTests.Common;
 
 public static class TestResultExtensions
 {
-    public static void DumpFailingTypes(this TestResult result, ITestOutputHelper outputHelper)
+    public static void DumpFailingTypes(this TestResult result, TextWriter outputWriter)
     {
         if (result.IsSuccessful)
             return;
 
-        outputHelper.WriteLine("Failing Types:");
+        outputWriter.WriteLine("Failing Types:");
 
         foreach (var type in result.FailingTypes)
         {
             if (type.FullName is null)
                 continue;
 
-            outputHelper.WriteLine(type.FullName);
+            outputWriter.WriteLine(type.FullName);
         }
     }
-
-    public static TestResultAssertions Should(this TestResult result) => new(result, AssertionChain.GetOrCreate());
 }

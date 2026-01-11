@@ -11,9 +11,9 @@ using System.Net;
 
 namespace GymBuddy.Api.IntegrationTests.Endpoints.Teams.Events;
 
-public class UpdatePowerLevelEventTests(TestingDatabaseFixture fixture) : IntegrationTestBase(fixture)
+public class UpdatePowerLevelEventTests : IntegrationTestBase
 {
-    [Fact]
+    [Test]
     public async Task Command_UpdatePowerOnTeam()
     {
         // Arrange
@@ -37,7 +37,7 @@ public class UpdatePowerLevelEventTests(TestingDatabaseFixture fixture) : Integr
             .WithSpecification(new TeamByIdSpec(team.Id))
             .FirstOrDefaultAsync(CancellationToken);
 
-        result.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        updatedTeam!.TotalPowerLevel.Should().Be(15);
+        await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
+        await Assert.That(updatedTeam!.TotalPowerLevel).IsEqualTo(15);
     }
 }
