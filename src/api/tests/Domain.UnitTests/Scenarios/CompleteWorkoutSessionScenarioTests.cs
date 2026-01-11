@@ -1,3 +1,4 @@
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.Exercises;
 using GymBuddy.Domain.Users;
 using GymBuddy.Domain.WorkoutPlans;
@@ -84,14 +85,14 @@ public class CompleteWorkoutSessionScenarioTests
             exercise: benchPress,
             sets: 3,
             reps: 10,
-            weight: 60.0m);
+            weight: new Weight(60.0m, WeightUnit.Kilograms));
         await Assert.That(addBenchPressResult.IsError).IsFalse();
 
         var addSquatResult = workoutPlan.AddExercise(
             exercise: squat,
             sets: 4,
             reps: 8,
-            weight: 80.0m);
+            weight: new Weight(80.0m, WeightUnit.Kilograms));
         await Assert.That(addSquatResult.IsError).IsFalse();
 
         var addPlankResult = workoutPlan.AddExercise(
@@ -137,7 +138,8 @@ public class CompleteWorkoutSessionScenarioTests
         await Assert.That(sessionBenchPress.ExerciseType).IsEqualTo(ExerciseType.RepsAndWeight);
         await Assert.That(sessionBenchPress.TargetSets).IsEqualTo(3);
         await Assert.That(sessionBenchPress.TargetReps).IsEqualTo(10);
-        await Assert.That(sessionBenchPress.TargetWeight).IsEqualTo(60.0m);
+        await Assert.That(sessionBenchPress.TargetWeight?.Value).IsEqualTo(60.0m);
+        await Assert.That(sessionBenchPress.TargetWeight?.Unit).IsEqualTo(WeightUnit.Kilograms);
         await Assert.That(sessionBenchPress.IsCompleted).IsFalse();
 
         var sessionPlank = session.Exercises.First(e => e.ExerciseName == "Plank");
@@ -154,7 +156,7 @@ public class CompleteWorkoutSessionScenarioTests
             actualSets: 3,
             timeProvider: timeProvider,
             actualReps: 10,
-            actualWeight: 62.5m); // Client lifted slightly more than target
+            actualWeight: new Weight(62.5m, WeightUnit.Kilograms)); // Client lifted slightly more than target
 
         await Assert.That(recordBenchPressResult.IsError).IsFalse();
         await Assert.That(session.GetCompletedExerciseCount()).IsEqualTo(1);
@@ -164,7 +166,8 @@ public class CompleteWorkoutSessionScenarioTests
         await Assert.That(completedBenchPress.IsCompleted).IsTrue();
         await Assert.That(completedBenchPress.ActualSets).IsEqualTo(3);
         await Assert.That(completedBenchPress.ActualReps).IsEqualTo(10);
-        await Assert.That(completedBenchPress.ActualWeight).IsEqualTo(62.5m);
+        await Assert.That(completedBenchPress.ActualWeight?.Value).IsEqualTo(62.5m);
+        await Assert.That(completedBenchPress.ActualWeight?.Unit).IsEqualTo(WeightUnit.Kilograms);
         await Assert.That(completedBenchPress.CompletedAt).IsNotNull();
 
         // Complete Barbell Squat (RepsAndWeight exercise)
@@ -173,7 +176,7 @@ public class CompleteWorkoutSessionScenarioTests
             actualSets: 4,
             timeProvider: timeProvider,
             actualReps: 8,
-            actualWeight: 80.0m);
+            actualWeight: new Weight(80.0m, WeightUnit.Kilograms));
 
         await Assert.That(recordSquatResult.IsError).IsFalse();
         await Assert.That(session.GetCompletedExerciseCount()).IsEqualTo(2);

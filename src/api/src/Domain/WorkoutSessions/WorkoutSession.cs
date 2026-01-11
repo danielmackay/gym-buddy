@@ -1,4 +1,5 @@
 using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.Exercises;
 using GymBuddy.Domain.Users;
 using GymBuddy.Domain.WorkoutPlans;
@@ -66,7 +67,7 @@ public class WorkoutSession : AggregateRoot<WorkoutSessionId>
         int actualSets,
         TimeProvider timeProvider,
         int? actualReps = null,
-        decimal? actualWeight = null,
+        Weight? actualWeight = null,
         int? actualDurationSeconds = null)
     {
         if (Status != SessionStatus.InProgress)

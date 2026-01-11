@@ -1,4 +1,5 @@
 using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.Exercises;
 using GymBuddy.Domain.Users;
 
@@ -59,7 +60,7 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
         Exercise exercise,
         int sets,
         int? reps = null,
-        decimal? weight = null,
+        Weight? weight = null,
         int? durationSeconds = null)
     {
         if (_exercises.Any(e => e.ExerciseId == exercise.Id))
@@ -101,7 +102,7 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
         ExerciseId exerciseId,
         int sets,
         int? reps = null,
-        decimal? weight = null,
+        Weight? weight = null,
         int? durationSeconds = null)
     {
         var existingExercise = _exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);

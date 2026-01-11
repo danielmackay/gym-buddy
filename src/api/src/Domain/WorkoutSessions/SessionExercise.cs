@@ -1,4 +1,5 @@
 using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.Exercises;
 using GymBuddy.Domain.WorkoutPlans;
 
@@ -31,13 +32,13 @@ public class SessionExercise : Entity<SessionExerciseId>
     // Target values (from workout plan)
     public int TargetSets { get; private set; }
     public int? TargetReps { get; private set; }
-    public decimal? TargetWeight { get; private set; }
+    public Weight? TargetWeight { get; private set; }
     public int? TargetDurationSeconds { get; private set; }
 
     // Actual recorded values
     public int? ActualSets { get; private set; }
     public int? ActualReps { get; private set; }
-    public decimal? ActualWeight { get; private set; }
+    public Weight? ActualWeight { get; private set; }
     public int? ActualDurationSeconds { get; private set; }
 
     public DateTimeOffset? CompletedAt { get; private set; }
@@ -67,7 +68,7 @@ public class SessionExercise : Entity<SessionExerciseId>
     internal ErrorOr<Success> RecordActuals(
         int actualSets,
         int? actualReps,
-        decimal? actualWeight,
+        Weight? actualWeight,
         int? actualDurationSeconds,
         TimeProvider timeProvider)
     {
@@ -81,8 +82,7 @@ public class SessionExercise : Entity<SessionExerciseId>
         {
             if (!actualReps.HasValue || actualReps < 1)
                 return WorkoutSessionErrors.InvalidActualReps;
-            if (actualWeight.HasValue && actualWeight < 0)
-                return WorkoutSessionErrors.InvalidActualWeight;
+            // Weight validation is now handled by the Weight value object itself
         }
         else if (ExerciseType == ExerciseType.TimeBased)
         {

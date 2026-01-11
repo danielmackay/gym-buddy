@@ -1,4 +1,5 @@
 using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.Exercises;
 
 namespace GymBuddy.Domain.WorkoutPlans;
@@ -37,7 +38,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
 
     // For RepsAndWeight exercises
     public int? Reps { get; private set; }
-    public decimal? Weight { get; private set; }
+    public Weight? Weight { get; private set; }
 
     // For TimeBased exercises
     public int? DurationSeconds { get; private set; }
@@ -54,7 +55,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         int sets,
         int order,
         int? reps = null,
-        decimal? weight = null,
+        Weight? weight = null,
         int? durationSeconds = null)
     {
         if (sets < 1)
@@ -64,8 +65,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         {
             if (!reps.HasValue || reps < 1)
                 return WorkoutPlanErrors.InvalidReps;
-            if (weight.HasValue && weight < 0)
-                return WorkoutPlanErrors.InvalidWeight;
+            // Weight validation is now handled by the Weight value object itself
         }
         else if (exerciseType == ExerciseType.TimeBased)
         {
@@ -95,7 +95,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
     internal ErrorOr<Success> Update(
         int sets,
         int? reps = null,
-        decimal? weight = null,
+        Weight? weight = null,
         int? durationSeconds = null)
     {
         if (sets < 1)
@@ -105,8 +105,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         {
             if (!reps.HasValue || reps < 1)
                 return WorkoutPlanErrors.InvalidReps;
-            if (weight.HasValue && weight < 0)
-                return WorkoutPlanErrors.InvalidWeight;
+            // Weight validation is now handled by the Weight value object itself
         }
         else if (ExerciseType == ExerciseType.TimeBased)
         {

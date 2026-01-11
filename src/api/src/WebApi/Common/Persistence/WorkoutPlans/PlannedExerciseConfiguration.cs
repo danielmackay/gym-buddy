@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using GymBuddy.Domain.Common;
 using GymBuddy.Domain.WorkoutPlans;
 
 namespace GymBuddy.Api.Common.Persistence.WorkoutPlans;
@@ -24,8 +25,15 @@ public class PlannedExerciseConfiguration : AuditableConfiguration<PlannedExerci
         builder.Property(pe => pe.Sets)
             .IsRequired();
 
-        builder.Property(pe => pe.Weight)
-            .HasPrecision(8, 2);
+        builder.ComplexProperty(pe => pe.Weight, w =>
+        {
+            w.Property(x => x.Value)
+                .HasPrecision(8, 2)
+                .HasColumnName("Weight");
+            w.Property(x => x.Unit)
+                .HasColumnName("WeightUnit")
+                .HasDefaultValue(WeightUnit.Kilograms);
+        });
 
         builder.Property(pe => pe.Order)
             .IsRequired();

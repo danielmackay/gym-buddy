@@ -11,7 +11,7 @@
 
 </div>
 
-[comment]: <> (Table of contents generated with markdown-toc http://ecotrust-canada.github.io/markdown-toc/)
+[comment]: <> (Table of contents generated with mUarkdown-toc http://ecotrust-canada.github.io/markdown-toc/)
 <!-- TOC -->
 [SSW Vertical Slice Architecture Template](#ssw-vertical-slice-architecture-template)
 
