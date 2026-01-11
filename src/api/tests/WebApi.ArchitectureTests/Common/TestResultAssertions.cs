@@ -15,7 +15,6 @@ public static class TestResultAssertions
     {
         if (result.IsSuccessful)
         {
-            await Assert.That(true).IsTrue();
             return;
         }
 

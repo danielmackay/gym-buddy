@@ -49,16 +49,16 @@ public class PowerTests
         var name = "PowerName";
 
         // Act
-        var act = () => new Power(name, powerLevel);
+        Power Act() => new Power(name, powerLevel);
 
         // Assert
         if (shouldThrow)
         {
-            await Assert.That(act).ThrowsExactly<ArgumentOutOfRangeException>();
+            await Assert.That(Act).ThrowsExactly<ArgumentOutOfRangeException>();
         }
         else
         {
-            await Assert.That(act).ThrowsNothing();
+            await Assert.That(Act).ThrowsNothing();
         }
     }
 }
