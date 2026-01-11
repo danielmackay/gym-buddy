@@ -1,8 +1,8 @@
 ﻿using FastEndpoints;
 using System.Reflection;
 using GymBuddy.Api.ArchitectureTests.Common;
-using GymBuddy.Api.Common.Domain.Base;
-using GymBuddy.Api.Common.Domain.Base.Interfaces;
+using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Base.Interfaces;
 
 namespace GymBuddy.Api.ArchitectureTests;
 

@@ -1,6 +1,6 @@
-﻿using GymBuddy.Api.Common.Domain.Base.Interfaces;
+﻿using GymBuddy.Domain.Base.Interfaces;
 
-namespace GymBuddy.Api.Common.Domain.Base;
+namespace GymBuddy.Domain.Base;
 
 /// <summary>
 /// Tracks creation and modification of objects.

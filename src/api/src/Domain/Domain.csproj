@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>GymBuddy.Domain</RootNamespace>
+    <PackageId>GymBuddy.Domain</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints" />
+    <PackageReference Include="Vogen" />
+    <PackageReference Include="ErrorOr" />
+    <PackageReference Include="Ardalis.Specification" />
+  </ItemGroup>
+</Project>

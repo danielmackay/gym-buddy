@@ -1,4 +1,4 @@
-﻿namespace GymBuddy.Api.Common.Domain.Base.Interfaces;
+﻿namespace GymBuddy.Domain.Base.Interfaces;
 
 public interface IAggregateRoot
 {

@@ -1,4 +1,4 @@
-using GymBuddy.Api.Common.Domain.Base.EventualConsistency;
+using GymBuddy.Domain.Base.EventualConsistency;
 
 namespace GymBuddy.Api.Common.Middleware;
 

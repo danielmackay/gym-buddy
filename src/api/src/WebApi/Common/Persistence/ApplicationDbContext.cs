@@ -1,4 +1,4 @@
-﻿using GymBuddy.Api.Common.Domain.Base.Interfaces;
+﻿using GymBuddy.Domain.Base.Interfaces;
 using System.Reflection;
 
 namespace GymBuddy.Api.Common.Persistence;

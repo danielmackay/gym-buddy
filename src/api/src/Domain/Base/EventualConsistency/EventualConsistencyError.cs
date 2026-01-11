@@ -1,4 +1,4 @@
-namespace GymBuddy.Api.Common.Domain.Base.EventualConsistency;
+namespace GymBuddy.Domain.Base.EventualConsistency;
 
 public static class EventualConsistencyError
 {

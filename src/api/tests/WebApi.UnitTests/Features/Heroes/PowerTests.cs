@@ -1,4 +1,4 @@
-using GymBuddy.Api.Common.Domain.Heroes;
+using GymBuddy.Domain.Heroes;
 
 namespace GymBuddy.Api.UnitTests.Features.Heroes;
 

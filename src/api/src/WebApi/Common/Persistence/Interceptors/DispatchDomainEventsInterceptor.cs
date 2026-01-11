@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using GymBuddy.Api.Common.Domain.Base.Interfaces;
+using GymBuddy.Domain.Base.Interfaces;
 using GymBuddy.Api.Common.Middleware;
 
 namespace GymBuddy.Api.Common.Persistence.Interceptors;

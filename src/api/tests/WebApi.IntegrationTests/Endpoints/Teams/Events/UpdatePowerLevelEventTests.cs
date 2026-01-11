@@ -1,8 +1,8 @@
 using Ardalis.Specification.EntityFrameworkCore;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
-using GymBuddy.Api.Common.Domain.Heroes;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Heroes;
+using GymBuddy.Domain.Teams;
 using GymBuddy.Api.Features.Heroes.Endpoints;
 using GymBuddy.Api.IntegrationTests.Common;
 using GymBuddy.Api.IntegrationTests.Common.Factories;

@@ -1,6 +1,6 @@
-﻿using GymBuddy.Api.Common.Domain.Base;
+﻿using GymBuddy.Domain.Base;
 
-namespace GymBuddy.Api.Common.Domain.Teams;
+namespace GymBuddy.Domain.Teams;
 
 // Ensure stongly typed IDs are registered in 'VogenEfCoreConverters'
 // For strongly typed IDs, check out the rule: https://www.ssw.com.au/rules/do-you-use-strongly-typed-ids/

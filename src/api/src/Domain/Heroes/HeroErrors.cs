@@ -1,4 +1,4 @@
-namespace GymBuddy.Api.Common.Domain.Heroes;
+namespace GymBuddy.Domain.Heroes;
 
 public static class HeroErrors
 {

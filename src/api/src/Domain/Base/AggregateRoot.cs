@@ -1,6 +1,6 @@
-﻿using GymBuddy.Api.Common.Domain.Base.Interfaces;
+﻿using GymBuddy.Domain.Base.Interfaces;
 
-namespace GymBuddy.Api.Common.Domain.Base;
+namespace GymBuddy.Domain.Base;
 
 /// <summary>
 /// Cluster of objects treated as a single unit.

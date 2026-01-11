@@ -1,4 +1,4 @@
-namespace GymBuddy.Api.Common.Domain.Teams;
+namespace GymBuddy.Domain.Teams;
 
 public static class TeamErrors
 {

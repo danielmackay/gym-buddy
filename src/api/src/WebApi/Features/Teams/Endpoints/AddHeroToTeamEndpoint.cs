@@ -1,7 +1,7 @@
 using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;
-using GymBuddy.Api.Common.Domain.Heroes;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Heroes;
+using GymBuddy.Domain.Teams;
 
 
 namespace GymBuddy.Api.Features.Teams.Endpoints;

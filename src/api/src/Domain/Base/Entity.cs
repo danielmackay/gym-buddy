@@ -1,4 +1,4 @@
-﻿namespace GymBuddy.Api.Common.Domain.Base;
+﻿namespace GymBuddy.Domain.Base;
 
 /// <summary>
 /// Entities have an ID and a lifecycle (i.e. created, modified, and deleted)

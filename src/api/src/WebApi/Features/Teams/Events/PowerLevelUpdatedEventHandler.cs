@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification.EntityFrameworkCore;
-using GymBuddy.Api.Common.Domain.Base.EventualConsistency;
-using GymBuddy.Api.Common.Domain.Heroes;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Base.EventualConsistency;
+using GymBuddy.Domain.Heroes;
+using GymBuddy.Domain.Teams;
 
 namespace GymBuddy.Api.Features.Teams.Events;
 

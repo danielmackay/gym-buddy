@@ -1,4 +1,4 @@
-﻿namespace GymBuddy.Api.Common.Domain.Teams;
+﻿namespace GymBuddy.Domain.Teams;
 
 // For more on the Specification Pattern see: https://www.ssw.com.au/rules/use-specification-pattern/
 public sealed class TeamByIdSpec : SingleResultSpecification<Team>

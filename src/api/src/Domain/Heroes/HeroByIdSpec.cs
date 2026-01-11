@@ -1,4 +1,4 @@
-﻿namespace GymBuddy.Api.Common.Domain.Heroes;
+﻿namespace GymBuddy.Domain.Heroes;
 
 // For more on the Specification Pattern see: https://www.ssw.com.au/rules/use-specification-pattern/
 public sealed class HeroByIdSpec : SingleResultSpecification<Hero>

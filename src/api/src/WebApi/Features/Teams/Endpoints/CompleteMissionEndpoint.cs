@@ -1,5 +1,5 @@
 using Ardalis.Specification.EntityFrameworkCore;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Teams;
 
 namespace GymBuddy.Api.Features.Teams.Endpoints;
 

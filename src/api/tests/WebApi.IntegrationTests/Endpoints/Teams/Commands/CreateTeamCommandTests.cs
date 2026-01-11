@@ -1,6 +1,6 @@
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Teams;
 using GymBuddy.Api.Features.Teams.Endpoints;
 using GymBuddy.Api.IntegrationTests.Common;
 using System.Net;

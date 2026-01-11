@@ -1,6 +1,6 @@
-﻿using GymBuddy.Api.Common.Domain.Base.Interfaces;
+﻿using GymBuddy.Domain.Base.Interfaces;
 
-namespace GymBuddy.Api.Common.Domain.Heroes;
+namespace GymBuddy.Domain.Heroes;
 
 public record Power : IValueObject
 {

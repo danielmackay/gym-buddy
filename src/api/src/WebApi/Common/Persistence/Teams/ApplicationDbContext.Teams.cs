@@ -1,4 +1,4 @@
-﻿using GymBuddy.Api.Common.Domain.Teams;
+﻿using GymBuddy.Domain.Teams;
 
 // Preserve the namespace across partial classes
 // ReSharper disable once CheckNamespace

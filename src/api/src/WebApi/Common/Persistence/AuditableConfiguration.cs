@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using GymBuddy.Api.Common.Domain.Base;
+using GymBuddy.Domain.Base;
 
 namespace GymBuddy.Api.Common.Persistence;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using GymBuddy.Api.Common.Domain.Base.Interfaces;
+using GymBuddy.Domain.Base.Interfaces;
 using GymBuddy.Api.Common.Interfaces;
 
 namespace GymBuddy.Api.Common.Persistence.Interceptors;

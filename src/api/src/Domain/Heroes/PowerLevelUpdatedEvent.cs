@@ -1,6 +1,6 @@
-﻿using GymBuddy.Api.Common.Domain.Base.EventualConsistency;
+﻿using GymBuddy.Domain.Base.EventualConsistency;
 
-namespace GymBuddy.Api.Common.Domain.Heroes;
+namespace GymBuddy.Domain.Heroes;
 
 public record PowerLevelUpdatedEvent(Hero Hero) : IEvent
 {

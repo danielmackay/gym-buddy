@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using GymBuddy.Api.Common.Domain.Teams;
+using GymBuddy.Domain.Teams;
 using GymBuddy.Api.Common.Persistence.Heroes;
 
 namespace GymBuddy.Api.Common.Persistence.Teams;
