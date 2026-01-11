@@ -1,0 +1,10 @@
+using GymBuddy.Domain.Exercises;
+
+// Preserve the namespace across partial classes
+// ReSharper disable once CheckNamespace
+namespace GymBuddy.Api.Common.Persistence;
+
+public partial class ApplicationDbContext
+{
+    public DbSet<Exercise> Exercises => AggregateRootSet<Exercise>();
+}

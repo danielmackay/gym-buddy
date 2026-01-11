@@ -1,0 +1,101 @@
+using GymBuddy.Domain.Base;
+using GymBuddy.Domain.Exercises;
+using GymBuddy.Domain.WorkoutPlans;
+
+namespace GymBuddy.Domain.WorkoutSessions;
+
+[ValueObject<Guid>]
+public readonly partial struct SessionExerciseId;
+
+public class SessionExercise : Entity<SessionExerciseId>
+{
+    public const int ExerciseNameMaxLength = 100;
+
+    // Original exercise reference
+    public ExerciseId ExerciseId { get; private set; }
+
+    // Snapshot data
+    public string ExerciseName
+    {
+        get;
+        private set
+        {
+            ThrowIfNullOrWhiteSpace(value, nameof(ExerciseName));
+            ThrowIfGreaterThan(value.Length, ExerciseNameMaxLength, nameof(ExerciseName));
+            field = value;
+        }
+    } = null!;
+
+    public ExerciseType ExerciseType { get; private set; }
+
+    // Target values (from workout plan)
+    public int TargetSets { get; private set; }
+    public int? TargetReps { get; private set; }
+    public decimal? TargetWeight { get; private set; }
+    public int? TargetDurationSeconds { get; private set; }
+
+    // Actual recorded values
+    public int? ActualSets { get; private set; }
+    public int? ActualReps { get; private set; }
+    public decimal? ActualWeight { get; private set; }
+    public int? ActualDurationSeconds { get; private set; }
+
+    public DateTimeOffset? CompletedAt { get; private set; }
+    public int Order { get; private set; }
+
+    public bool IsCompleted => CompletedAt.HasValue;
+
+    // Private constructor for EF Core
+    private SessionExercise() { }
+
+    internal static SessionExercise CreateFromPlannedExercise(PlannedExercise plannedExercise)
+    {
+        return new SessionExercise
+        {
+            Id = SessionExerciseId.From(Guid.CreateVersion7()),
+            ExerciseId = plannedExercise.ExerciseId,
+            ExerciseName = plannedExercise.ExerciseName,
+            ExerciseType = plannedExercise.ExerciseType,
+            TargetSets = plannedExercise.Sets,
+            TargetReps = plannedExercise.Reps,
+            TargetWeight = plannedExercise.Weight,
+            TargetDurationSeconds = plannedExercise.DurationSeconds,
+            Order = plannedExercise.Order
+        };
+    }
+
+    internal ErrorOr<Success> RecordActuals(
+        int actualSets,
+        int? actualReps,
+        decimal? actualWeight,
+        int? actualDurationSeconds,
+        TimeProvider timeProvider)
+    {
+        if (IsCompleted)
+            return WorkoutSessionErrors.ExerciseAlreadyRecorded;
+
+        if (actualSets < 1)
+            return WorkoutSessionErrors.InvalidActualSets;
+
+        if (ExerciseType == ExerciseType.RepsAndWeight)
+        {
+            if (!actualReps.HasValue || actualReps < 1)
+                return WorkoutSessionErrors.InvalidActualReps;
+            if (actualWeight.HasValue && actualWeight < 0)
+                return WorkoutSessionErrors.InvalidActualWeight;
+        }
+        else if (ExerciseType == ExerciseType.TimeBased)
+        {
+            if (!actualDurationSeconds.HasValue || actualDurationSeconds < 1)
+                return WorkoutSessionErrors.InvalidActualDuration;
+        }
+
+        ActualSets = actualSets;
+        ActualReps = ExerciseType == ExerciseType.RepsAndWeight ? actualReps : null;
+        ActualWeight = ExerciseType == ExerciseType.RepsAndWeight ? actualWeight : null;
+        ActualDurationSeconds = ExerciseType == ExerciseType.TimeBased ? actualDurationSeconds : null;
+        CompletedAt = timeProvider.GetUtcNow();
+
+        return new Success();
+    }
+}
