@@ -15,6 +15,12 @@ public class PlannedExerciseConfiguration : AuditableConfiguration<PlannedExerci
         builder.Property(pe => pe.ExerciseId)
             .IsRequired();
 
+        // Foreign key to Exercises table
+        builder.HasOne<GymBuddy.Domain.Exercises.Exercise>()
+            .WithMany()
+            .HasForeignKey(pe => pe.ExerciseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(pe => pe.ExerciseName)
             .HasMaxLength(PlannedExercise.ExerciseNameMaxLength)
             .IsRequired();

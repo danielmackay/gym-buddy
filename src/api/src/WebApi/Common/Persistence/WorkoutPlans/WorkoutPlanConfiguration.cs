@@ -19,6 +19,12 @@ public class WorkoutPlanConfiguration : AuditableConfiguration<WorkoutPlan>
         builder.Property(wp => wp.TrainerId)
             .IsRequired();
 
+        // Foreign key to Users table
+        builder.HasOne<GymBuddy.Domain.Users.User>()
+            .WithMany()
+            .HasForeignKey(wp => wp.TrainerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         // PlannedExercise is now an entity with its own table
         builder.HasMany(wp => wp.Exercises)
             .WithOne()

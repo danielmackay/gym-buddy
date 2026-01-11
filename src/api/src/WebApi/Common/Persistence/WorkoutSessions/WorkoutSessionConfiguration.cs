@@ -12,8 +12,20 @@ public class WorkoutSessionConfiguration : AuditableConfiguration<WorkoutSession
         builder.Property(ws => ws.ClientId)
             .IsRequired();
 
+        // Foreign key to Users table
+        builder.HasOne<GymBuddy.Domain.Users.User>()
+            .WithMany()
+            .HasForeignKey(ws => ws.ClientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.Property(ws => ws.WorkoutPlanId)
             .IsRequired();
+
+        // Foreign key to WorkoutPlans table
+        builder.HasOne<GymBuddy.Domain.WorkoutPlans.WorkoutPlan>()
+            .WithMany()
+            .HasForeignKey(ws => ws.WorkoutPlanId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(ws => ws.WorkoutPlanName)
             .HasMaxLength(WorkoutSession.WorkoutPlanNameMaxLength)
