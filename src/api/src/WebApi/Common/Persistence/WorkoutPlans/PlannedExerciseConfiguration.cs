@@ -35,6 +35,12 @@ public class PlannedExerciseConfiguration : AuditableConfiguration<PlannedExerci
                 .HasDefaultValue(WeightUnit.Kilograms);
         });
 
+        builder.ComplexProperty(pe => pe.Duration, d =>
+        {
+            d.Property(x => x.Seconds)
+                .HasColumnName("Duration");
+        });
+
         builder.Property(pe => pe.Order)
             .IsRequired();
 

@@ -61,7 +61,7 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
         int sets,
         int? reps = null,
         Weight? weight = null,
-        int? durationSeconds = null)
+        Duration? duration = null)
     {
         if (_exercises.Any(e => e.ExerciseId == exercise.Id))
             return WorkoutPlanErrors.ExerciseAlreadyExists;
@@ -76,7 +76,7 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
             order,
             reps,
             weight,
-            durationSeconds);
+            duration);
 
         if (plannedExerciseResult.IsError)
             return plannedExerciseResult.Errors;
@@ -103,14 +103,14 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
         int sets,
         int? reps = null,
         Weight? weight = null,
-        int? durationSeconds = null)
+        Duration? duration = null)
     {
         var existingExercise = _exercises.FirstOrDefault(e => e.ExerciseId == exerciseId);
 
         if (existingExercise is null)
             return WorkoutPlanErrors.ExerciseNotFound;
 
-        return existingExercise.Update(sets, reps, weight, durationSeconds);
+        return existingExercise.Update(sets, reps, weight, duration);
     }
 
     public ErrorOr<Success> ReorderExercises(IEnumerable<ExerciseId> newOrder)

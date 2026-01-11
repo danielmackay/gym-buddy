@@ -45,6 +45,18 @@ public class SessionExerciseConfiguration : AuditableConfiguration<SessionExerci
                 .HasDefaultValue(WeightUnit.Kilograms);
         });
 
+        builder.ComplexProperty(se => se.TargetDuration, d =>
+        {
+            d.Property(x => x.Seconds)
+                .HasColumnName("TargetDuration");
+        });
+
+        builder.ComplexProperty(se => se.ActualDuration, d =>
+        {
+            d.Property(x => x.Seconds)
+                .HasColumnName("ActualDuration");
+        });
+
         builder.Property(se => se.Order)
             .IsRequired();
 

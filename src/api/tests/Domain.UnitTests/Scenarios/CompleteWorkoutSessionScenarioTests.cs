@@ -98,10 +98,10 @@ public class CompleteWorkoutSessionScenarioTests
         var addPlankResult = workoutPlan.AddExercise(
             exercise: plank,
             sets: 3,
-            durationSeconds: 60);
+            duration: Duration.FromSeconds(60));
         await Assert.That(addPlankResult.IsError).IsFalse();
 
-        await Assert.That(workoutPlan.Exercises).HasCount().EqualTo(3);
+        await Assert.That(workoutPlan.Exercises).Count().IsEqualTo(3);
         await Assert.That(workoutPlan.Exercises[0].ExerciseName).IsEqualTo("Bench Press");
         await Assert.That(workoutPlan.Exercises[0].Order).IsEqualTo(1);
         await Assert.That(workoutPlan.Exercises[1].ExerciseName).IsEqualTo("Barbell Squat");
@@ -128,7 +128,7 @@ public class CompleteWorkoutSessionScenarioTests
         await Assert.That(session.WorkoutPlanId).IsEqualTo(workoutPlan.Id);
         await Assert.That(session.WorkoutPlanName).IsEqualTo(workoutPlan.Name);
         await Assert.That(session.Status).IsEqualTo(SessionStatus.InProgress);
-        await Assert.That(session.Exercises).HasCount().EqualTo(3);
+        await Assert.That(session.Exercises).Count().IsEqualTo(3);
         await Assert.That(session.GetCompletedExerciseCount()).IsEqualTo(0);
         await Assert.That(session.AreAllExercisesCompleted()).IsFalse();
 
@@ -144,7 +144,7 @@ public class CompleteWorkoutSessionScenarioTests
 
         var sessionPlank = session.Exercises.First(e => e.ExerciseName == "Plank");
         await Assert.That(sessionPlank.ExerciseType).IsEqualTo(ExerciseType.TimeBased);
-        await Assert.That(sessionPlank.TargetDurationSeconds).IsEqualTo(60);
+        await Assert.That(sessionPlank.TargetDuration?.Seconds).IsEqualTo(60);
 
         // ========================================
         // Step 6: Complete all exercises in the session
@@ -186,7 +186,7 @@ public class CompleteWorkoutSessionScenarioTests
             exerciseId: plank.Id,
             actualSets: 3,
             timeProvider: timeProvider,
-            actualDurationSeconds: 65); // Client held longer than target
+            actualDuration: Duration.FromSeconds(65)); // Client held longer than target
 
         await Assert.That(recordPlankResult.IsError).IsFalse();
         await Assert.That(session.GetCompletedExerciseCount()).IsEqualTo(3);
@@ -195,7 +195,7 @@ public class CompleteWorkoutSessionScenarioTests
         var completedPlank = session.Exercises.First(e => e.ExerciseName == "Plank");
         await Assert.That(completedPlank.IsCompleted).IsTrue();
         await Assert.That(completedPlank.ActualSets).IsEqualTo(3);
-        await Assert.That(completedPlank.ActualDurationSeconds).IsEqualTo(65);
+        await Assert.That(completedPlank.ActualDuration?.Seconds).IsEqualTo(65);
         await Assert.That(completedPlank.ActualReps).IsNull(); // Time-based exercises don't have reps
         await Assert.That(completedPlank.ActualWeight).IsNull(); // Time-based exercises don't have weight
 

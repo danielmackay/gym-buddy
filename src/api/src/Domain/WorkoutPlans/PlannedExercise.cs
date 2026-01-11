@@ -41,7 +41,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
     public Weight? Weight { get; private set; }
 
     // For TimeBased exercises
-    public int? DurationSeconds { get; private set; }
+    public Duration? Duration { get; private set; }
 
     public int Order { get; private set; }
 
@@ -56,7 +56,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         int order,
         int? reps = null,
         Weight? weight = null,
-        int? durationSeconds = null)
+        Duration? duration = null)
     {
         if (sets < 1)
             return WorkoutPlanErrors.InvalidSets;
@@ -69,8 +69,9 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         }
         else if (exerciseType == ExerciseType.TimeBased)
         {
-            if (!durationSeconds.HasValue || durationSeconds < 1)
+            if (duration is null)
                 return WorkoutPlanErrors.InvalidDuration;
+            // Duration validation is now handled by the Duration value object itself
         }
 
         return new PlannedExercise
@@ -82,7 +83,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
             Sets = sets,
             Reps = exerciseType == ExerciseType.RepsAndWeight ? reps : null,
             Weight = exerciseType == ExerciseType.RepsAndWeight ? weight : null,
-            DurationSeconds = exerciseType == ExerciseType.TimeBased ? durationSeconds : null,
+            Duration = exerciseType == ExerciseType.TimeBased ? duration : null,
             Order = order
         };
     }
@@ -96,7 +97,7 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         int sets,
         int? reps = null,
         Weight? weight = null,
-        int? durationSeconds = null)
+        Duration? duration = null)
     {
         if (sets < 1)
             return WorkoutPlanErrors.InvalidSets;
@@ -109,14 +110,15 @@ public class PlannedExercise : Entity<PlannedExerciseId>
         }
         else if (ExerciseType == ExerciseType.TimeBased)
         {
-            if (!durationSeconds.HasValue || durationSeconds < 1)
+            if (duration is null)
                 return WorkoutPlanErrors.InvalidDuration;
+            // Duration validation is now handled by the Duration value object itself
         }
 
         Sets = sets;
         Reps = ExerciseType == ExerciseType.RepsAndWeight ? reps : null;
         Weight = ExerciseType == ExerciseType.RepsAndWeight ? weight : null;
-        DurationSeconds = ExerciseType == ExerciseType.TimeBased ? durationSeconds : null;
+        Duration = ExerciseType == ExerciseType.TimeBased ? duration : null;
 
         return new Success();
     }

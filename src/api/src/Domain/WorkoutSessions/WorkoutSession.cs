@@ -68,7 +68,7 @@ public class WorkoutSession : AggregateRoot<WorkoutSessionId>
         TimeProvider timeProvider,
         int? actualReps = null,
         Weight? actualWeight = null,
-        int? actualDurationSeconds = null)
+        Duration? actualDuration = null)
     {
         if (Status != SessionStatus.InProgress)
             return WorkoutSessionErrors.SessionNotActive;
@@ -82,7 +82,7 @@ public class WorkoutSession : AggregateRoot<WorkoutSessionId>
             actualSets,
             actualReps,
             actualWeight,
-            actualDurationSeconds,
+            actualDuration,
             timeProvider);
     }
 
