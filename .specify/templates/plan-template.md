@@ -75,10 +75,10 @@ src/
 │   │   ├── WebApi/        # FastEndpoints and features (VSA)
 │   │   ├── Domain/        # DDD entities, value objects, domain events
 │   │   └── ServiceDefaults/
-│   ├── tests/             # Unit, integration, architecture tests
+│   ├── tests/             # Unit, integration, architecture tests (when needed)
 │   └── tools/             # Aspire AppHost and migrations
 │
-└── web/                    # Frontend (Next.js PWA)
+└── frontend/               # Frontend (Next.js PWA)
     ├── src/
     │   ├── app/           # Next.js App Router
     │   ├── features/      # Feature slices (VSA)

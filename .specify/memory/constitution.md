@@ -1,27 +1,30 @@
 <!--
-Sync Impact Report - Constitution v1.0.0
+Sync Impact Report - Constitution v2.0.0
 ========================================
-Version Change: [unversioned template] → 1.0.0
-Rationale: Initial constitution establishing core principles for Gym Buddy project
+Version Change: 1.0.0 → 2.0.0
+Rationale: MAJOR - Backward incompatible governance changes (test-first principle removal)
 
-Modified Principles: N/A (initial creation)
-Added Sections:
-  - Core Principles (5 principles)
-  - Architecture & Technology Standards
-  - Development Workflow
-  - Governance
+Modified Principles:
+  - Principle III: "Test-First Development (NON-NEGOTIABLE)" → "Testing on Demand"
+    Changed from mandatory TDD to optional testing when explicitly requested
+  - Principle IV: Added explicit "Mobile-First Design" requirement with detailed criteria
+  
+Updated Sections:
+  - Backend Technology Stack: .NET 9 → .NET 10 (latest)
+  - Project Structure: src/web/ → src/frontend/
+  - Frontend Technology Stack: Added mobile-first design requirements
 
 Removed Sections: N/A
 
 Templates Status:
-  ✅ .specify/templates/plan-template.md - UPDATED: Added Option 2 with api/web structure for SPA+API projects
+  ✅ .specify/templates/plan-template.md - UPDATED: Changed src/web/ to src/frontend/
   ✅ .specify/templates/spec-template.md - reviewed, aligns with principles
-  ✅ .specify/templates/tasks-template.md - reviewed, aligns with principles
+  ✅ .specify/templates/tasks-template.md - UPDATED: Tests now optional, not required by default
   ⚠️  Future work: Frontend-specific checklist items for PWA once Next.js structure established
 
 Follow-up TODOs:
   - Add PWA-specific checklist items once frontend scaffolding is complete
-  - Consider adding mobile-first design principles to constitution in future minor version
+  - Update existing test-related workflows in src/api to reflect optional testing approach
   - Document testing strategy for Next.js components once framework is established
 -->
 
@@ -51,36 +54,42 @@ All domain logic MUST reside in the Domain layer (`src/api/src/Domain/`). Busine
 
 **Rationale**: DDD ensures business logic is testable, reusable, and protected from infrastructure concerns. Strongly typed IDs prevent primitive obsession and type-safety bugs.
 
-### III. Test-First Development (NON-NEGOTIABLE)
+### III. Testing on Demand
 
-Tests MUST be written BEFORE implementation. The red-green-refactor cycle is mandatory:
+Tests are created when explicitly requested or when the complexity of the feature warrants test coverage. Tests are a valuable tool but not a mandatory first step.
 
-1. Write test (red)
-2. Get user approval if applicable
-3. Verify test fails
-4. Implement minimal code to pass (green)
-5. Refactor for clarity and maintainability
-
-**Test Types Required**:
+**Test Types Available**:
 - **Unit Tests**: Domain logic, value objects, entity invariants (no EF mocking needed)
 - **Integration Tests**: API endpoints using TestContainers + Respawn against real database
 - **Architecture Tests**: NetArchTest to enforce VSA and DDD patterns
 
-Tests are NOT optional - they define the requirements and ensure correctness.
+When tests ARE written, they MUST:
+- Be comprehensive for the feature being tested
+- Run reliably without flakiness
+- Use appropriate test type (unit vs integration vs architecture)
+- Pass before merging to main branch
 
-**Rationale**: Test-first prevents over-engineering, documents expected behavior, and ensures high code quality from the start.
+**Rationale**: Pragmatic testing approach allows faster iteration while maintaining quality through explicit test coverage decisions based on risk and complexity.
 
-### IV. Progressive Web App (PWA) First
+### IV. Mobile-First Design & Progressive Web App (PWA)
 
-The frontend MUST be built as a Progressive Web App using Next.js with:
+The frontend MUST be built as a Progressive Web App using Next.js following strict mobile-first design principles:
 
-- **Mobile-First Design**: Primary target is phone/mobile devices
+**Mobile-First Design (MANDATORY)**:
+- Design for smallest screen sizes first (320px minimum width)
+- Touch-friendly interface with minimum 44x44px touch targets
+- Optimize for thumb-reachable zones on mobile devices
+- Progressive enhancement: mobile core experience, enhanced for larger screens
+- Performance budget: <3s initial load on 3G networks
+
+**PWA Requirements**:
 - **Installable**: MUST support "Add to Home Screen" functionality
 - **Offline Capable**: Service workers for offline functionality where feasible
 - **Responsive**: MUST work across phone, tablet, and desktop viewports
 - **Performance**: Lighthouse PWA score MUST be 90+ before production deployment
+- **App-like**: Navigation patterns and interactions feel native
 
-**Rationale**: Users primarily access fitness apps on mobile devices. PWA provides native-like experience without app store friction.
+**Rationale**: Users primarily access fitness apps on mobile devices. Mobile-first ensures optimal experience on the most constrained devices, while PWA provides native-like experience without app store friction.
 
 ### V. Observability & Developer Experience
 
@@ -90,7 +99,7 @@ The frontend MUST be built as a Progressive Web App using Next.js with:
 
 **Development Speed**: 
 - Aspire MUST auto-provision all infrastructure (database, migrations, seeding)
-- TestContainers ensure integration tests run at unit test speed
+- TestContainers available for integration tests when needed
 - FastEndpoints auto-discovery eliminates manual endpoint registration
 
 **Rationale**: Fast feedback loops and clear visibility into system behavior accelerate development and reduce debugging time.
@@ -99,7 +108,7 @@ The frontend MUST be built as a Progressive Web App using Next.js with:
 
 ### Backend Technology Stack
 
-- **.NET 9**: Latest LTS version of .NET
+- **.NET 10**: Latest version of .NET
 - **FastEndpoints**: REPR pattern for API endpoints (replaces Minimal APIs)
 - **Entity Framework Core**: Data access with migrations and seeding
 - **Aspire**: Orchestration, observability, and service discovery
@@ -113,9 +122,9 @@ The frontend MUST be built as a Progressive Web App using Next.js with:
 
 - **Next.js (latest)**: React framework with App Router
 - **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
+- **Tailwind CSS**: Utility-first CSS framework (mobile-first by default)
 - **PWA Support**: next-pwa or similar for service worker generation
-- **Mobile-First**: Design for small screens first, scale up
+- **Mobile-First**: Design for 320px+ screens, enhance progressively for tablets and desktops
 
 ### Project Structure
 
@@ -128,15 +137,15 @@ src/
 │   │   │   └── Common/           # Shared infrastructure
 │   │   ├── Domain/               # Domain entities and logic
 │   │   └── ServiceDefaults/      # Aspire configuration
-│   ├── tests/                    # All test projects
+│   ├── tests/                    # All test projects (when tests are needed)
 │   └── tools/                    # Aspire AppHost and migrations
-└── web/                          # Frontend (to be added)
+└── frontend/                     # Frontend Next.js PWA
     ├── src/
     │   ├── app/                  # Next.js App Router
-    │   ├── features/             # Feature slices
+    │   ├── features/             # Feature slices (VSA)
     │   ├── components/           # Shared UI components
     │   └── lib/                  # Utilities and helpers
-    └── public/                   # Static assets
+    └── public/                   # Static assets and PWA manifest
 ```
 
 ### API Conventions
@@ -154,13 +163,16 @@ src/
 - Migrations MUST be created for all schema changes
 - Seeding MUST check for existing data before inserting
 
-### Frontend Conventions (to be established)
+### Frontend Conventions
 
-- Server Components by default, Client Components only when needed
-- Co-locate feature-specific components within feature directories
-- API calls through typed service layer
-- Form validation with Zod or similar
-- Accessibility MUST meet WCAG 2.1 AA standards
+- **Server Components by Default**: Use Client Components only when interactivity required
+- **Mobile-First Styling**: Start with mobile layouts, use Tailwind breakpoints for larger screens
+- **Touch-First Interactions**: Minimum 44x44px touch targets, no hover-dependent UI
+- **Co-location**: Feature-specific components within feature directories (VSA)
+- **API Client**: Typed service layer for all backend communication
+- **Form Validation**: Zod or similar for type-safe form validation
+- **Accessibility**: MUST meet WCAG 2.1 AA standards
+- **Performance**: Monitor Core Web Vitals, optimize for mobile networks
 
 ## Development Workflow
 
@@ -169,9 +181,9 @@ src/
 1. Use template: `dotnet new ssw-vsa-slice --feature {Name} --feature-plural {Names}`
 2. Register strongly typed ID in `VogenEfCoreConverters`
 3. Create migration: `dotnet ef migrations add {Name}Table --project src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations`
-4. Write tests FIRST in `tests/WebApi.IntegrationTests/`
-5. Implement feature following VSA pattern
-6. Verify all tests pass before committing
+4. Implement feature following VSA pattern
+5. Add tests if explicitly requested or if feature complexity warrants it
+6. Verify all tests pass before committing (if tests exist)
 
 ### Running the Application
 
@@ -185,10 +197,14 @@ dotnet run
 
 ### Testing Strategy
 
+Tests are written when explicitly requested or when feature complexity requires validation:
+
 - **Unit Tests**: Fast, no database, test domain logic only
 - **Integration Tests**: Real database via TestContainers, Respawn for cleanup
 - **Architecture Tests**: Enforce naming conventions and dependencies
-- All tests MUST pass before merge to main branch
+- **Frontend Tests**: Component tests with Testing Library, E2E with Playwright (when requested)
+
+When tests exist, all tests MUST pass before merge to main branch.
 
 ### Documentation Requirements
 
@@ -235,4 +251,4 @@ dotnet run
 
 **Runtime Guidance**: For detailed implementation instructions, refer to `src/api/AGENTS.md`.
 
-**Version**: 1.0.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
+**Version**: 2.0.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
