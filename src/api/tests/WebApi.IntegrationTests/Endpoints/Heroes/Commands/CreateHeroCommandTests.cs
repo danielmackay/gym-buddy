@@ -36,7 +36,7 @@ public class CreateHeroCommandTests : IntegrationTestBase
         await Assert.That(item.Name).IsEqualTo(cmd.Name);
         await Assert.That(item.Alias).IsEqualTo(cmd.Alias);
         await Assert.That(item.PowerLevel).IsEqualTo(25);
-        await Assert.That(item.Powers).HasCount().EqualTo(3);
+        await Assert.That(item.Powers).Count().IsEqualTo(3);
         await Assert.That(item.CreatedAt).IsBetween(DateTime.Now.AddSeconds(-10), DateTime.Now.AddSeconds(10));
     }
 }

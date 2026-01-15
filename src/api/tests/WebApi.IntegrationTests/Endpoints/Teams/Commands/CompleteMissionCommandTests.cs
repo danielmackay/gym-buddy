@@ -33,7 +33,7 @@ public class CompleteMissionCommandTests : IntegrationTestBase
         var mission = updatedTeam!.Missions.First();
 
         await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
-        await Assert.That(updatedTeam!.Missions).HasCount().EqualTo(1);
+        await Assert.That(updatedTeam!.Missions).Count().IsEqualTo(1);
         await Assert.That(updatedTeam.Status).IsEqualTo(TeamStatus.Available);
         await Assert.That(mission.Status).IsEqualTo(MissionStatus.Complete);
     }

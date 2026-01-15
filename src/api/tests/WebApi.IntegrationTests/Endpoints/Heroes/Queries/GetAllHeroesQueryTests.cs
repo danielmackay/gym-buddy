@@ -22,6 +22,6 @@ public class GetAllHeroesQueryTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.IsSuccessStatusCode).IsTrue();
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!.Heroes).HasCount().EqualTo(entityCount);
+        await Assert.That(result.Result!.Heroes).Count().IsEqualTo(entityCount);
     }
 }

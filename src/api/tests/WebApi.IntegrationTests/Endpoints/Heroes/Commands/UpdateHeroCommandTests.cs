@@ -43,7 +43,7 @@ public class UpdateHeroCommandTests : IntegrationTestBase
         await Assert.That(item.Name).IsEqualTo(cmd.Name);
         await Assert.That(item.Alias).IsEqualTo(cmd.Alias);
         await Assert.That(item.PowerLevel).IsEqualTo(25);
-        await Assert.That(item.Powers).HasCount().EqualTo(3);
+        await Assert.That(item.Powers).Count().IsEqualTo(3);
         await Assert.That(item.UpdatedAt).IsNotNull();
         await Assert.That(item.UpdatedAt!.Value).IsBetween(new DateTimeOffset(createdTimeStamp.AddSeconds(-10)), new DateTimeOffset(createdTimeStamp.AddSeconds(10)));
     }

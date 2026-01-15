@@ -22,7 +22,7 @@ public class GetAllTeamsQueryTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.IsSuccessStatusCode).IsTrue();
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!.Teams).HasCount().EqualTo(entityCount);
+        await Assert.That(result.Result!.Teams).Count().IsEqualTo(entityCount);
 
         var firstTeam = result.Result.Teams.First();
         await Assert.That(firstTeam.Id).IsNotEqualTo(Guid.Empty);

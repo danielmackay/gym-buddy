@@ -32,7 +32,7 @@ public class AddHeroToTeamCommandTests : IntegrationTestBase
 
         await Assert.That(result.StatusCode).IsEqualTo(HttpStatusCode.NoContent);
         await Assert.That(updatedTeam).IsNotNull();
-        await Assert.That(updatedTeam!.Heroes).HasCount().EqualTo(1);
+        await Assert.That(updatedTeam!.Heroes).Count().IsEqualTo(1);
         await Assert.That(updatedTeam.Heroes.First().Id).IsEqualTo(hero.Id);
         await Assert.That(updatedTeam.TotalPowerLevel).IsEqualTo(hero.PowerLevel);
     }

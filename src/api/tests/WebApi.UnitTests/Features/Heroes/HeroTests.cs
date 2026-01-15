@@ -77,7 +77,7 @@ public class HeroTests
 
         // Assert
         await Assert.That(hero.PowerLevel).IsEqualTo(15);
-        await Assert.That(hero.Powers).HasCount().EqualTo(2);
+        await Assert.That(hero.Powers).Count().IsEqualTo(2);
     }
 
     [Test]
@@ -93,7 +93,7 @@ public class HeroTests
 
         // Assert
         await Assert.That(hero.PowerLevel).IsEqualTo(5);
-        await Assert.That(hero.Powers).HasCount().EqualTo(1);
+        await Assert.That(hero.Powers).Count().IsEqualTo(1);
     }
 
     [Test]
@@ -107,7 +107,7 @@ public class HeroTests
         // Assert
         var domainEvents = hero.PopDomainEvents();
         await Assert.That(domainEvents).IsNotNull();
-        await Assert.That(domainEvents).HasCount().EqualTo(1);
+        await Assert.That(domainEvents).Count().IsEqualTo(1);
         
         var firstEvent = domainEvents.First();
         await Assert.That(firstEvent).IsTypeOf<PowerLevelUpdatedEvent>();
@@ -131,7 +131,7 @@ public class HeroTests
         // Assert
         var domainEvents = hero.PopDomainEvents();
         await Assert.That(domainEvents).IsNotNull();
-        await Assert.That(domainEvents).HasCount().EqualTo(1);
+        await Assert.That(domainEvents).Count().IsEqualTo(1);
         
         var lastEvent = domainEvents.Last();
         await Assert.That(lastEvent).IsTypeOf<PowerLevelUpdatedEvent>();
@@ -139,6 +139,6 @@ public class HeroTests
         var powerLevelEvent = (PowerLevelUpdatedEvent)lastEvent;
         await Assert.That(powerLevelEvent.Hero.PowerLevel).IsEqualTo(10);
         
-        await Assert.That(hero.Powers).HasCount().EqualTo(1);
+        await Assert.That(hero.Powers).Count().IsEqualTo(1);
     }
 }

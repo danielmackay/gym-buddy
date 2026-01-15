@@ -45,7 +45,7 @@ public class UserPersistenceTests : IntegrationTestBase
         var retrieved = await GetQueryable<User>().FirstOrDefaultAsync(u => u.Id == userId, CancellationToken);
 
         await Assert.That(retrieved).IsNotNull();
-        await Assert.That(retrieved!.Roles).HasCount().EqualTo(2);
+        await Assert.That(retrieved!.Roles).Count().IsEqualTo(2);
         await Assert.That(retrieved.Roles).Contains(UserRole.Trainer);
         await Assert.That(retrieved.Roles).Contains(UserRole.Client);
     }
@@ -97,7 +97,7 @@ public class UserPersistenceTests : IntegrationTestBase
         var retrieved = await GetQueryable<User>().FirstOrDefaultAsync(u => u.Id == clientId, CancellationToken);
 
         await Assert.That(retrieved).IsNotNull();
-        await Assert.That(retrieved!.AssignedWorkoutPlanIds).HasCount().EqualTo(1);
+        await Assert.That(retrieved!.AssignedWorkoutPlanIds).Count().IsEqualTo(1);
         await Assert.That(retrieved.AssignedWorkoutPlanIds).Contains(workoutPlanId);
     }
 
@@ -143,7 +143,7 @@ public class UserPersistenceTests : IntegrationTestBase
         var retrieved = await GetQueryable<User>().FirstOrDefaultAsync(u => u.Id == userId, CancellationToken);
 
         await Assert.That(retrieved).IsNotNull();
-        await Assert.That(retrieved!.Roles).HasCount().EqualTo(1);
+        await Assert.That(retrieved!.Roles).Count().IsEqualTo(1);
         await Assert.That(retrieved.Roles).Contains(UserRole.Admin);
     }
 
@@ -167,7 +167,7 @@ public class UserPersistenceTests : IntegrationTestBase
         var retrieved = await GetQueryable<User>().FirstOrDefaultAsync(u => u.Id == userId, CancellationToken);
 
         await Assert.That(retrieved).IsNotNull();
-        await Assert.That(retrieved!.Roles).HasCount().EqualTo(1);
+        await Assert.That(retrieved!.Roles).Count().IsEqualTo(1);
         await Assert.That(retrieved.Roles).Contains(UserRole.Admin);
         await Assert.That(retrieved.Roles).DoesNotContain(UserRole.Trainer);
     }

@@ -106,7 +106,7 @@ public class TeamTests
 
         // Assert
         await Assert.That(team.Status).IsEqualTo(TeamStatus.OnMission);
-        await Assert.That(team.Missions).HasCount().EqualTo(1);
+        await Assert.That(team.Missions).Count().IsEqualTo(1);
         await Assert.That(team.Missions.Any(x => x.Description == "Mission")).IsTrue();
     }
 
