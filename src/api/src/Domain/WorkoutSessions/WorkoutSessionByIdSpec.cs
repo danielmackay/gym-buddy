@@ -6,7 +6,8 @@ public sealed class WorkoutSessionByIdSpec : SingleResultSpecification<WorkoutSe
 {
     public WorkoutSessionByIdSpec(WorkoutSessionId sessionId)
     {
-        Query.Where(s => s.Id == sessionId);
+        Query.Where(s => s.Id == sessionId)
+            .Include(s => s.Exercises);
     }
 }
 

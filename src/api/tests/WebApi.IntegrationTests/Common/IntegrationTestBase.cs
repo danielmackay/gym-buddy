@@ -1,3 +1,5 @@
+using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using GymBuddy.Api.Common.Persistence;
@@ -56,6 +58,31 @@ public abstract class IntegrationTestBase
     protected async Task SaveAsync()
     {
         await _dbContext.SaveChangesAsync(CancellationToken);
+    }
+
+    protected async Task RemoveAsync<TEntity>(TEntity entity)
+        where TEntity : class
+    {
+        _dbContext.Remove(entity);
+        await _dbContext.SaveChangesAsync(CancellationToken);
+    }
+
+    /// <summary>
+    /// Load an entity by ID using the domain specification pattern.
+    /// This method uses specifications defined in the domain layer for consistent entity loading.
+    /// Returns a tracked entity that can be modified and saved.
+    /// </summary>
+    protected async Task<TEntity?> GetBySpecAsync<TEntity>(ISingleResultSpecification<TEntity> spec)
+        where TEntity : class
+    {
+        return await _dbContext.Set<TEntity>()
+            .WithSpecification(spec)
+            .FirstOrDefaultAsync(CancellationToken);
+    }
+
+    protected void DetachAllEntities()
+    {
+        _dbContext.ChangeTracker.Clear();
     }
 
     protected HttpClient GetAnonymousClient() => TestingDatabaseFixture.CreateAnonymousClient();

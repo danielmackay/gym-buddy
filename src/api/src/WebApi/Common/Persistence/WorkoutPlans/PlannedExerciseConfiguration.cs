@@ -31,7 +31,11 @@ public class PlannedExerciseConfiguration : AuditableConfiguration<PlannedExerci
         builder.Property(pe => pe.Sets)
             .IsRequired();
 
-        builder.ComplexProperty(pe => pe.Weight, w =>
+        // Using OwnsOne instead of ComplexProperty for nullable value objects.
+        // ComplexProperty doesn't properly handle null values - it assumes the complex type
+        // is always present. OwnsOne correctly maps null to NULL columns and vice versa.
+        // Weight is null for time-based exercises, Duration is null for reps-based exercises.
+        builder.OwnsOne(pe => pe.Weight, w =>
         {
             w.Property(x => x.Value)
                 .HasPrecision(8, 2)
@@ -41,7 +45,7 @@ public class PlannedExerciseConfiguration : AuditableConfiguration<PlannedExerci
                 .HasDefaultValue(WeightUnit.Kilograms);
         });
 
-        builder.ComplexProperty(pe => pe.Duration, d =>
+        builder.OwnsOne(pe => pe.Duration, d =>
         {
             d.Property(x => x.Seconds)
                 .HasColumnName("Duration");
