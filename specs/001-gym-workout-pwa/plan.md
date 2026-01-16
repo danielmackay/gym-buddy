@@ -16,7 +16,7 @@ Create a mobile-first Progressive Web App (PWA) using Next.js 16 for gym workout
 - **Backend**: C# with .NET 10
 
 **Primary Dependencies**:
-- **Frontend**: Next.js 16, Tailwind CSS, Shadcn/ui, Zustand, React Hook Form, Zod, TanStack Query, next-pwa, date-fns, Lucide React
+- **Frontend**: Next.js 16, Tailwind CSS, Shadcn/ui, Zustand, React Hook Form, Zod, TanStack Query, next-pwa, date-fns, Lucide React, @dnd-kit/core
 - **Backend**: FastEndpoints, Entity Framework Core, FluentValidation, ErrorOr, Vogen, Ardalis.Specification, Aspire
 
 **Storage**: 
