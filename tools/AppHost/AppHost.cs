@@ -65,7 +65,7 @@ var api = builder
 
 // Add frontend (Next.js)
 var frontend = builder
-    .AddJavaScriptApp("frontend", "../../src/frontend")
+    .AddJavaScriptApp("frontend", "../../src/frontend", "dev")
     .WithHttpEndpoint(port: 3000, env: "PORT")
     .WithExternalHttpEndpoints()
     .WithReference(api);
