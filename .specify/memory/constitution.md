@@ -1,29 +1,30 @@
 <!--
-Sync Impact Report - Constitution v2.1.0
+Sync Impact Report - Constitution v2.2.0
 ========================================
-Version Change: 2.0.0 → 2.1.0
-Rationale: MINOR - Expanded technology stack specifications with concrete tooling decisions
+Version Change: 2.1.0 → 2.2.0
+Rationale: MINOR - Updated technology stack with actual implementation details from Phase 1 & 2
 
 Modified Principles:
   - No principle changes
   
 Updated Sections:
-  - Frontend Technology Stack: Expanded with specific libraries and tools
-    * Added Shadcn/ui for components
-    * Added Zustand for state management
-    * Added React Hook Form + Zod for forms
-    * Added TanStack Query for API client
-    * Added Auth0 React SDK for authentication
-    * Added date-fns for date/time handling
-    * Added Lucide React for icons
-  - Backend Technology Stack: Added explicit database and auth specifications
-    * Added SQL Server as database engine
-    * Added Auth0 JWT validation for authentication
-  - New Section: Deployment & Infrastructure
-    * Frontend: Vercel
-    * Backend: Azure Container App
-    * Database: Azure SQL Database
-    * Telemetry: Application Insights + OpenTelemetry
+  - Frontend Technology Stack: Updated with specific versions and current implementation status
+    * Next.js: "latest" → "16" (specific version)
+    * React: Added "19" (specific version)
+    * TypeScript: Added "5" (specific version)
+    * Tailwind CSS: Added "v4" (specific version)
+    * Shadcn/ui: Clarified "Radix UI primitives"
+    * Zustand: Added "with localStorage persistence"
+    * Added @dnd-kit for drag and drop functionality
+    * Auth0 React SDK: Marked as (FUTURE) - currently using simple user selection
+  - Backend Technology Stack: Updated with current implementation status
+    * SQL Server: Added deployment details (Docker/Podman local, Azure SQL production)
+    * Vogen: Clarified "as value objects"
+    * Added Serilog for structured logging
+    * Auth0 JWT: Marked as (FUTURE) - currently no auth required
+  - Deployment & Infrastructure: Updated authentication status
+    * Database: Clarified "Azure SQL Database (managed SQL Server)"
+    * Authentication: Marked as (FUTURE) with note about current simple user selection
 
 Removed Sections: N/A
 
@@ -33,10 +34,9 @@ Templates Status:
   ✅ .specify/templates/tasks-template.md - No changes needed
 
 Follow-up TODOs:
-  - Update frontend scaffolding to include all specified libraries
-  - Configure Auth0 for both frontend and backend
-  - Set up Azure infrastructure for deployment
-  - Configure Application Insights and OpenTelemetry
+  - Phase 1 & 2 Complete (50/181 tasks)
+  - Phase 3 In Progress: Backend Users feature slice
+  - Auth0 integration deferred to post-MVP (tracked in backlog)
 -->
 
 # Gym Buddy Constitution
@@ -122,35 +122,39 @@ The frontend MUST be built as a Progressive Web App using Next.js following stri
 - **.NET 10**: Latest version of .NET
 - **FastEndpoints**: REPR pattern for API endpoints (replaces Minimal APIs)
 - **Entity Framework Core**: Data access with migrations and seeding
-- **SQL Server**: Database engine
+- **SQL Server**: Database engine (Docker/Podman for local dev, Azure SQL for production)
 - **Aspire**: Orchestration, observability, and service discovery
 - **FluentValidation**: Request validation
 - **Ardalis.Specification**: Query patterns abstracted from EF Core
 - **ErrorOr**: Fluent result pattern instead of exceptions
-- **Vogen**: Strongly typed IDs
+- **Vogen**: Strongly typed IDs as value objects
 - **Bogus**: Fake data generation for seeding
-- **Auth0 JWT validation**: Backend authentication
+- **Serilog**: Structured logging
+- **Auth0 JWT validation**: (FUTURE) Backend authentication - currently no auth required
 
 ### Frontend Technology Stack
 
-- **Next.js (latest)**: React framework with App Router
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework (mobile-first by default)
-- **Shadcn/ui**: Component library built on Radix UI
+- **Next.js 16**: React framework with App Router
+- **React 19**: Latest React with concurrent features
+- **TypeScript 5**: Type-safe JavaScript
+- **Tailwind CSS v4**: Utility-first CSS framework (mobile-first by default)
+- **Shadcn/ui**: Component library built on Radix UI primitives
 - **next-pwa**: Progressive Web App support and service worker generation
-- **Zustand**: Lightweight state management for gym app state
+- **Zustand**: Lightweight state management for gym app state with localStorage persistence
 - **React Hook Form + Zod**: Form handling with type-safe validation
 - **TanStack Query (React Query)**: Data fetching and caching for REST APIs
-- **Auth0 React SDK (@auth0/auth0-react)**: Authentication integration
 - **date-fns**: Date and time manipulation
 - **Lucide React**: Icon library (used by Shadcn/ui)
+- **@dnd-kit**: Drag and drop library for workout plan exercise reordering
+- **Auth0 React SDK**: (FUTURE) Authentication integration - currently using simple user selection
 
 ### Deployment & Infrastructure
 
 - **Frontend**: Vercel for Next.js application hosting
 - **Backend**: Azure Container App for .NET API
-- **Database**: Azure SQL Database
+- **Database**: Azure SQL Database (managed SQL Server)
 - **Telemetry**: Application Insights + OpenTelemetry for monitoring and observability
+- **Authentication**: (FUTURE) Auth0 for centralized authentication - currently using simple user selection for MVP
 
 ### Project Structure
 
@@ -277,4 +281,4 @@ When tests exist, all tests MUST pass before merge to main branch.
 
 **Runtime Guidance**: For detailed implementation instructions, refer to `src/api/AGENTS.md`.
 
-**Version**: 2.1.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
+**Version**: 2.2.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-17

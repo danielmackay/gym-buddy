@@ -26,30 +26,30 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Frontend Project Initialization
 
-- [ ] T001 [P] Initialize Next.js 16 project at `src/frontend/` with TypeScript, App Router, and Tailwind CSS
-- [ ] T002 [P] Install PWA dependencies: `next-pwa@latest` in `src/frontend/package.json`
-- [ ] T003 [P] Install UI dependencies: `@radix-ui/react-*`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react` in `src/frontend/package.json`
-- [ ] T004 [P] Install state management: `zustand`, `@tanstack/react-query` in `src/frontend/package.json`
-- [ ] T005 [P] Install form handling: `react-hook-form`, `@hookform/resolvers`, `zod` in `src/frontend/package.json`
-- [ ] T006 [P] Install utilities: `date-fns` in `src/frontend/package.json`
-- [ ] T007 [P] Install drag-and-drop: `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` in `src/frontend/package.json`
-- [ ] T008 Configure `next-pwa` in `src/frontend/next.config.js` with service worker, cache strategies, and offline support
-- [ ] T009 Create PWA manifest in `src/frontend/public/manifest.json` with app metadata, icons, and theme colors
-- [ ] T010 Create app icons (192x192, 512x512) in `src/frontend/public/icons/` for PWA installation
-- [ ] T011 Initialize Shadcn/ui in `src/frontend/` with `npx shadcn-ui@latest init`
-- [ ] T012 Configure Tailwind CSS in `src/frontend/tailwind.config.js` with mobile-first breakpoints and custom theme
+- [X] T001 [P] Initialize Next.js 16 project at `src/frontend/` with TypeScript, App Router, and Tailwind CSS
+- [X] T002 [P] Install PWA dependencies: `next-pwa@latest` in `src/frontend/package.json`
+- [X] T003 [P] Install UI dependencies: `@radix-ui/react-*`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react` in `src/frontend/package.json`
+- [X] T004 [P] Install state management: `zustand`, `@tanstack/react-query` in `src/frontend/package.json`
+- [X] T005 [P] Install form handling: `react-hook-form`, `@hookform/resolvers`, `zod` in `src/frontend/package.json`
+- [X] T006 [P] Install utilities: `date-fns` in `src/frontend/package.json`
+- [X] T007 [P] Install drag-and-drop: `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` in `src/frontend/package.json`
+- [X] T008 Configure `next-pwa` in `src/frontend/next.config.js` with service worker, cache strategies, and offline support
+- [X] T009 Create PWA manifest in `src/frontend/public/manifest.json` with app metadata, icons, and theme colors
+- [X] T010 Create app icons (192x192, 512x512) in `src/frontend/public/icons/` for PWA installation
+- [X] T011 Initialize Shadcn/ui in `src/frontend/` with `npx shadcn-ui@latest init`
+- [X] T012 Configure Tailwind CSS in `src/frontend/tailwind.config.js` with mobile-first breakpoints and custom theme
 
 ### Frontend Directory Structure
 
-- [ ] T013 Create feature slice directories: `src/frontend/src/features/{admin,trainer,exercise-library,workout-plans}/`
-- [ ] T014 Create shared component directory: `src/frontend/src/components/`
-- [ ] T015 Create lib directories: `src/frontend/src/lib/{api,stores,validation,utils}/`
-- [ ] T016 Create TypeScript types directory: `src/frontend/src/lib/types/`
+- [X] T013 Create feature slice directories: `src/frontend/src/features/{admin,trainer,exercise-library,workout-plans}/`
+- [X] T014 Create shared component directory: `src/frontend/src/components/`
+- [X] T015 Create lib directories: `src/frontend/src/lib/{api,stores,validation,utils}/`
+- [X] T016 Create TypeScript types directory: `src/frontend/src/lib/types/`
 
 ### Backend Infrastructure
 
-- [ ] T017 Create AdminUserSeeder in `src/api/tools/MigrationService/Seeders/AdminUserSeeder.cs`
-- [ ] T018 Update MigrationService Program.cs to call AdminUserSeeder after migrations in `src/api/tools/MigrationService/Program.cs`
+- [X] T017 Create AdminUserSeeder in `src/api/tools/MigrationService/Initializers/ApplicationDbContextInitializer.cs`
+- [X] T018 Update MigrationService to call AdminUserSeeder after migrations
 - [ ] T020 Run migration service locally to seed admin user (verify with Aspire dashboard)
 
 ---
@@ -60,58 +60,58 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Core API Client
 
-- [ ] T020 Create base API client with error handling in `src/frontend/src/lib/api/client.ts`
-- [ ] T021 Create API error classes for FluentValidation and Domain errors in `src/frontend/src/lib/types/errors.ts`
-- [ ] T022 Setup TanStack Query provider in `src/frontend/src/app/providers.tsx`
-- [ ] T023 Create environment configuration for API URL in `src/frontend/.env.local` and `src/frontend/.env.production`
+- [X] T020 Create base API client with error handling in `src/frontend/src/lib/api/client.ts`
+- [X] T021 Create API error classes for FluentValidation and Domain errors in `src/frontend/src/lib/types/errors.ts`
+- [X] T022 Setup TanStack Query provider in `src/frontend/src/app/providers.tsx`
+- [X] T023 Create environment configuration for API URL in `src/frontend/.env.local` and `src/frontend/.env.production`
 
 ### TypeScript Type Definitions
 
-- [ ] T024 [P] Create User types (User, UserRole, CreateTrainerRequest, CreateClientRequest, UpdateUserRequest) in `src/frontend/src/lib/types/user.ts`
-- [ ] T025 [P] Create Exercise types (Exercise, ExerciseType, MuscleGroup, CreateExerciseRequest, UpdateExerciseRequest) in `src/frontend/src/lib/types/exercise.ts`
-- [ ] T026 [P] Create WorkoutPlan types (WorkoutPlan, PlannedExercise, Weight, Duration, CreateWorkoutPlanRequest, AddExerciseToPlanRequest) in `src/frontend/src/lib/types/workout-plan.ts`
+- [X] T024 [P] Create User types (User, UserRole, CreateTrainerRequest, CreateClientRequest, UpdateUserRequest) in `src/frontend/src/lib/types/user.ts`
+- [X] T025 [P] Create Exercise types (Exercise, ExerciseType, MuscleGroup, CreateExerciseRequest, UpdateExerciseRequest) in `src/frontend/src/lib/types/exercise.ts`
+- [X] T026 [P] Create WorkoutPlan types (WorkoutPlan, PlannedExercise, Weight, Duration, CreateWorkoutPlanRequest, AddExerciseToPlanRequest) in `src/frontend/src/lib/types/workout-plan.ts`
 
 ### Validation Schemas
 
-- [ ] T027 [P] Create user validation schemas (createTrainerSchema, createClientSchema, updateUserSchema) in `src/frontend/src/lib/validation/user.ts`
-- [ ] T028 [P] Create exercise validation schemas (createExerciseSchema, updateExerciseSchema) in `src/frontend/src/lib/validation/exercise.ts`
-- [ ] T029 [P] Create workout plan validation schemas (createWorkoutPlanSchema, addExerciseToPlanSchema, reorderExercisesSchema) in `src/frontend/src/lib/validation/workout-plan.ts`
+- [X] T027 [P] Create user validation schemas (createTrainerSchema, createClientSchema, updateUserSchema) in `src/frontend/src/lib/validation/user.ts`
+- [X] T028 [P] Create exercise validation schemas (createExerciseSchema, updateExerciseSchema) in `src/frontend/src/lib/validation/exercise.ts`
+- [X] T029 [P] Create workout plan validation schemas (createWorkoutPlanSchema, addExerciseToPlanSchema, reorderExercisesSchema) in `src/frontend/src/lib/validation/workout-plan.ts`
 
 ### Zustand Stores
 
-- [ ] T030 Create user selection store in `src/frontend/src/lib/stores/user-store.ts` with currentUser state and localStorage persistence
+- [X] T030 Create user selection store in `src/frontend/src/lib/stores/user-store.ts` with currentUser state and localStorage persistence
 
 ### Shared UI Components (Shadcn/ui)
 
-- [ ] T031 [P] Add Shadcn/ui Button component to `src/frontend/src/components/ui/button.tsx`
-- [ ] T032 [P] Add Shadcn/ui Input component to `src/frontend/src/components/ui/input.tsx`
-- [ ] T033 [P] Add Shadcn/ui Form components to `src/frontend/src/components/ui/form.tsx`
-- [ ] T034 [P] Add Shadcn/ui Card component to `src/frontend/src/components/ui/card.tsx`
-- [ ] T035 [P] Add Shadcn/ui Select component to `src/frontend/src/components/ui/select.tsx`
-- [ ] T036 [P] Add Shadcn/ui Badge component to `src/frontend/src/components/ui/badge.tsx`
-- [ ] T037 [P] Add Shadcn/ui Toast/Sonner component to `src/frontend/src/components/ui/sonner.tsx`
-- [ ] T038 [P] Add Shadcn/ui Dialog component to `src/frontend/src/components/ui/dialog.tsx`
-- [ ] T039 [P] Add Shadcn/ui Sheet component (mobile drawer) to `src/frontend/src/components/ui/sheet.tsx`
-- [ ] T040 [P] Add Shadcn/ui Label component to `src/frontend/src/components/ui/label.tsx`
+- [X] T031 [P] Add Shadcn/ui Button component to `src/frontend/src/components/ui/button.tsx`
+- [X] T032 [P] Add Shadcn/ui Input component to `src/frontend/src/components/ui/input.tsx`
+- [X] T033 [P] Add Shadcn/ui Form components to `src/frontend/src/components/ui/form.tsx`
+- [X] T034 [P] Add Shadcn/ui Card component to `src/frontend/src/components/ui/card.tsx`
+- [X] T035 [P] Add Shadcn/ui Select component to `src/frontend/src/components/ui/select.tsx`
+- [X] T036 [P] Add Shadcn/ui Badge component to `src/frontend/src/components/ui/badge.tsx`
+- [X] T037 [P] Add Shadcn/ui Toast/Sonner component to `src/frontend/src/components/ui/sonner.tsx`
+- [X] T038 [P] Add Shadcn/ui Dialog component to `src/frontend/src/components/ui/dialog.tsx`
+- [X] T039 [P] Add Shadcn/ui Sheet component (mobile drawer) to `src/frontend/src/components/ui/sheet.tsx`
+- [X] T040 [P] Add Shadcn/ui Label component to `src/frontend/src/components/ui/label.tsx`
 
 ### Custom Shared Components
 
-- [ ] T041 Create ErrorBoundary component in `src/frontend/src/components/ErrorBoundary.tsx`
-- [ ] T042 Create LoadingSpinner component in `src/frontend/src/components/LoadingSpinner.tsx`
-- [ ] T043 Create UserSelector component (no-auth user selection) in `src/frontend/src/components/UserSelector.tsx`
-- [ ] T044 Create Navigation component with role-based menu in `src/frontend/src/components/Navigation.tsx`
+- [X] T041 Create ErrorBoundary component in `src/frontend/src/components/ErrorBoundary.tsx`
+- [X] T042 Create LoadingSpinner component in `src/frontend/src/components/LoadingSpinner.tsx`
+- [X] T043 Create UserSelector component (no-auth user selection) in `src/frontend/src/components/UserSelector.tsx`
+- [X] T044 Create Navigation component with role-based menu in `src/frontend/src/components/Navigation.tsx`
 
 ### Utility Functions
 
-- [ ] T045 [P] Create format-duration utility in `src/frontend/src/lib/utils/format-duration.ts`
-- [ ] T046 [P] Create format-weight utility (kg/lbs conversion) in `src/frontend/src/lib/utils/format-weight.ts`
-- [ ] T047 [P] Create cn utility for Tailwind class merging in `src/frontend/src/lib/utils/cn.ts`
+- [X] T045 [P] Create format-duration utility in `src/frontend/src/lib/utils/format-duration.ts`
+- [X] T046 [P] Create format-weight utility (kg/lbs conversion) in `src/frontend/src/lib/utils/format-weight.ts`
+- [X] T047 [P] Create cn utility for Tailwind class merging in `src/frontend/src/lib/utils/cn.ts`
 
 ### Root App Layout
 
-- [ ] T048 Create root layout with PWA metadata in `src/frontend/src/app/layout.tsx`
-- [ ] T049 Create root page (user selection screen) in `src/frontend/src/app/page.tsx`
-- [ ] T050 Add global styles with mobile-first CSS in `src/frontend/src/app/globals.css`
+- [X] T048 Create root layout with PWA metadata in `src/frontend/src/app/layout.tsx`
+- [X] T049 Create root page (user selection screen) in `src/frontend/src/app/page.tsx`
+- [X] T050 Add global styles with mobile-first CSS in `src/frontend/src/app/globals.css`
 
 ---
 
