@@ -2,6 +2,7 @@ using Bogus;
 using Microsoft.EntityFrameworkCore;
 using GymBuddy.Domain.Heroes;
 using GymBuddy.Domain.Teams;
+using GymBuddy.Domain.Users;
 using GymBuddy.Api.Common.Persistence;
 
 namespace MigrationService.Initializers;
@@ -70,11 +71,28 @@ public class ApplicationDbContextInitializer(ApplicationDbContext dbContext) : D
         {
             // Seed the database
             await using var transaction = await DbContext.Database.BeginTransactionAsync(cancellationToken);
+            await SeedAdminUser();
             var heroes = await SeedHeroes();
             await SeedTeams(heroes);
             // await DbContext.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
         });
+    }
+
+    private async Task SeedAdminUser()
+    {
+        // Check if admin user already exists
+        if (await DbContext.Users.AnyAsync(u => u.Roles.Contains(UserRole.Admin)))
+            return;
+
+        var admin = User.Create("Admin User", "admin@gymbuddy.com");
+        var addRoleResult = admin.AddRole(UserRole.Admin);
+
+        if (addRoleResult.IsError)
+            return;
+
+        await DbContext.Users.AddAsync(admin);
+        await DbContext.SaveChangesAsync();
     }
 
     private async Task<List<Hero>> SeedHeroes()
