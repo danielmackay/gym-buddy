@@ -523,7 +523,11 @@ toast.error("Failed to create trainer. Please try again.");
 
 **Local Development**:
 ```bash
-# Backend (from src/api/tools/AppHost/)
+# Run entire stack (backend + frontend)
+aspire run  # Starts Aspire dashboard, API, database, and frontend
+
+# Or run individually:
+# Backend (from tools/AppHost/)
 dotnet run  # Starts Aspire dashboard, API, database
 
 # Frontend (from src/frontend/)

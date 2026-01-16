@@ -177,6 +177,13 @@ dotnet new ssw-vsa-slice --feature Person --feature-plural People
 ## Development Workflows
 
 ### Running the Application
+
+Run entire stack (backend + frontend):
+```bash
+aspire run
+```
+
+Or run backend only:
 ```bash
 cd tools/AppHost/
 dotnet run

@@ -125,6 +125,13 @@ dotnet new ssw-vsa --name {{SolutionName}}
 
 ### Running the Solution
 
+Run the entire stack (backend + frontend) with Aspire:
+```bash
+aspire run
+```
+
+Or run backend only:
+
 1. Change directory<br />
    Windows:
    ```ps
@@ -142,7 +149,7 @@ dotnet new ssw-vsa --name {{SolutionName}}
 
 > [!NOTE] The first time you run the solution, it may take a while to download the docker images, create the DB, and seed the data.
 
-4. Open https://localhost:7255/swagger in your browser to see it running ️🏃‍♂️
+3. Open https://localhost:7255/swagger in your browser to see it running ️🏃‍♂️
 
 ## Adding Features
 

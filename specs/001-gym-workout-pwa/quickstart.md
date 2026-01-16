@@ -83,7 +83,7 @@ mkdir -p WorkoutPlans/Endpoints WorkoutPlans/Validators
 
 ### Step 2: Create Admin User Seeder
 
-Edit `src/api/tools/MigrationService/DbInitializer.cs` (or create if it doesn't exist):
+Edit `tools/MigrationService/DbInitializer.cs` (or create if it doesn't exist):
 
 ```csharp
 public static async Task SeedAdminUser(ApplicationDbContext db)
@@ -115,8 +115,14 @@ dotnet ef migrations add AddGymWorkoutFeatures --output-dir Common/Database/Migr
 
 ### Step 5: Test Backend
 
+Run entire stack (backend + frontend):
 ```bash
-cd src/api/tools/AppHost
+aspire run
+```
+
+Or run backend only:
+```bash
+cd tools/AppHost
 dotnet run
 ```
 
@@ -394,6 +400,12 @@ Create pages in `src/app/`:
 
 ### Step 13: Run Frontend
 
+Run entire stack (backend + frontend):
+```bash
+aspire run
+```
+
+Or run frontend only:
 ```bash
 npm run dev
 ```
@@ -458,7 +470,7 @@ NEXT_PUBLIC_API_URL=https://api.gymbuddy.com/api
 ### Backend
 
 ```bash
-cd src/api/tools/AppHost
+cd tools/AppHost
 dotnet publish -c Release
 ```
 

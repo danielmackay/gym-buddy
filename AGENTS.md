@@ -27,6 +27,9 @@ Auto-generated from all feature plans. Last updated: 2026-01-17
 ## Project Structure
 
 ```text
+tools/                            # Aspire AppHost, MigrationService
+├── AppHost/
+└── MigrationService/
 src/
 ├── api/                          # Backend (.NET 10)
 │   ├── src/
@@ -35,8 +38,7 @@ src/
 │   │   │   └── Common/           # Shared infrastructure
 │   │   ├── Domain/               # Domain entities and logic (DDD)
 │   │   └── ServiceDefaults/      # Aspire configuration
-│   ├── tests/                    # Unit, Integration, Architecture tests
-│   └── tools/                    # Aspire AppHost, MigrationService
+│   └── tests/                    # Unit, Integration, Architecture tests
 └── frontend/                     # Frontend (Next.js 16 PWA)
     ├── src/
     │   ├── app/                  # Next.js App Router (pages)
@@ -51,23 +53,37 @@ src/
 
 ## Commands
 
-### Backend Development
+### Full Stack Development
 ```bash
-# Start entire stack (API + DB + Migrations) with Aspire
-cd src/api/tools/AppHost
+# Start entire stack (Backend API + DB + Migrations + Frontend) with Aspire
+aspire run
+
+# This will:
+# - Start the backend API with Aspire dashboard
+# - Provision and run SQL Server database
+# - Run database migrations and seeding
+# - Start the Next.js frontend dev server
+# - Open Aspire Dashboard for observability
+```
+
+### Backend Only
+```bash
+# Start backend stack only (API + DB + Migrations)
+cd tools/AppHost
 dotnet run
 
 # Add EF Core migration
-dotnet ef migrations add MigrationName --project src/WebApi/WebApi.csproj --startup-project src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations
+dotnet ef migrations add MigrationName --project src/api/src/WebApi/WebApi.csproj --startup-project src/api/src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations
 
 # Run all tests
+cd src/api
 dotnet test
 
 # Run specific test project
 dotnet test tests/WebApi.IntegrationTests/
 ```
 
-### Frontend Development
+### Frontend Only
 ```bash
 cd src/frontend
 

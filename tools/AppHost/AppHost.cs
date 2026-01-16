@@ -1,4 +1,6 @@
 using AppHost.Commands;
+using Aspire.Hosting;
+using Aspire.Hosting.JavaScript;
 using Azure.Provisioning;
 using Azure.Provisioning.AppService;
 using Projects;
@@ -60,6 +62,13 @@ var api = builder
     .WithExternalHttpEndpoints()
     .WithReference(db)
     .WaitForCompletion(migrationService);
+
+// Add frontend (Next.js)
+var frontend = builder
+    .AddJavaScriptApp("frontend", "../../src/frontend")
+    .WithHttpEndpoint(port: 3000, env: "PORT")
+    .WithExternalHttpEndpoints()
+    .WithReference(api);
 
 // Configure Application Insights and Log Analytics only if in publish mode
 // When running locally, use Aspire Dashboard instead

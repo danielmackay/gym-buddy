@@ -48,7 +48,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend Infrastructure
 
-- [X] T017 Create AdminUserSeeder in `src/api/tools/MigrationService/Initializers/ApplicationDbContextInitializer.cs`
+- [X] T017 Create AdminUserSeeder in `tools/MigrationService/Initializers/ApplicationDbContextInitializer.cs`
 - [X] T018 Update MigrationService to call AdminUserSeeder after migrations
 - [ ] T020 Run migration service locally to seed admin user (verify with Aspire dashboard)
 
