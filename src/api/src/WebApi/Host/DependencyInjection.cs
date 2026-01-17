@@ -1,4 +1,4 @@
-﻿using FastEndpoints.Swagger;
+using FastEndpoints.Swagger;
 using GymBuddy.Api.Common.Interfaces;
 using GymBuddy.Api.Common.Services;
 

@@ -4,6 +4,7 @@ namespace GymBuddy.Api.Features.Users.Endpoints;
 
 public record ListClientsRequest
 {
+    // [QueryParam]
     public Guid TrainerId { get; init; }
 }
 
