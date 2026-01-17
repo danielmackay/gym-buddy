@@ -6,6 +6,9 @@ using GymBuddy.Api.Host;
 var appAssembly = Assembly.GetExecutingAssembly();
 var builder = WebApplication.CreateBuilder(args);
 
+// Default allowed origins for CORS (used as fallback)
+var defaultAllowedOrigins = new[] { "http://localhost:3000" };
+
 builder.AddServiceDefaults();
 
 builder.Services.AddCustomProblemDetails();
@@ -13,6 +16,22 @@ builder.Services.AddCustomProblemDetails();
 builder.AddWebApi();
 builder.AddApplication();
 builder.AddInfrastructure();
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        var allowedOrigins = builder.Configuration
+            .GetSection("CorsSettings:AllowedOrigins")
+            .Get<string[]>() ?? defaultAllowedOrigins;
+
+        policy.WithOrigins(allowedOrigins)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // For future Auth0 integration
+    });
+});
 
 builder.Services.ConfigureFeatures(builder.Configuration, appAssembly);
 
@@ -30,6 +49,9 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// Use CORS before routing/endpoints
+app.UseCors("AllowFrontend");
 
 app.UseCustomFastEndpoints();
 app.UseSwaggerGen();
