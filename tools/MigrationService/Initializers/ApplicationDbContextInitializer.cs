@@ -81,8 +81,11 @@ public class ApplicationDbContextInitializer(ApplicationDbContext dbContext) : D
 
     private async Task SeedAdminUser()
     {
+        // TODO: Efficiently query users by role
+
         // Check if admin user already exists
-        if (await DbContext.Users.AnyAsync(u => u.Roles.Contains(UserRole.Admin)))
+        var users = await DbContext.Users.ToListAsync();
+        if (users.Any(u => u.Roles.Contains(UserRole.Admin)))
             return;
 
         var admin = User.Create("Admin User", "admin@gymbuddy.com");
