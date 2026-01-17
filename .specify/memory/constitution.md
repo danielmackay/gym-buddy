@@ -65,22 +65,35 @@ All domain logic MUST reside in the Domain layer (`src/api/src/Domain/`). Busine
 
 **Rationale**: DDD ensures business logic is testable, reusable, and protected from infrastructure concerns. Strongly typed IDs prevent primitive obsession and type-safety bugs.
 
-### III. Testing on Demand
+### III. Testing Requirements
 
-Tests are created when explicitly requested or when the complexity of the feature warrants test coverage. Tests are a valuable tool but not a mandatory first step.
+All new code MUST include appropriate test coverage to ensure reliability and maintainability.
 
-**Test Types Available**:
-- **Unit Tests**: Domain logic, value objects, entity invariants (no EF mocking needed)
-- **Integration Tests**: API endpoints using TestContainers + Respawn against real database
+**Mandatory Test Coverage**:
+- **Domain Code**: ALL domain entities, value objects, and domain logic MUST have unit tests
+  - Test entity creation, validation, invariants, and business rules
+  - Test value object behavior and equality
+  - No EF mocking needed - pure domain tests
+  - Example: `tests/Domain.UnitTests/Common/DurationTests.cs`
+  
+- **API Endpoints**: ALL FastEndpoints MUST have integration tests
+  - Test HTTP requests/responses, status codes, and validation
+  - Use TestContainers + Respawn against real database
+  - Verify database state changes
+  - Example: `tests/WebApi.IntegrationTests/Endpoints/Teams/Commands/CreateTeamCommandTests.cs`
+
+**Test Types**:
+- **Unit Tests**: Domain logic, value objects, entity invariants
+- **Integration Tests**: API endpoints, database persistence, specifications
 - **Architecture Tests**: NetArchTest to enforce VSA and DDD patterns
 
-When tests ARE written, they MUST:
-- Be comprehensive for the feature being tested
-- Run reliably without flakiness
-- Use appropriate test type (unit vs integration vs architecture)
-- Pass before merging to main branch
+**Test Quality Standards**:
+- Tests MUST be comprehensive for the feature being tested
+- Tests MUST run reliably without flakiness
+- Tests MUST use appropriate test type (unit vs integration vs architecture)
+- All tests MUST pass before merging to main branch
 
-**Rationale**: Pragmatic testing approach allows faster iteration while maintaining quality through explicit test coverage decisions based on risk and complexity.
+**Rationale**: Comprehensive test coverage ensures business logic correctness, prevents regressions, and documents expected behavior. Domain tests protect business rules while integration tests validate the entire request pipeline.
 
 ### IV. Mobile-First Design & Progressive Web App (PWA)
 
@@ -212,8 +225,9 @@ src/
 2. Register strongly typed ID in `VogenEfCoreConverters`
 3. Create migration: `dotnet ef migrations add {Name}Table --project src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations`
 4. Implement feature following VSA pattern
-5. Add tests if explicitly requested or if feature complexity warrants it
-6. Verify all tests pass before committing (if tests exist)
+5. **Write unit tests for all domain code** (entities, value objects, business logic)
+6. **Write integration tests for all endpoints** (HTTP requests, database interactions)
+7. Verify all tests pass before committing
 
 ### Running the Application
 
@@ -227,14 +241,23 @@ dotnet run
 
 ### Testing Strategy
 
-Tests are written when explicitly requested or when feature complexity requires validation:
+All new backend features MUST include test coverage:
 
-- **Unit Tests**: Fast, no database, test domain logic only
-- **Integration Tests**: Real database via TestContainers, Respawn for cleanup
+- **Unit Tests**: ALL domain code (entities, value objects, business logic)
+  - Fast, no database, pure domain tests
+  - Example: `tests/Domain.UnitTests/Common/DurationTests.cs`
+  
+- **Integration Tests**: ALL API endpoints
+  - Real database via TestContainers, Respawn for cleanup
+  - Test full HTTP pipeline and database interactions
+  - Example: `tests/WebApi.IntegrationTests/Endpoints/Teams/Commands/CreateTeamCommandTests.cs`
+  
 - **Architecture Tests**: Enforce naming conventions and dependencies
-- **Frontend Tests**: Component tests with Testing Library, E2E with Playwright (when requested)
+  - Validate VSA and DDD patterns
+  
+- **Frontend Tests**: Component tests with Testing Library, E2E with Playwright (optional)
 
-When tests exist, all tests MUST pass before merge to main branch.
+All tests MUST pass before merge to main branch.
 
 ### Documentation Requirements
 

@@ -121,7 +121,11 @@ npm run lint
 - **Endpoints**: FastEndpoints pattern - `Endpoint<TRequest, TResponse>` with validators
 - **Validation**: FluentValidation for request validation, display all errors to users
 - **Error Handling**: ErrorOr pattern for domain errors, avoid throwing exceptions
-- **Testing**: Unit tests for domain, Integration tests with TestContainers, Architecture tests
+- **Testing**: 
+  - **MANDATORY**: Unit tests for ALL domain code (entities, value objects, business logic)
+  - **MANDATORY**: Integration tests for ALL endpoints (HTTP pipeline, database interactions)
+  - Architecture tests to enforce VSA/DDD patterns
+  - See `tests/Domain.UnitTests/` and `tests/WebApi.IntegrationTests/` for examples
 
 ### Frontend
 - **Architecture**: Feature-based organization (VSA) - features in `features/{feature-name}/`
