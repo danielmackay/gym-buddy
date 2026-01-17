@@ -53,9 +53,10 @@ src/
 
 ## Commands
 
-### Full Stack Development
+### Full Stack Development (Recommended)
 ```bash
 # Start entire stack (Backend API + DB + Migrations + Frontend) with Aspire
+# Run from the repository root
 aspire run
 
 # This will:
@@ -69,6 +70,10 @@ aspire run
 ### Backend Only
 ```bash
 # Start backend stack only (API + DB + Migrations)
+# Run from the repository root
+aspire run --project tools/AppHost
+
+# Or navigate to AppHost directory
 cd tools/AppHost
 dotnet run
 
@@ -172,9 +177,12 @@ See `specs/001-gym-workout-pwa/` for detailed specification and task breakdown.
 npm run build -- --webpack
 ```
 
+### Running the Application
+**Recommended**: Use `aspire run` from the repository root to start the entire stack (backend + database + migrations + frontend).
+
 ### Environment Variables
 **Frontend**:
-- `.env.local` (development): `NEXT_PUBLIC_API_URL=https://localhost:7255`
+- `.env.local` (development): `NEXT_PUBLIC_API_URL=https://localhost:7255/api`
 - `.env.production` (production): `NEXT_PUBLIC_API_URL=https://api.gymbuddy.com`
 
 **Backend**:

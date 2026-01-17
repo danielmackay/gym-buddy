@@ -178,13 +178,17 @@ dotnet new ssw-vsa-slice --feature Person --feature-plural People
 
 ### Running the Application
 
-Run entire stack (backend + frontend):
+**Recommended**: Run entire stack (backend + frontend) from repository root:
 ```bash
 aspire run
 ```
 
 Or run backend only:
 ```bash
+# From repository root
+aspire run --project tools/AppHost
+
+# Or navigate to AppHost directory
 cd tools/AppHost/
 dotnet run
 ```
