@@ -121,44 +121,44 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend - Users Feature Slice [US1]
 
-- [ ] T051 [US1] Create UsersFeature.cs group registration in `src/api/src/WebApi/Features/Users/UsersFeature.cs`
-- [ ] T052 [US1] Create CreateTrainer endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateTrainer.cs`
-- [ ] T053 [US1] Create CreateTrainerValidator in `src/api/src/WebApi/Features/Users/Validators/CreateTrainerValidator.cs`
-- [ ] T054 [US1] Create ListTrainers endpoint in `src/api/src/WebApi/Features/Users/Endpoints/ListTrainers.cs`
-- [ ] T055 [US1] Create GetUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/GetUser.cs`
-- [ ] T056 [US1] Create UpdateUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/UpdateUser.cs`
-- [ ] T057 [US1] Create UpdateUserValidator in `src/api/src/WebApi/Features/Users/Validators/UpdateUserValidator.cs`
-- [ ] T058 [US1] Run EF Core migration to ensure User tables exist: `dotnet ef migrations add AddUsersFeature`
+- [X] T051 [US1] Create UsersFeature.cs group registration in `src/api/src/WebApi/Features/Users/UsersFeature.cs`
+- [X] T052 [US1] Create CreateTrainer endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateTrainer.cs`
+- [X] T053 [US1] Create CreateTrainerValidator in `src/api/src/WebApi/Features/Users/Validators/CreateTrainerValidator.cs`
+- [X] T054 [US1] Create ListTrainers endpoint in `src/api/src/WebApi/Features/Users/Endpoints/ListTrainers.cs`
+- [X] T055 [US1] Create GetUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/GetUser.cs`
+- [X] T056 [US1] Create UpdateUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/UpdateUser.cs`
+- [X] T057 [US1] Create UpdateUserValidator in `src/api/src/WebApi/Features/Users/Validators/UpdateUserValidator.cs`
+- [X] T058 [US1] Run EF Core migration to ensure User tables exist: `dotnet ef migrations add AddUsersFeature`
 - [ ] T059 [US1] Test all Users endpoints with Aspire dashboard/Swagger (create trainer, list, get, update)
 
 ### Frontend - Users API Service [US1]
 
-- [ ] T060 [US1] Create users API service with all endpoint methods in `src/frontend/src/lib/api/users.ts`
+- [X] T060 [US1] Create users API service with all endpoint methods in `src/frontend/src/lib/api/users.ts`
 
 ### Frontend - Admin Feature Slice [US1]
 
-- [ ] T061 [US1] Create admin layout with navigation in `src/frontend/src/app/admin/layout.tsx`
-- [ ] T062 [US1] Create admin dashboard page in `src/frontend/src/app/admin/page.tsx`
-- [ ] T063 [US1] Create trainer list page in `src/frontend/src/app/admin/trainers/page.tsx`
-- [ ] T064 [US1] Create new trainer page in `src/frontend/src/app/admin/trainers/new/page.tsx`
-- [ ] T065 [US1] Create trainer detail page in `src/frontend/src/app/admin/trainers/[id]/page.tsx`
+- [X] T061 [US1] Create admin layout with navigation in `src/frontend/src/app/admin/layout.tsx`
+- [X] T062 [US1] Create admin dashboard page in `src/frontend/src/app/admin/page.tsx`
+- [X] T063 [US1] Create trainer list page in `src/frontend/src/app/admin/trainers/page.tsx`
+- [X] T064 [US1] Create new trainer page in `src/frontend/src/app/admin/trainers/new/page.tsx`
+- [X] T065 [US1] Create trainer detail page in `src/frontend/src/app/admin/trainers/[id]/page.tsx`
 
 ### Frontend - Admin Components [US1]
 
-- [ ] T066 [US1] Create AdminDashboard component in `src/frontend/src/features/admin/components/AdminDashboard.tsx`
-- [ ] T067 [US1] Create TrainerList component in `src/frontend/src/features/admin/components/TrainerList.tsx`
-- [ ] T068 [US1] Create TrainerForm component with validation in `src/frontend/src/features/admin/components/TrainerForm.tsx`
+- [X] T066 [US1] Create AdminDashboard component in `src/frontend/src/features/admin/components/AdminDashboard.tsx`
+- [X] T067 [US1] Create TrainerList component in `src/frontend/src/features/admin/components/TrainerList.tsx`
+- [X] T068 [US1] Create TrainerForm component with validation in `src/frontend/src/features/admin/components/TrainerForm.tsx`
 
 ### Frontend - Admin Hooks [US1]
 
-- [ ] T069 [US1] [P] Create useTrainers hook with TanStack Query in `src/frontend/src/features/admin/hooks/useTrainers.ts`
-- [ ] T070 [US1] [P] Create useCreateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useCreateTrainer.ts`
-- [ ] T071 [US1] [P] Create useUpdateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useUpdateTrainer.ts`
-- [ ] T072 [US1] [P] Create useTrainer hook (get single) in `src/frontend/src/features/admin/hooks/useTrainer.ts`
+- [X] T069 [US1] [P] Create useTrainers hook with TanStack Query in `src/frontend/src/features/admin/hooks/useTrainers.ts`
+- [X] T070 [US1] [P] Create useCreateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useCreateTrainer.ts`
+- [X] T071 [US1] [P] Create useUpdateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useUpdateTrainer.ts`
+- [X] T072 [US1] [P] Create useTrainer hook (get single) in `src/frontend/src/features/admin/hooks/useTrainer.ts`
 
 ### Testing [US1]
 
-- [ ] T073 [US1] Manually test User Story 1 acceptance scenarios (create trainer, invalid email, list trainers, update trainer)
+- [X] T073 [US1] Manually test User Story 1 acceptance scenarios (create trainer, invalid email, list trainers, update trainer)
 
 ---
 
@@ -168,9 +168,9 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend - Users Feature Slice (Clients) [US2]
 
-- [ ] T074 [US2] Create CreateClient endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateClient.cs`
-- [ ] T075 [US2] Create CreateClientValidator in `src/api/src/WebApi/Features/Users/Validators/CreateClientValidator.cs`
-- [ ] T076 [US2] Create ListClients endpoint (filtered by trainerId) in `src/api/src/WebApi/Features/Users/Endpoints/ListClients.cs`
+- [X] T074 [US2] Create CreateClient endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateClient.cs`
+- [X] T075 [US2] Create CreateClientValidator in `src/api/src/WebApi/Features/Users/Validators/CreateClientValidator.cs`
+- [X] T076 [US2] Create ListClients endpoint (filtered by trainerId) in `src/api/src/WebApi/Features/Users/Endpoints/ListClients.cs`
 - [ ] T077 [US2] Test client endpoints with Aspire dashboard/Swagger (create client, list for trainer)
 
 ### Frontend - Trainer Feature Slice [US2]

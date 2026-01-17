@@ -130,7 +130,15 @@ npm run lint
 
 ## Recent Changes
 
-- 2026-01-17: Phase 1 & 2 Complete - Project setup and shared frontend foundation
+- 2026-01-17 PM: **Phase 3 Complete** - User Story 1: Admin Creates Trainers ✅
+  - ✅ Backend: Users feature slice with all CRUD endpoints (CreateTrainer, ListTrainers, GetUser, UpdateUser, CreateClient, ListClients)
+  - ✅ Backend: Fixed EF Core JSON column query issue (Roles.Contains) by loading to memory first
+  - ✅ Frontend: Admin feature slice with dashboard, trainer list, trainer form
+  - ✅ Frontend: Custom hooks with TanStack Query (useTrainers, useCreateTrainer, useUpdateTrainer, useTrainer)
+  - ✅ Frontend: Async params fix for Next.js 16 compatibility
+  - ✅ Testing: All User Story 1 acceptance scenarios passed via API
+
+- 2026-01-17 AM: Phase 1 & 2 Complete - Project setup and shared frontend foundation
   - ✅ Backend: Admin user seeding added to MigrationService
   - ✅ Frontend: Next.js 16 + PWA initialized with all dependencies
   - ✅ Frontend: Base API client with error handling
@@ -143,12 +151,16 @@ npm run lint
 
 ## Implementation Status
 
-**Completed**: Phase 1 (T001-T020) + Phase 2 (T020-T050) = 50/181 tasks
+**Completed**: 74/181 tasks (41% complete)
+- Phase 1 (Setup): 19/19 ✅
+- Phase 2 (Foundation): 31/31 ✅
+- Phase 3 (US1 - Admin/Trainers): 23/23 ✅
+- Phase 4 (US2 - Clients): 3/17 (backend endpoints only)
 
-**Next**: Phase 3 (T051-T073) - User Story 1: Admin Creates Trainers
-- Backend Users feature slice with endpoints
-- Frontend admin pages and components
-- Integration tests
+**Next**: Phase 4 (T077-T090) - User Story 2: Trainer Creates Clients
+- Frontend trainer feature slice
+- Client management pages and components
+- Integration with trainer role
 
 See `specs/001-gym-workout-pwa/` for detailed specification and task breakdown.
 
