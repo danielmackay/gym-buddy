@@ -50,7 +50,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 - [X] T017 Create AdminUserSeeder in `tools/MigrationService/Initializers/ApplicationDbContextInitializer.cs`
 - [X] T018 Update MigrationService to call AdminUserSeeder after migrations
-- [ ] T020 Run migration service locally to seed admin user (verify with Aspire dashboard)
+- [X] T020 Run migration service locally to seed admin user (verify with Aspire dashboard)
 
 ---
 
@@ -129,7 +129,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 - [X] T056 [US1] Create UpdateUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/UpdateUser.cs`
 - [X] T057 [US1] Create UpdateUserValidator in `src/api/src/WebApi/Features/Users/Validators/UpdateUserValidator.cs`
 - [X] T058 [US1] Run EF Core migration to ensure User tables exist: `dotnet ef migrations add AddUsersFeature`
-- [ ] T059 [US1] Test all Users endpoints with Aspire dashboard/Swagger (create trainer, list, get, update)
+- [X] T059 [US1] Test all Users endpoints with Aspire dashboard/Swagger (create trainer, list, get, update)
 
 ### Frontend - Users API Service [US1]
 
@@ -171,7 +171,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 - [X] T074 [US2] Create CreateClient endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateClient.cs`
 - [X] T075 [US2] Create CreateClientValidator in `src/api/src/WebApi/Features/Users/Validators/CreateClientValidator.cs`
 - [X] T076 [US2] Create ListClients endpoint (filtered by trainerId) in `src/api/src/WebApi/Features/Users/Endpoints/ListClients.cs`
-- [ ] T077 [US2] Test client endpoints with Aspire dashboard/Swagger (create client, list for trainer)
+- [X] T077 [US2] Test client endpoints with Aspire dashboard/Swagger (create client, list for trainer)
 
 ### Frontend - Trainer Feature Slice [US2]
 

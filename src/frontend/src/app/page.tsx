@@ -22,9 +22,7 @@ export default function Home() {
   const { data: users, isLoading, error } = useQuery<User[]>({
     queryKey: ["users"],
     queryFn: async () => {
-      // For now, return empty array since we don't have the API endpoint yet
-      // This will be replaced with actual API call once backend is ready
-      return [];
+      return apiClient.get<User[]>("/users");
     },
   });
 
