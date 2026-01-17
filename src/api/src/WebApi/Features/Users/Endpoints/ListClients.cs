@@ -2,7 +2,10 @@ using GymBuddy.Domain.Users;
 
 namespace GymBuddy.Api.Features.Users.Endpoints;
 
-public record ListClientsRequest(Guid TrainerId);
+public record ListClientsRequest
+{
+    public Guid TrainerId { get; init; }
+}
 
 public class ListClientsEndpoint(ApplicationDbContext dbContext)
     : Endpoint<ListClientsRequest, List<UserResponse>>
@@ -12,6 +15,7 @@ public class ListClientsEndpoint(ApplicationDbContext dbContext)
         Get("/clients");
         Group<UsersGroup>();
         Description(x => x.WithName("ListClients"));
+        AllowAnonymous(); // TODO: Add authentication when Auth0 is integrated
     }
 
     public override async Task HandleAsync(ListClientsRequest req, CancellationToken ct)

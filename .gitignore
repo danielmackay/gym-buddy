@@ -479,3 +479,12 @@ $RECYCLE.BIN/
 .idea/
 
 .playwright-mcp/
+
+# Next.js / Frontend
+.next/
+out/
+.env*.local
+dist/
+*.tsbuildinfo
+next-env.d.ts
+.vercel/

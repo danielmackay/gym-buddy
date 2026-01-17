@@ -175,24 +175,24 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Frontend - Trainer Feature Slice [US2]
 
-- [ ] T078 [US2] Create trainer layout with navigation in `src/frontend/src/app/trainer/layout.tsx`
-- [ ] T079 [US2] Create trainer dashboard page in `src/frontend/src/app/trainer/page.tsx`
-- [ ] T080 [US2] Create client list page in `src/frontend/src/app/trainer/clients/page.tsx`
-- [ ] T081 [US2] Create new client page in `src/frontend/src/app/trainer/clients/new/page.tsx`
-- [ ] T082 [US2] Create client detail page in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
+- [X] T078 [US2] Create trainer layout with navigation in `src/frontend/src/app/trainer/layout.tsx`
+- [X] T079 [US2] Create trainer dashboard page in `src/frontend/src/app/trainer/page.tsx`
+- [X] T080 [US2] Create client list page in `src/frontend/src/app/trainer/clients/page.tsx`
+- [X] T081 [US2] Create new client page in `src/frontend/src/app/trainer/clients/new/page.tsx`
+- [X] T082 [US2] Create client detail page in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
 
 ### Frontend - Trainer Components [US2]
 
-- [ ] T083 [US2] Create TrainerDashboard component in `src/frontend/src/features/trainer/components/TrainerDashboard.tsx`
-- [ ] T084 [US2] Create ClientList component in `src/frontend/src/features/trainer/components/ClientList.tsx`
-- [ ] T085 [US2] Create ClientForm component with validation in `src/frontend/src/features/trainer/components/ClientForm.tsx`
+- [X] T083 [US2] Create TrainerDashboard component in `src/frontend/src/features/trainer/components/TrainerDashboard.tsx`
+- [X] T084 [US2] Create ClientList component in `src/frontend/src/features/trainer/components/ClientList.tsx`
+- [X] T085 [US2] Create ClientForm component with validation in `src/frontend/src/features/trainer/components/ClientForm.tsx`
 
 ### Frontend - Trainer Hooks [US2]
 
-- [ ] T086 [US2] [P] Create useClients hook with TanStack Query in `src/frontend/src/features/trainer/hooks/useClients.ts`
-- [ ] T087 [US2] [P] Create useCreateClient mutation hook in `src/frontend/src/features/trainer/hooks/useCreateClient.ts`
-- [ ] T088 [US2] [P] Create useUpdateClient mutation hook in `src/frontend/src/features/trainer/hooks/useUpdateClient.ts`
-- [ ] T089 [US2] [P] Create useClient hook (get single) in `src/frontend/src/features/trainer/hooks/useClient.ts`
+- [X] T086 [US2] [P] Create useClients hook with TanStack Query in `src/frontend/src/features/trainer/hooks/useClients.ts`
+- [X] T087 [US2] [P] Create useCreateClient mutation hook in `src/frontend/src/features/trainer/hooks/useCreateClient.ts`
+- [X] T088 [US2] [P] Create useUpdateClient mutation hook in `src/frontend/src/features/trainer/hooks/useUpdateClient.ts`
+- [X] T089 [US2] [P] Create useClient hook (get single) in `src/frontend/src/features/trainer/hooks/useClient.ts`
 
 ### Testing [US2]
 
