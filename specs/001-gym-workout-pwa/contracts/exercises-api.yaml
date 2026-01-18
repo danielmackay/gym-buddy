@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Gym Buddy - Exercises API
+  description: Exercise library management endpoints
+  version: 1.0.0
+
+servers:
+  - url: https://localhost:7255/api
+  - url: https://api.gymbuddy.com/api
+
+paths:
+  /exercises:
+    get:
+      summary: List all exercises
+      parameters:
+        - name: muscleGroup
+          in: query
+          schema:
+            type: integer
+        - name: type
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExerciseResponse'
+    post:
+      summary: Create a new exercise
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExerciseRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateExerciseResponse'
+
+  /exercises/{id}:
+    get:
+      summary: Get exercise by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseResponse'
+    put:
+      summary: Update exercise
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateExerciseRequest'
+      responses:
+        '200':
+          description: Success
+
+components:
+  schemas:
+    ExerciseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        type:
+          type: integer
+        muscleGroups:
+          type: array
+          items:
+            type: integer
+    
+    CreateExerciseRequest:
+      type: object
+      required:
+        - name
+        - type
+        - muscleGroups
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: integer
+        muscleGroups:
+          type: array
+          items:
+            type: integer
+        description:
+          type: string
+          maxLength: 500
+    
+    UpdateExerciseRequest:
+      type: object
+      required:
+        - name
+        - muscleGroups
+      properties:
+        name:
+          type: string
+        muscleGroups:
+          type: array
+          items:
+            type: integer
+        description:
+          type: string
+    
+    CreateExerciseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid

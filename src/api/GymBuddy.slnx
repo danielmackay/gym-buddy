@@ -7,8 +7,6 @@
   <Folder Name="/Solution Items/">
     <File Path="global.json" />
     <File Path="README.md" />
-    <File Path="Directory.Build.props" />
-    <File Path="Directory.Packages.props" />
     <File Path=".editorconfig" />
   </Folder>
   <Folder Name="/src/">
@@ -53,13 +51,13 @@
     </Project>
   </Folder>
   <Folder Name="/tools/">
-    <Project Path="tools\AppHost\AppHost.csproj">
+    <Project Path="..\..\tools\AppHost\AppHost.csproj">
       <Configuration Solution="Debug|x64" Project="Debug|Any CPU" />
       <Configuration Solution="Debug|x86" Project="Debug|Any CPU" />
       <Configuration Solution="Release|x64" Project="Release|Any CPU" />
       <Configuration Solution="Release|x86" Project="Release|Any CPU" />
     </Project>
-    <Project Path="tools\MigrationService\MigrationService.csproj">
+    <Project Path="..\..\tools\MigrationService\MigrationService.csproj">
       <Configuration Solution="Debug|x64" Project="Debug|Any CPU" />
       <Configuration Solution="Debug|x86" Project="Debug|Any CPU" />
       <Configuration Solution="Release|x64" Project="Release|Any CPU" />

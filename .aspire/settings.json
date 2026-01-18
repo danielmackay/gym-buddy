@@ -1,3 +1,3 @@
 {
-  "appHostPath": "../src/api/tools/AppHost/AppHost.csproj"
+  "appHostPath": "../tools/AppHost/AppHost.csproj"
 }

@@ -1,29 +1,30 @@
 <!--
-Sync Impact Report - Constitution v2.1.0
+Sync Impact Report - Constitution v2.2.0
 ========================================
-Version Change: 2.0.0 → 2.1.0
-Rationale: MINOR - Expanded technology stack specifications with concrete tooling decisions
+Version Change: 2.1.0 → 2.2.0
+Rationale: MINOR - Updated technology stack with actual implementation details from Phase 1 & 2
 
 Modified Principles:
   - No principle changes
   
 Updated Sections:
-  - Frontend Technology Stack: Expanded with specific libraries and tools
-    * Added Shadcn/ui for components
-    * Added Zustand for state management
-    * Added React Hook Form + Zod for forms
-    * Added TanStack Query for API client
-    * Added Auth0 React SDK for authentication
-    * Added date-fns for date/time handling
-    * Added Lucide React for icons
-  - Backend Technology Stack: Added explicit database and auth specifications
-    * Added SQL Server as database engine
-    * Added Auth0 JWT validation for authentication
-  - New Section: Deployment & Infrastructure
-    * Frontend: Vercel
-    * Backend: Azure Container App
-    * Database: Azure SQL Database
-    * Telemetry: Application Insights + OpenTelemetry
+  - Frontend Technology Stack: Updated with specific versions and current implementation status
+    * Next.js: "latest" → "16" (specific version)
+    * React: Added "19" (specific version)
+    * TypeScript: Added "5" (specific version)
+    * Tailwind CSS: Added "v4" (specific version)
+    * Shadcn/ui: Clarified "Radix UI primitives"
+    * Zustand: Added "with localStorage persistence"
+    * Added @dnd-kit for drag and drop functionality
+    * Auth0 React SDK: Marked as (FUTURE) - currently using simple user selection
+  - Backend Technology Stack: Updated with current implementation status
+    * SQL Server: Added deployment details (Docker/Podman local, Azure SQL production)
+    * Vogen: Clarified "as value objects"
+    * Added Serilog for structured logging
+    * Auth0 JWT: Marked as (FUTURE) - currently no auth required
+  - Deployment & Infrastructure: Updated authentication status
+    * Database: Clarified "Azure SQL Database (managed SQL Server)"
+    * Authentication: Marked as (FUTURE) with note about current simple user selection
 
 Removed Sections: N/A
 
@@ -33,10 +34,9 @@ Templates Status:
   ✅ .specify/templates/tasks-template.md - No changes needed
 
 Follow-up TODOs:
-  - Update frontend scaffolding to include all specified libraries
-  - Configure Auth0 for both frontend and backend
-  - Set up Azure infrastructure for deployment
-  - Configure Application Insights and OpenTelemetry
+  - Phase 1 & 2 Complete (50/181 tasks)
+  - Phase 3 In Progress: Backend Users feature slice
+  - Auth0 integration deferred to post-MVP (tracked in backlog)
 -->
 
 # Gym Buddy Constitution
@@ -65,22 +65,35 @@ All domain logic MUST reside in the Domain layer (`src/api/src/Domain/`). Busine
 
 **Rationale**: DDD ensures business logic is testable, reusable, and protected from infrastructure concerns. Strongly typed IDs prevent primitive obsession and type-safety bugs.
 
-### III. Testing on Demand
+### III. Testing Requirements
 
-Tests are created when explicitly requested or when the complexity of the feature warrants test coverage. Tests are a valuable tool but not a mandatory first step.
+All new code MUST include appropriate test coverage to ensure reliability and maintainability.
 
-**Test Types Available**:
-- **Unit Tests**: Domain logic, value objects, entity invariants (no EF mocking needed)
-- **Integration Tests**: API endpoints using TestContainers + Respawn against real database
+**Mandatory Test Coverage**:
+- **Domain Code**: ALL domain entities, value objects, and domain logic MUST have unit tests
+  - Test entity creation, validation, invariants, and business rules
+  - Test value object behavior and equality
+  - No EF mocking needed - pure domain tests
+  - Example: `tests/Domain.UnitTests/Common/DurationTests.cs`
+  
+- **API Endpoints**: ALL FastEndpoints MUST have integration tests
+  - Test HTTP requests/responses, status codes, and validation
+  - Use TestContainers + Respawn against real database
+  - Verify database state changes
+  - Example: `tests/WebApi.IntegrationTests/Endpoints/Teams/Commands/CreateTeamCommandTests.cs`
+
+**Test Types**:
+- **Unit Tests**: Domain logic, value objects, entity invariants
+- **Integration Tests**: API endpoints, database persistence, specifications
 - **Architecture Tests**: NetArchTest to enforce VSA and DDD patterns
 
-When tests ARE written, they MUST:
-- Be comprehensive for the feature being tested
-- Run reliably without flakiness
-- Use appropriate test type (unit vs integration vs architecture)
-- Pass before merging to main branch
+**Test Quality Standards**:
+- Tests MUST be comprehensive for the feature being tested
+- Tests MUST run reliably without flakiness
+- Tests MUST use appropriate test type (unit vs integration vs architecture)
+- All tests MUST pass before merging to main branch
 
-**Rationale**: Pragmatic testing approach allows faster iteration while maintaining quality through explicit test coverage decisions based on risk and complexity.
+**Rationale**: Comprehensive test coverage ensures business logic correctness, prevents regressions, and documents expected behavior. Domain tests protect business rules while integration tests validate the entire request pipeline.
 
 ### IV. Mobile-First Design & Progressive Web App (PWA)
 
@@ -122,35 +135,39 @@ The frontend MUST be built as a Progressive Web App using Next.js following stri
 - **.NET 10**: Latest version of .NET
 - **FastEndpoints**: REPR pattern for API endpoints (replaces Minimal APIs)
 - **Entity Framework Core**: Data access with migrations and seeding
-- **SQL Server**: Database engine
+- **SQL Server**: Database engine (Docker/Podman for local dev, Azure SQL for production)
 - **Aspire**: Orchestration, observability, and service discovery
 - **FluentValidation**: Request validation
 - **Ardalis.Specification**: Query patterns abstracted from EF Core
 - **ErrorOr**: Fluent result pattern instead of exceptions
-- **Vogen**: Strongly typed IDs
+- **Vogen**: Strongly typed IDs as value objects
 - **Bogus**: Fake data generation for seeding
-- **Auth0 JWT validation**: Backend authentication
+- **Serilog**: Structured logging
+- **Auth0 JWT validation**: (FUTURE) Backend authentication - currently no auth required
 
 ### Frontend Technology Stack
 
-- **Next.js (latest)**: React framework with App Router
-- **TypeScript**: Type-safe JavaScript
-- **Tailwind CSS**: Utility-first CSS framework (mobile-first by default)
-- **Shadcn/ui**: Component library built on Radix UI
+- **Next.js 16**: React framework with App Router
+- **React 19**: Latest React with concurrent features
+- **TypeScript 5**: Type-safe JavaScript
+- **Tailwind CSS v4**: Utility-first CSS framework (mobile-first by default)
+- **Shadcn/ui**: Component library built on Radix UI primitives
 - **next-pwa**: Progressive Web App support and service worker generation
-- **Zustand**: Lightweight state management for gym app state
+- **Zustand**: Lightweight state management for gym app state with localStorage persistence
 - **React Hook Form + Zod**: Form handling with type-safe validation
 - **TanStack Query (React Query)**: Data fetching and caching for REST APIs
-- **Auth0 React SDK (@auth0/auth0-react)**: Authentication integration
 - **date-fns**: Date and time manipulation
 - **Lucide React**: Icon library (used by Shadcn/ui)
+- **@dnd-kit**: Drag and drop library for workout plan exercise reordering
+- **Auth0 React SDK**: (FUTURE) Authentication integration - currently using simple user selection
 
 ### Deployment & Infrastructure
 
 - **Frontend**: Vercel for Next.js application hosting
 - **Backend**: Azure Container App for .NET API
-- **Database**: Azure SQL Database
+- **Database**: Azure SQL Database (managed SQL Server)
 - **Telemetry**: Application Insights + OpenTelemetry for monitoring and observability
+- **Authentication**: (FUTURE) Auth0 for centralized authentication - currently using simple user selection for MVP
 
 ### Project Structure
 
@@ -208,8 +225,9 @@ src/
 2. Register strongly typed ID in `VogenEfCoreConverters`
 3. Create migration: `dotnet ef migrations add {Name}Table --project src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations`
 4. Implement feature following VSA pattern
-5. Add tests if explicitly requested or if feature complexity warrants it
-6. Verify all tests pass before committing (if tests exist)
+5. **Write unit tests for all domain code** (entities, value objects, business logic)
+6. **Write integration tests for all endpoints** (HTTP requests, database interactions)
+7. Verify all tests pass before committing
 
 ### Running the Application
 
@@ -223,14 +241,23 @@ dotnet run
 
 ### Testing Strategy
 
-Tests are written when explicitly requested or when feature complexity requires validation:
+All new backend features MUST include test coverage:
 
-- **Unit Tests**: Fast, no database, test domain logic only
-- **Integration Tests**: Real database via TestContainers, Respawn for cleanup
+- **Unit Tests**: ALL domain code (entities, value objects, business logic)
+  - Fast, no database, pure domain tests
+  - Example: `tests/Domain.UnitTests/Common/DurationTests.cs`
+  
+- **Integration Tests**: ALL API endpoints
+  - Real database via TestContainers, Respawn for cleanup
+  - Test full HTTP pipeline and database interactions
+  - Example: `tests/WebApi.IntegrationTests/Endpoints/Teams/Commands/CreateTeamCommandTests.cs`
+  
 - **Architecture Tests**: Enforce naming conventions and dependencies
-- **Frontend Tests**: Component tests with Testing Library, E2E with Playwright (when requested)
+  - Validate VSA and DDD patterns
+  
+- **Frontend Tests**: Component tests with Testing Library, E2E with Playwright (optional)
 
-When tests exist, all tests MUST pass before merge to main branch.
+All tests MUST pass before merge to main branch.
 
 ### Documentation Requirements
 
@@ -277,4 +304,4 @@ When tests exist, all tests MUST pass before merge to main branch.
 
 **Runtime Guidance**: For detailed implementation instructions, refer to `src/api/AGENTS.md`.
 
-**Version**: 2.1.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-16
+**Version**: 2.2.0 | **Ratified**: 2026-01-16 | **Last Amended**: 2026-01-17

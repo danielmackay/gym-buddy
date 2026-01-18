@@ -1,0 +1,298 @@
+openapi: 3.0.3
+info:
+  title: Gym Buddy - Workout Plans API
+  description: Workout plan management endpoints
+  version: 1.0.0
+
+servers:
+  - url: https://localhost:7255/api
+  - url: https://api.gymbuddy.com/api
+
+paths:
+  /workout-plans:
+    get:
+      summary: List workout plans for trainer
+      parameters:
+        - name: trainerId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkoutPlanResponse'
+    post:
+      summary: Create a new workout plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkoutPlanRequest'
+      responses:
+        '201':
+          description: Created
+
+  /workout-plans/{id}:
+    get:
+      summary: Get workout plan by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkoutPlanResponse'
+    
+    put:
+      summary: Update workout plan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkoutPlanRequest'
+      responses:
+        '200':
+          description: Success
+
+  /workout-plans/{id}/exercises:
+    post:
+      summary: Add exercise to workout plan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddExerciseRequest'
+      responses:
+        '200':
+          description: Success
+
+  /workout-plans/{id}/exercises/{exerciseId}:
+    delete:
+      summary: Remove exercise from workout plan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: exerciseId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+
+  /workout-plans/{id}/exercises/reorder:
+    put:
+      summary: Reorder exercises in workout plan
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderExercisesRequest'
+      responses:
+        '200':
+          description: Success
+
+  /workout-plans/{id}/assign:
+    post:
+      summary: Assign workout plan to client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignPlanRequest'
+      responses:
+        '200':
+          description: Success
+
+  /workout-plans/{id}/unassign/{clientId}:
+    delete:
+      summary: Unassign workout plan from client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success
+
+components:
+  schemas:
+    WorkoutPlanResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        trainerId:
+          type: string
+          format: uuid
+        exercises:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlannedExerciseResponse'
+    
+    PlannedExerciseResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        exerciseId:
+          type: string
+          format: uuid
+        exerciseName:
+          type: string
+        exerciseType:
+          type: integer
+        sets:
+          type: integer
+        reps:
+          type: integer
+          nullable: true
+        weight:
+          type: object
+          nullable: true
+          properties:
+            kilograms:
+              type: number
+        duration:
+          type: object
+          nullable: true
+          properties:
+            seconds:
+              type: integer
+        order:
+          type: integer
+    
+    CreateWorkoutPlanRequest:
+      type: object
+      required:
+        - name
+        - trainerId
+      properties:
+        name:
+          type: string
+        trainerId:
+          type: string
+          format: uuid
+        description:
+          type: string
+    
+    UpdateWorkoutPlanRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    
+    AddExerciseRequest:
+      type: object
+      required:
+        - exerciseId
+        - sets
+      properties:
+        exerciseId:
+          type: string
+          format: uuid
+        sets:
+          type: integer
+        reps:
+          type: integer
+        weight:
+          type: object
+          properties:
+            kilograms:
+              type: number
+        duration:
+          type: object
+          properties:
+            seconds:
+              type: integer
+    
+    ReorderExercisesRequest:
+      type: object
+      required:
+        - exerciseIds
+      properties:
+        exerciseIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    
+    AssignPlanRequest:
+      type: object
+      required:
+        - clientId
+      properties:
+        clientId:
+          type: string
+          format: uuid

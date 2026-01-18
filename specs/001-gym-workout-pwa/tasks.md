@@ -1,0 +1,450 @@
+# Implementation Tasks: Gym Workout Tracking PWA
+
+**Feature Branch**: `001-gym-workout-pwa`  
+**Date**: Sat Jan 17 2026  
+**Status**: Ready for Implementation
+
+This document provides a comprehensive, ordered list of implementation tasks broken down by phase and user story. Tasks are designed to be independently completable where possible, with clear dependencies marked.
+
+---
+
+## Task Format
+
+Each task follows the format: `- [ ] T### [Flags] Description with file path`
+
+**Flags**:
+- `[P]` = Parallelizable (can be done in parallel with adjacent P tasks)
+- `[US#]` = User Story number (1-5 from spec.md)
+
+**Dependencies**: Tasks should be completed in order within each phase unless marked `[P]` for parallelization.
+
+---
+
+## Phase 1: Project Setup & Infrastructure
+
+**Goal**: Initialize frontend project, configure PWA, setup core infrastructure
+
+### Frontend Project Initialization
+
+- [X] T001 [P] Initialize Next.js 16 project at `src/frontend/` with TypeScript, App Router, and Tailwind CSS
+- [X] T002 [P] Install PWA dependencies: `next-pwa@latest` in `src/frontend/package.json`
+- [X] T003 [P] Install UI dependencies: `@radix-ui/react-*`, `class-variance-authority`, `clsx`, `tailwind-merge`, `lucide-react` in `src/frontend/package.json`
+- [X] T004 [P] Install state management: `zustand`, `@tanstack/react-query` in `src/frontend/package.json`
+- [X] T005 [P] Install form handling: `react-hook-form`, `@hookform/resolvers`, `zod` in `src/frontend/package.json`
+- [X] T006 [P] Install utilities: `date-fns` in `src/frontend/package.json`
+- [X] T007 [P] Install drag-and-drop: `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities` in `src/frontend/package.json`
+- [X] T008 Configure `next-pwa` in `src/frontend/next.config.js` with service worker, cache strategies, and offline support
+- [X] T009 Create PWA manifest in `src/frontend/public/manifest.json` with app metadata, icons, and theme colors
+- [X] T010 Create app icons (192x192, 512x512) in `src/frontend/public/icons/` for PWA installation
+- [X] T011 Initialize Shadcn/ui in `src/frontend/` with `npx shadcn-ui@latest init`
+- [X] T012 Configure Tailwind CSS in `src/frontend/tailwind.config.js` with mobile-first breakpoints and custom theme
+
+### Frontend Directory Structure
+
+- [X] T013 Create feature slice directories: `src/frontend/src/features/{admin,trainer,exercise-library,workout-plans}/`
+- [X] T014 Create shared component directory: `src/frontend/src/components/`
+- [X] T015 Create lib directories: `src/frontend/src/lib/{api,stores,validation,utils}/`
+- [X] T016 Create TypeScript types directory: `src/frontend/src/lib/types/`
+
+### Backend Infrastructure
+
+- [X] T017 Create AdminUserSeeder in `tools/MigrationService/Initializers/ApplicationDbContextInitializer.cs`
+- [X] T018 Update MigrationService to call AdminUserSeeder after migrations
+- [X] T020 Run migration service locally to seed admin user (verify with Aspire dashboard)
+
+---
+
+## Phase 2: Shared Frontend Foundation
+
+**Goal**: Build reusable infrastructure used by all features
+
+### Core API Client
+
+- [X] T020 Create base API client with error handling in `src/frontend/src/lib/api/client.ts`
+- [X] T021 Create API error classes for FluentValidation and Domain errors in `src/frontend/src/lib/types/errors.ts`
+- [X] T022 Setup TanStack Query provider in `src/frontend/src/app/providers.tsx`
+- [X] T023 Create environment configuration for API URL in `src/frontend/.env.local` and `src/frontend/.env.production`
+
+### TypeScript Type Definitions
+
+- [X] T024 [P] Create User types (User, UserRole, CreateTrainerRequest, CreateClientRequest, UpdateUserRequest) in `src/frontend/src/lib/types/user.ts`
+- [X] T025 [P] Create Exercise types (Exercise, ExerciseType, MuscleGroup, CreateExerciseRequest, UpdateExerciseRequest) in `src/frontend/src/lib/types/exercise.ts`
+- [X] T026 [P] Create WorkoutPlan types (WorkoutPlan, PlannedExercise, Weight, Duration, CreateWorkoutPlanRequest, AddExerciseToPlanRequest) in `src/frontend/src/lib/types/workout-plan.ts`
+
+### Validation Schemas
+
+- [X] T027 [P] Create user validation schemas (createTrainerSchema, createClientSchema, updateUserSchema) in `src/frontend/src/lib/validation/user.ts`
+- [X] T028 [P] Create exercise validation schemas (createExerciseSchema, updateExerciseSchema) in `src/frontend/src/lib/validation/exercise.ts`
+- [X] T029 [P] Create workout plan validation schemas (createWorkoutPlanSchema, addExerciseToPlanSchema, reorderExercisesSchema) in `src/frontend/src/lib/validation/workout-plan.ts`
+
+### Zustand Stores
+
+- [X] T030 Create user selection store in `src/frontend/src/lib/stores/user-store.ts` with currentUser state and localStorage persistence
+
+### Shared UI Components (Shadcn/ui)
+
+- [X] T031 [P] Add Shadcn/ui Button component to `src/frontend/src/components/ui/button.tsx`
+- [X] T032 [P] Add Shadcn/ui Input component to `src/frontend/src/components/ui/input.tsx`
+- [X] T033 [P] Add Shadcn/ui Form components to `src/frontend/src/components/ui/form.tsx`
+- [X] T034 [P] Add Shadcn/ui Card component to `src/frontend/src/components/ui/card.tsx`
+- [X] T035 [P] Add Shadcn/ui Select component to `src/frontend/src/components/ui/select.tsx`
+- [X] T036 [P] Add Shadcn/ui Badge component to `src/frontend/src/components/ui/badge.tsx`
+- [X] T037 [P] Add Shadcn/ui Toast/Sonner component to `src/frontend/src/components/ui/sonner.tsx`
+- [X] T038 [P] Add Shadcn/ui Dialog component to `src/frontend/src/components/ui/dialog.tsx`
+- [X] T039 [P] Add Shadcn/ui Sheet component (mobile drawer) to `src/frontend/src/components/ui/sheet.tsx`
+- [X] T040 [P] Add Shadcn/ui Label component to `src/frontend/src/components/ui/label.tsx`
+
+### Custom Shared Components
+
+- [X] T041 Create ErrorBoundary component in `src/frontend/src/components/ErrorBoundary.tsx`
+- [X] T042 Create LoadingSpinner component in `src/frontend/src/components/LoadingSpinner.tsx`
+- [X] T043 Create UserSelector component (no-auth user selection) in `src/frontend/src/components/UserSelector.tsx`
+- [X] T044 Create Navigation component with role-based menu in `src/frontend/src/components/Navigation.tsx`
+
+### Utility Functions
+
+- [X] T045 [P] Create format-duration utility in `src/frontend/src/lib/utils/format-duration.ts`
+- [X] T046 [P] Create format-weight utility (kg/lbs conversion) in `src/frontend/src/lib/utils/format-weight.ts`
+- [X] T047 [P] Create cn utility for Tailwind class merging in `src/frontend/src/lib/utils/cn.ts`
+
+### Root App Layout
+
+- [X] T048 Create root layout with PWA metadata in `src/frontend/src/app/layout.tsx`
+- [X] T049 Create root page (user selection screen) in `src/frontend/src/app/page.tsx`
+- [X] T050 Add global styles with mobile-first CSS in `src/frontend/src/app/globals.css`
+
+---
+
+## Phase 3: User Story 1 - Admin Creates Trainers (P1)
+
+**Goal**: Enable admin user to create and manage trainers
+
+### Backend - Users Feature Slice [US1]
+
+- [X] T051 [US1] Create UsersFeature.cs group registration in `src/api/src/WebApi/Features/Users/UsersFeature.cs`
+- [X] T052 [US1] Create CreateTrainer endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateTrainer.cs`
+- [X] T053 [US1] Create CreateTrainerValidator in `src/api/src/WebApi/Features/Users/Validators/CreateTrainerValidator.cs`
+- [X] T054 [US1] Create ListTrainers endpoint in `src/api/src/WebApi/Features/Users/Endpoints/ListTrainers.cs`
+- [X] T055 [US1] Create GetUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/GetUser.cs`
+- [X] T056 [US1] Create UpdateUser endpoint in `src/api/src/WebApi/Features/Users/Endpoints/UpdateUser.cs`
+- [X] T057 [US1] Create UpdateUserValidator in `src/api/src/WebApi/Features/Users/Validators/UpdateUserValidator.cs`
+- [X] T058 [US1] Run EF Core migration to ensure User tables exist: `dotnet ef migrations add AddUsersFeature`
+- [X] T059 [US1] Test all Users endpoints with Aspire dashboard/Swagger (create trainer, list, get, update)
+
+### Frontend - Users API Service [US1]
+
+- [X] T060 [US1] Create users API service with all endpoint methods in `src/frontend/src/lib/api/users.ts`
+
+### Frontend - Admin Feature Slice [US1]
+
+- [X] T061 [US1] Create admin layout with navigation in `src/frontend/src/app/admin/layout.tsx`
+- [X] T062 [US1] Create admin dashboard page in `src/frontend/src/app/admin/page.tsx`
+- [X] T063 [US1] Create trainer list page in `src/frontend/src/app/admin/trainers/page.tsx`
+- [X] T064 [US1] Create new trainer page in `src/frontend/src/app/admin/trainers/new/page.tsx`
+- [X] T065 [US1] Create trainer detail page in `src/frontend/src/app/admin/trainers/[id]/page.tsx`
+
+### Frontend - Admin Components [US1]
+
+- [X] T066 [US1] Create AdminDashboard component in `src/frontend/src/features/admin/components/AdminDashboard.tsx`
+- [X] T067 [US1] Create TrainerList component in `src/frontend/src/features/admin/components/TrainerList.tsx`
+- [X] T068 [US1] Create TrainerForm component with validation in `src/frontend/src/features/admin/components/TrainerForm.tsx`
+
+### Frontend - Admin Hooks [US1]
+
+- [X] T069 [US1] [P] Create useTrainers hook with TanStack Query in `src/frontend/src/features/admin/hooks/useTrainers.ts`
+- [X] T070 [US1] [P] Create useCreateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useCreateTrainer.ts`
+- [X] T071 [US1] [P] Create useUpdateTrainer mutation hook in `src/frontend/src/features/admin/hooks/useUpdateTrainer.ts`
+- [X] T072 [US1] [P] Create useTrainer hook (get single) in `src/frontend/src/features/admin/hooks/useTrainer.ts`
+
+### Testing [US1]
+
+- [X] T073 [US1] Manually test User Story 1 acceptance scenarios (create trainer, invalid email, list trainers, update trainer)
+
+---
+
+## Phase 4: User Story 2 - Trainer Creates Clients (P1)
+
+**Goal**: Enable trainers to create and manage their clients
+
+### Backend - Users Feature Slice (Clients) [US2]
+
+- [X] T074 [US2] Create CreateClient endpoint in `src/api/src/WebApi/Features/Users/Endpoints/CreateClient.cs`
+- [X] T075 [US2] Create CreateClientValidator in `src/api/src/WebApi/Features/Users/Validators/CreateClientValidator.cs`
+- [X] T076 [US2] Create ListClients endpoint (filtered by trainerId) in `src/api/src/WebApi/Features/Users/Endpoints/ListClients.cs`
+- [X] T077 [US2] Test client endpoints with Aspire dashboard/Swagger (create client, list for trainer)
+
+### Frontend - Trainer Feature Slice [US2]
+
+- [X] T078 [US2] Create trainer layout with navigation in `src/frontend/src/app/trainer/layout.tsx`
+- [X] T079 [US2] Create trainer dashboard page in `src/frontend/src/app/trainer/page.tsx`
+- [X] T080 [US2] Create client list page in `src/frontend/src/app/trainer/clients/page.tsx`
+- [X] T081 [US2] Create new client page in `src/frontend/src/app/trainer/clients/new/page.tsx`
+- [X] T082 [US2] Create client detail page in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
+
+### Frontend - Trainer Components [US2]
+
+- [X] T083 [US2] Create TrainerDashboard component in `src/frontend/src/features/trainer/components/TrainerDashboard.tsx`
+- [X] T084 [US2] Create ClientList component in `src/frontend/src/features/trainer/components/ClientList.tsx`
+- [X] T085 [US2] Create ClientForm component with validation in `src/frontend/src/features/trainer/components/ClientForm.tsx`
+
+### Frontend - Trainer Hooks [US2]
+
+- [X] T086 [US2] [P] Create useClients hook with TanStack Query in `src/frontend/src/features/trainer/hooks/useClients.ts`
+- [X] T087 [US2] [P] Create useCreateClient mutation hook in `src/frontend/src/features/trainer/hooks/useCreateClient.ts`
+- [X] T088 [US2] [P] Create useUpdateClient mutation hook in `src/frontend/src/features/trainer/hooks/useUpdateClient.ts`
+- [X] T089 [US2] [P] Create useClient hook (get single) in `src/frontend/src/features/trainer/hooks/useClient.ts`
+
+### Testing [US2]
+
+- [X] T090 [US2] Manually test User Story 2 acceptance scenarios (create client, invalid email, list clients, update client, trainer assignment)
+
+---
+
+## Phase 5: User Story 3 - Trainer Manages Exercise Library (P2)
+
+**Goal**: Enable trainers to create and manage exercises
+
+### Backend - Exercises Feature Slice [US3]
+
+- [X] T091 [US3] Create ExercisesFeature.cs group registration in `src/api/src/WebApi/Features/Exercises/ExercisesFeature.cs`
+- [X] T092 [US3] Create CreateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/CreateExercise.cs`
+- [X] T093 [US3] Create CreateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/CreateExerciseValidator.cs`
+- [X] T094 [US3] Create ListExercises endpoint with muscle group/type filtering in `src/api/src/WebApi/Features/Exercises/Endpoints/ListExercises.cs`
+- [X] T095 [US3] Create GetExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/GetExercise.cs`
+- [X] T096 [US3] Create UpdateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/UpdateExercise.cs`
+- [X] T097 [US3] Create UpdateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/UpdateExerciseValidator.cs`
+- [X] T098 [US3] Run EF Core migration to ensure Exercise tables exist: `dotnet ef migrations add AddExercisesFeature`
+- [X] T099 [US3] Test all Exercises endpoints with Aspire dashboard/Swagger (create, list, filter, get, update)
+
+### Frontend - Exercises API Service [US3]
+
+- [X] T100 [US3] Create exercises API service with all endpoint methods in `src/frontend/src/lib/api/exercises.ts`
+
+### Frontend - Exercise Library Feature Slice [US3]
+
+- [X] T101 [US3] Create exercise list page in `src/frontend/src/app/trainer/exercises/page.tsx`
+- [X] T102 [US3] Create new exercise page in `src/frontend/src/app/trainer/exercises/new/page.tsx`
+- [X] T103 [US3] Create exercise detail page in `src/frontend/src/app/trainer/exercises/[id]/page.tsx`
+
+### Frontend - Exercise Library Components [US3]
+
+- [X] T104 [US3] Create ExerciseList component with filtering in `src/frontend/src/features/exercise-library/components/ExerciseList.tsx`
+- [X] T105 [US3] Create ExerciseForm component with type/muscle group selection in `src/frontend/src/features/exercise-library/components/ExerciseForm.tsx`
+- [X] T106 [US3] Create ExerciseFilter component (muscle group, type) in `src/frontend/src/features/exercise-library/components/ExerciseFilter.tsx`
+- [X] T107 [US3] Create MuscleGroupBadge component in `src/frontend/src/features/exercise-library/components/MuscleGroupBadge.tsx`
+
+### Frontend - Exercise Library Hooks [US3]
+
+- [X] T108 [US3] [P] Create useExercises hook with filtering support in `src/frontend/src/features/exercise-library/hooks/useExercises.ts`
+- [X] T109 [US3] [P] Create useCreateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useCreateExercise.ts`
+- [X] T110 [US3] [P] Create useUpdateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useUpdateExercise.ts`
+- [X] T111 [US3] [P] Create useExercise hook (get single) in `src/frontend/src/features/exercise-library/hooks/useExercise.ts`
+
+### Testing [US3]
+
+- [X] T112 [US3] Manually test User Story 3 acceptance scenarios (create reps/weight exercise, create time-based exercise, list, filter, update)
+
+---
+
+## Phase 6: User Story 4 - Trainer Creates Workout Plans (P2)
+
+**Goal**: Enable trainers to create and manage workout plans with exercises
+
+### Backend - WorkoutPlans Feature Slice [US4]
+
+- [X] T113 [US4] Create WorkoutPlansFeature.cs group registration in `src/api/src/WebApi/Features/WorkoutPlans/WorkoutPlansFeature.cs`
+- [X] T114 [US4] Create CreateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/CreateWorkoutPlan.cs`
+- [X] T115 [US4] Create CreateWorkoutPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/CreateWorkoutPlanValidator.cs`
+- [X] T116 [US4] Create ListWorkoutPlans endpoint (filtered by trainerId) in `src/api/src/WorkoutPlans/Endpoints/ListWorkoutPlans.cs`
+- [X] T117 [US4] Create GetWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/GetWorkoutPlan.cs`
+- [X] T118 [US4] Create UpdateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UpdateWorkoutPlan.cs`
+- [X] T119 [US4] Create AddExerciseToPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AddExerciseToPlan.cs`
+- [X] T120 [US4] Create AddExerciseToPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/AddExerciseToPlanValidator.cs`
+- [X] T121 [US4] Create RemoveExerciseFromPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/RemoveExerciseFromPlan.cs`
+- [X] T122 [US4] Create ReorderExercises endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/ReorderExercises.cs`
+- [X] T123 [US4] Create ReorderExercisesValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/ReorderExercisesValidator.cs`
+- [X] T124 [US4] Run EF Core migration to ensure WorkoutPlan/PlannedExercise tables exist: `dotnet ef migrations add AddWorkoutPlansFeature`
+- [X] T125 [US4] Test all WorkoutPlans endpoints with Aspire dashboard/Swagger (create plan, add exercises, reorder, remove)
+
+### Frontend - Workout Plans API Service [US4]
+
+- [X] T126 [US4] Create workout-plans API service with all endpoint methods in `src/frontend/src/lib/api/workout-plans.ts`
+
+### Frontend - Workout Plans Feature Slice [US4]
+
+- [X] T127 [US4] Create workout plan list page in `src/frontend/src/app/trainer/workout-plans/page.tsx`
+- [X] T128 [US4] Create new workout plan page in `src/frontend/src/app/trainer/workout-plans/new/page.tsx`
+- [X] T129 [US4] Create workout plan detail/edit page in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
+
+### Frontend - Workout Plans Components [US4]
+
+- [X] T130 [US4] Create WorkoutPlanList component in `src/frontend/src/features/workout-plans/components/WorkoutPlanList.tsx`
+- [X] T131 [US4] Create WorkoutPlanForm component in `src/frontend/src/features/workout-plans/components/WorkoutPlanForm.tsx`
+- [X] T132 [US4] Create PlanExerciseList component with drag-and-drop reordering using @dnd-kit/sortable in `src/frontend/src/features/workout-plans/components/PlanExerciseList.tsx`
+- [X] T133 [US4] Create AddExerciseModal component with exercise selection in `src/frontend/src/features/workout-plans/components/AddExerciseModal.tsx`
+
+### Frontend - Workout Plans Hooks [US4]
+
+- [X] T134 [US4] [P] Create useWorkoutPlans hook in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlans.ts`
+- [X] T135 [US4] [P] Create useWorkoutPlan hook (get single) in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlan.ts`
+- [X] T136 [US4] [P] Create useCreateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useCreateWorkoutPlan.ts`
+- [X] T137 [US4] [P] Create useUpdateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUpdateWorkoutPlan.ts`
+- [X] T138 [US4] [P] Create useAddExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useAddExercise.ts`
+- [X] T139 [US4] [P] Create useRemoveExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useRemoveExercise.ts`
+- [X] T140 [US4] [P] Create useReorderExercises mutation hook in `src/frontend/src/features/workout-plans/hooks/useReorderExercises.ts`
+
+### Testing [US4]
+
+- [X] T141 [US4] Manually test User Story 4 acceptance scenarios (create plan, add reps/weight exercise, add time-based exercise, reorder, remove, view)
+
+---
+
+## Phase 7: User Story 5 - Trainer Assigns Plans to Clients (P2)
+
+**Goal**: Enable trainers to assign/unassign workout plans to clients
+
+### Backend - WorkoutPlans Feature Slice (Assignment) [US5]
+
+- [X] T142 [US5] Create AssignPlanToClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AssignPlanToClient.cs`
+- [X] T143 [US5] Create UnassignPlanFromClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UnassignPlanFromClient.cs`
+- [X] T144 [US5] Test assignment endpoints with Aspire dashboard/Swagger (assign, unassign, verify client workout plans)
+
+### Frontend - Workout Plans Components (Assignment) [US5]
+
+- [X] T145 [US5] Create ClientAssignmentList component in `src/frontend/src/features/workout-plans/components/ClientAssignmentList.tsx`
+- [X] T146 [US5] Update workout plan detail page to show assigned clients in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
+- [X] T147 [US5] Update client detail page to show assigned plans in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
+
+### Frontend - Workout Plans Hooks (Assignment) [US5]
+
+- [X] T148 [US5] [P] Create useAssignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useAssignPlan.ts`
+- [X] T149 [US5] [P] Create useUnassignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUnassignPlan.ts`
+
+### Testing [US5]
+
+- [X] T150 [US5] Manually test User Story 5 acceptance scenarios (assign plan to client, view assigned plans, unassign plan)
+
+---
+
+## Phase 8: Polish & Cross-Cutting Concerns
+
+**Goal**: Add final touches, error handling, loading states, and mobile optimization
+
+### Error Handling & User Feedback
+
+- [X] T151 Add toast notifications for all mutation success/error states across all features
+- [X] T152 Add error boundaries to all main pages (admin, trainer, client pages)
+- [X] T153 Add loading spinners to all data-fetching pages
+- [ ] T154 Implement optimistic updates for mutations where appropriate (e.g., adding exercises to plan)
+- [ ] T155 Test FluentValidation error display in all forms
+- [ ] T156 Test Domain error display for all error scenarios
+- [ ] T157 Test generic error fallback for unexpected errors
+
+### Mobile Responsiveness
+
+- [X] T158 Test all pages on 320px width (minimum requirement)
+- [X] T159 Verify all touch targets are minimum 44x44px
+- [X] T160 Test navigation on mobile devices (bottom nav vs sidebar)
+- [X] T161 Test form inputs on mobile devices (appropriate keyboards, validation)
+- [X] T162 Test drag-and-drop exercise reordering on touch devices
+
+### PWA Functionality
+
+- [X] T163 Test service worker registration and caching
+- [X] T164 Test offline mode (view cached data)
+- [X] T165 Test "Add to Home Screen" functionality on iOS and Android
+- [X] T166 Run Lighthouse PWA audit (target 90+ score)
+- [X] T167 Verify PWA manifest icons display correctly
+- [X] T168 Test performance on 3G network (target <3s initial load)
+
+### Performance Optimization
+
+- [X] T169 Audit bundle size (target <200KB gzipped initial bundle)
+- [X] T170 Implement code splitting for feature pages
+- [X] T171 Optimize images and icons
+- [X] T172 Test Time to Interactive on mobile (target <3s on 3G)
+- [X] T173 Run Lighthouse Performance audit (target 90+ score)
+
+### Validation & Integration Testing
+
+- [X] T174 Test full user journey: Admin creates trainer → Trainer creates client → Trainer creates exercises → Trainer creates workout plan → Trainer assigns plan to client
+- [X] T175 Verify all 22 functional requirements from spec.md are implemented
+- [X] T176 Verify all 10 success criteria from spec.md are met
+- [X] T177 Follow quickstart.md validation steps
+- [X] T178 Test edge cases from spec.md (duplicate email, concurrent edits, etc.)
+
+### Documentation
+
+- [X] T179 Add inline code comments for complex logic
+- [X] T180 Update README.md with setup instructions (if needed)
+- [X] T181 Document known limitations (offline editing, no auth, etc.)
+
+---
+
+## Task Summary
+
+**Total Tasks**: 181
+
+**By Phase**:
+- Phase 1 (Setup): 19 tasks
+- Phase 2 (Foundation): 31 tasks
+- Phase 3 (US1 - Admin/Trainers): 23 tasks
+- Phase 4 (US2 - Clients): 17 tasks
+- Phase 5 (US3 - Exercises): 22 tasks
+- Phase 6 (US4 - Workout Plans): 29 tasks
+- Phase 7 (US5 - Assignments): 9 tasks
+- Phase 8 (Polish): 31 tasks
+
+**By User Story**:
+- US1 (Admin Creates Trainers): 23 tasks
+- US2 (Trainer Creates Clients): 17 tasks
+- US3 (Trainer Manages Exercise Library): 22 tasks
+- US4 (Trainer Creates Workout Plans): 29 tasks
+- US5 (Trainer Assigns Plans to Clients): 9 tasks
+- Infrastructure/Shared: 81 tasks
+
+**Priority Distribution**:
+- P1 (US1 + US2): 40 tasks ⭐ **MVP Critical**
+- P2 (US3 + US4 + US5): 60 tasks
+- Infrastructure/Polish: 81 tasks
+
+---
+
+## Implementation Notes
+
+### Parallelization Strategy
+
+Tasks marked `[P]` can be executed in parallel with adjacent `[P]` tasks within the same section. For example, T001-T007 can all run concurrently during dependency installation.
+
+### Testing Strategy
+
+Per Constitution Principle III, tests are created **on demand**. Manual testing is included after each user story implementation. If automated tests are requested, they should be added as new tasks.
+
+### Dependencies
+
+- **Backend tasks** must complete before frontend pages that consume those APIs
+- **Shared foundation tasks** (Phase 2) must complete before feature-specific tasks (Phases 3-7)
+- **Infrastructure tasks** (Phase 1) must complete before all other phases
+
+### Estimated Effort
+
+- **Phase 1-2 (Setup + Foundation)**: 2-3 days
+- **Phase 3-4 (P1 User Stories)**: 3-4 days ⭐ **MVP Delivery**
+- **Phase 5-7 (P2 User Stories)**: 4-5 days
+- **Phase 8 (Polish)**: 2-3 days
+- **Total**: ~12-15 days for one developer
+
+### Success Milestones
+
+1. ✅ **Milestone 1**: Admin can create trainers (End of Phase 3)
+2. ✅ **Milestone 2**: Trainer can create clients (End of Phase 4) - **MVP Complete**
+3. ✅ **Milestone 3**: Trainer can manage exercise library (End of Phase 5)
+4. ✅ **Milestone 4**: Trainer can create workout plans (End of Phase 6)
+5. ✅ **Milestone 5**: Trainer can assign plans to clients (End of Phase 7)
+6. ✅ **Milestone 6**: Production-ready PWA (End of Phase 8)
+
+---
+
+**Status**: ✅ Ready for implementation
+
+**Next Steps**: Begin Phase 1 tasks starting with T001

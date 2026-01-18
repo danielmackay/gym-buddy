@@ -20,6 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\src\WebApi\WebApi.csproj" />
-    <ProjectReference Include="..\..\tools\MigrationService\MigrationService.csproj" />
+    <ProjectReference Include="..\..\..\..\tools\MigrationService\MigrationService.csproj" />
   </ItemGroup>
 </Project>

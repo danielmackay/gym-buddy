@@ -93,6 +93,11 @@ public class User : AggregateRoot<UserId>
         return new Success();
     }
 
+    public bool CanBeAssignedAsTrainer()
+    {
+        return _roles.Contains(UserRole.Trainer);
+    }
+
     public void UnassignTrainer()
     {
         TrainerId = null;

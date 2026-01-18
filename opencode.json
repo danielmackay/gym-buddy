@@ -1,0 +1,12 @@
+{
+  // "mcp": {
+  //   "aspire": {
+  //     "type": "remote",
+  //     "url": "https://localhost:17161/mcp",
+  //     "headers": {
+  //       "x-mcp-api-key": "0be963424b0eac904a0ef93bd032d8ed"
+  //     }
+  //   }
+  // },
+  "$schema": "https://opencode.ai/config.json"
+}

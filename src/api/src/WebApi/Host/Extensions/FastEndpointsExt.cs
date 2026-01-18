@@ -8,6 +8,7 @@ public static class FastEndpointsExt
     {
         app.UseFastEndpoints(config =>
         {
+            // config.Endpoints.AllowEmptyRequestDtos = true;
             config.Endpoints.RoutePrefix = "api";
             config.Endpoints.Configurator = ep =>
             {

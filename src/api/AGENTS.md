@@ -154,30 +154,61 @@ dotnet new ssw-vsa-slice --feature Person --feature-plural People
    dotnet ef migrations add PersonTable --project src/WebApi/WebApi.csproj --startup-project src/WebApi/WebApi.csproj --output-dir Common/Database/Migrations
    ```
 3. **Entity Configuration**: Create `{Entity}Configuration.cs` in `Common/Persistence/` implementing `IEntityTypeConfiguration<T>`
+4. **Write Unit Tests**: Create unit tests for all domain entities and value objects in `tests/Domain.UnitTests/` or `tests/WebApi.UnitTests/`
+5. **Write Integration Tests**: Create integration tests for all endpoints in `tests/WebApi.IntegrationTests/Endpoints/{FeatureName}/`
 
 ## Testing Strategy
 
-### Unit Tests (`tests/WebApi.UnitTests/`)
-- Test domain logic, value objects, and entity invariants
+**MANDATORY TEST COVERAGE**: All domain code MUST have unit tests. All endpoints MUST have integration tests.
+
+### Unit Tests (`tests/Domain.UnitTests/` and `tests/WebApi.UnitTests/`)
+- **REQUIRED**: ALL domain entities, value objects, and business logic MUST be unit tested
+- Test entity creation, validation, invariants, and domain rules
+- Test value object behavior, equality, and factory methods
 - No EF Core mocking needed - pure domain tests
-- Example: `Features/Heroes/HeroTests.cs` validates `Hero.Create()` and `UpdatePowers()`
+- Examples:
+  - `tests/Domain.UnitTests/Common/DurationTests.cs` - Value object unit tests
+  - `tests/Domain.UnitTests/Common/WeightTests.cs` - Value object unit tests
+  - `tests/WebApi.UnitTests/Features/Heroes/HeroTests.cs` - Entity unit tests
 
 ### Integration Tests (`tests/WebApi.IntegrationTests/`)
+- **REQUIRED**: ALL FastEndpoints MUST have integration tests
 - Inherit from `IntegrationTestBase` for `TestingDatabaseFixture`
 - Uses **TestContainers** (SQL Server) + **Respawn** for database cleanup between tests
 - Use `GetAnonymousClient()` for HTTP client, `GetQueryable<T>()` for EF queries
 - Tests run against real database - fast due to Respawn
-- Example: `Endpoints/Heroes/Commands/CreateHeroCommandTests.cs`
+- Test HTTP request/response, status codes, validation, and database state changes
+- Examples:
+  - `tests/WebApi.IntegrationTests/Endpoints/Teams/Commands/CreateTeamCommandTests.cs`
+  - `tests/WebApi.IntegrationTests/Endpoints/Heroes/Commands/CreateHeroCommandTests.cs`
+  - `tests/WebApi.IntegrationTests/Persistence/UserPersistenceTests.cs`
 
 ### Architecture Tests (`tests/WebApi.ArchitectureTests/`)
 - Enforces naming: handlers must be named `Handler`
 - Validates layer dependencies and namespace conventions
 - Run with `dotnet test` - failures indicate architectural violations
 
+### Test Quality Standards
+- All tests MUST pass before committing
+- Tests MUST be reliable (no flakiness)
+- Tests MUST be comprehensive (cover happy path and error cases)
+- Follow existing test patterns and naming conventions
+
 ## Development Workflows
 
 ### Running the Application
+
+**Recommended**: Run entire stack (backend + frontend) from repository root:
 ```bash
+aspire run
+```
+
+Or run backend only:
+```bash
+# From repository root
+aspire run --project tools/AppHost
+
+# Or navigate to AppHost directory
 cd tools/AppHost/
 dotnet run
 ```

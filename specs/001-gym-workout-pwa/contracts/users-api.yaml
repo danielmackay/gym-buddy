@@ -1,0 +1,359 @@
+openapi: 3.0.3
+info:
+  title: Gym Buddy - Users API
+  description: User management endpoints for creating and managing trainers and clients
+  version: 1.0.0
+  contact:
+    name: Gym Buddy API
+    
+servers:
+  - url: https://localhost:7255/api
+    description: Local development
+  - url: https://api.gymbuddy.com/api
+    description: Production
+
+tags:
+  - name: Users
+    description: User management operations
+
+paths:
+  /users/trainers:
+    get:
+      tags:
+        - Users
+      summary: List all trainers
+      description: Retrieve a list of all users with the Trainer role
+      operationId: listTrainers
+      responses:
+        '200':
+          description: List of trainers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    post:
+      tags:
+        - Users
+      summary: Create a new trainer
+      description: Create a new user with the Trainer role
+      operationId: createTrainer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTrainerRequest'
+      responses:
+        '201':
+          description: Trainer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /users/clients:
+    get:
+      tags:
+        - Users
+      summary: List clients for current trainer
+      description: Retrieve a list of all clients assigned to the authenticated trainer
+      operationId: listClients
+      parameters:
+        - name: trainerId
+          in: query
+          description: Trainer ID to filter clients (future from auth context)
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: List of clients retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    post:
+      tags:
+        - Users
+      summary: Create a new client
+      description: Create a new user with the Client role and automatically assign to the trainer
+      operationId: createClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateClientRequest'
+      responses:
+        '201':
+          description: Client created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user by ID
+      description: Retrieve a single user by their unique identifier
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Update an existing user's name and email
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - roles
+        - assignedWorkoutPlanIds
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        name:
+          type: string
+          maxLength: 100
+          description: User's name
+        email:
+          type: string
+          format: email
+          maxLength: 256
+          description: User's email address
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserRole'
+          description: User's roles
+        trainerId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Trainer ID (only for clients)
+        assignedWorkoutPlanIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Workout plans assigned to this client
+
+    CreateTrainerRequest:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Trainer's name
+        email:
+          type: string
+          format: email
+          maxLength: 256
+          description: Trainer's email address
+
+    CreateClientRequest:
+      type: object
+      required:
+        - name
+        - email
+        - trainerId
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Client's name
+        email:
+          type: string
+          format: email
+          maxLength: 256
+          description: Client's email address
+        trainerId:
+          type: string
+          format: uuid
+          description: Trainer ID to assign this client to
+
+    UpdateUserRequest:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: User's name
+        email:
+          type: string
+          format: email
+          maxLength: 256
+          description: User's email address
+
+    CreateUserResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Newly created user ID
+
+    UserRole:
+      type: integer
+      enum:
+        - 1
+        - 2
+        - 3
+      description: User role enumeration 1=Admin, 2=Trainer, 3=Client
+
+    ValidationErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Field-level validation errors from FluentValidation
+
+    DomainErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainError'
+
+    DomainError:
+      type: object
+      required:
+        - code
+        - description
+        - type
+      properties:
+        code:
+          type: string
+          description: Error code (e.g., "User.AlreadyHasRole")
+        description:
+          type: string
+          description: Human-readable error message
+        type:
+          type: string
+          enum:
+            - Validation
+            - NotFound
+            - Conflict
+            - Failure
+          description: Error type
+
+  responses:
+    ValidationError:
+      description: Validation error from FluentValidation or domain
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/ValidationErrorResponse'
+              - $ref: '#/components/schemas/DomainErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DomainErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: An unexpected error occurred

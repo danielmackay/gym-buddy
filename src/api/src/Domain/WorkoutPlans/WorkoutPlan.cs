@@ -117,6 +117,10 @@ public class WorkoutPlan : AggregateRoot<WorkoutPlanId>
     {
         var orderList = newOrder.ToList();
 
+        // Validate count matches to prevent accidental deletion
+        if (orderList.Count != _exercises.Count)
+            return WorkoutPlanErrors.InvalidExerciseCount;
+
         // Validate all exercises exist
         foreach (var exerciseId in orderList)
         {
