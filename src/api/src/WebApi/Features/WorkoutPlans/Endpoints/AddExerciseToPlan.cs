@@ -12,7 +12,7 @@ public record AddExerciseToPlanRequest(
     WeightRequest? Weight = null,
     DurationRequest? Duration = null);
 
-public record WeightRequest(decimal Value, int Unit = 1); // WeightUnit enum, defaults to Kilograms
+public record WeightRequest(decimal Value, WeightUnit Unit = WeightUnit.Kilograms);
 public record DurationRequest(int Seconds);
 
 public class AddExerciseToPlanEndpoint(ApplicationDbContext dbContext)
@@ -55,7 +55,7 @@ public class AddExerciseToPlanEndpoint(ApplicationDbContext dbContext)
 
         // Convert request DTOs to domain value objects
         Weight? weight = req.Weight != null 
-            ? new Weight(req.Weight.Value, (WeightUnit)req.Weight.Unit) 
+            ? new Weight(req.Weight.Value, req.Weight.Unit) 
             : null;
 
         Duration? duration = req.Duration != null 
@@ -137,6 +137,6 @@ public class AddExerciseToPlanSummary : Summary<AddExerciseToPlanEndpoint>
             ExerciseId: Guid.Parse("00000000-0000-0000-0000-000000000001"),
             Sets: 3,
             Reps: 10,
-            Weight: new WeightRequest(20, 1));  // 20kg
+            Weight: new WeightRequest(20, WeightUnit.Kilograms));  // 20kg
     }
 }

@@ -3,9 +3,12 @@ import { WeightUnit } from "@/lib/types/workout-plan";
 
 // Weight validation (matches backend: value + unit)
 const weightSchema = z.object({
-  value: z.number().positive("Weight must be positive"),
+  value: z.number().nonnegative("Weight cannot be negative"),
   unit: z.nativeEnum(WeightUnit),
-});
+}).refine(
+  (data) => data.unit === WeightUnit.Kilograms || data.unit === WeightUnit.Pounds,
+  { message: "Weight unit must be valid (1 = Kilograms, 2 = Pounds)", path: ["unit"] }
+);
 
 // Duration validation
 const durationSchema = z.object({

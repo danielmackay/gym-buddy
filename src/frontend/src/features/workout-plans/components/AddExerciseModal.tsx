@@ -57,7 +57,10 @@ export function AddExerciseModal({
       sets: 3,
       weight: {
         value: 0,
-        unit: WeightUnit.Kilograms,
+        unit: WeightUnit.Kilograms, // Default to Kilograms (1)
+      },
+      duration: {
+        seconds: 60,
       },
     },
   });
@@ -85,7 +88,11 @@ export function AddExerciseModal({
       if (isRepsAndWeight) {
         payload.reps = data.reps;
         if (data.weight && data.weight.value > 0) {
-          payload.weight = data.weight;
+          // Ensure unit is a valid number (1 or 2)
+          payload.weight = {
+            value: data.weight.value,
+            unit: data.weight.unit ?? WeightUnit.Kilograms,
+          };
         }
       }
 
@@ -199,7 +206,7 @@ export function AddExerciseModal({
                     className="flex-1"
                   />
                   <Select
-                    value={watch("weight.unit")?.toString()}
+                    value={watch("weight.unit")?.toString() ?? WeightUnit.Kilograms.toString()}
                     onValueChange={(value) =>
                       setValue("weight.unit", parseInt(value) as WeightUnit)
                     }
