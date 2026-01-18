@@ -11,6 +11,7 @@ import { ClientAssignmentList } from "@/features/workout-plans/components/Client
 import { useWorkoutPlan } from "@/features/workout-plans/hooks/useWorkoutPlan";
 import { useUpdateWorkoutPlan } from "@/features/workout-plans/hooks/useUpdateWorkoutPlan";
 import { useClients } from "@/features/trainer/hooks/useClients";
+import { useUserStore } from "@/lib/stores/user-store";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import type { CreateWorkoutPlanRequest } from "@/lib/types/workout-plan";
 import {
@@ -29,8 +30,10 @@ export default function WorkoutPlanDetailPage({
 }) {
   const resolvedParams = use(params);
   const router = useRouter();
+  const { currentUser } = useUserStore();
+  const trainerId = currentUser?.id;
   const { data: workoutPlan, isLoading } = useWorkoutPlan(resolvedParams.id);
-  const { data: clients = [] } = useClients();
+  const { data: clients = [] } = useClients(trainerId || "");
   const updateWorkoutPlan = useUpdateWorkoutPlan();
   const [isAddExerciseModalOpen, setIsAddExerciseModalOpen] = useState(false);
 

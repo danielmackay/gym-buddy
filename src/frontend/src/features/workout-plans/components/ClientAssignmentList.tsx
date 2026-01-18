@@ -21,6 +21,7 @@ import { UserPlus, X } from "lucide-react";
 import { useClients } from "@/features/trainer/hooks/useClients";
 import { useAssignPlan } from "../hooks/useAssignPlan";
 import { useUnassignPlan } from "../hooks/useUnassignPlan";
+import { useUserStore } from "@/lib/stores/user-store";
 import { toast } from "sonner";
 
 interface ClientAssignmentListProps {
@@ -38,7 +39,9 @@ export function ClientAssignmentList({
 }: ClientAssignmentListProps) {
   const [selectedClientId, setSelectedClientId] = useState<string>("");
 
-  const { data: clients = [], isLoading } = useClients();
+  const { currentUser } = useUserStore();
+  const trainerId = currentUser?.id;
+  const { data: clients = [], isLoading } = useClients(trainerId || "");
   const assignMutation = useAssignPlan();
   const unassignMutation = useUnassignPlan();
 
@@ -78,6 +81,27 @@ export function ClientAssignmentList({
       toast.error("Failed to unassign client");
     }
   };
+
+  if (!currentUser || !trainerId) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Assigned Clients</CardTitle>
+          <CardDescription>
+            Manage which clients have access to this workout plan
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="rounded-md bg-yellow-50 p-4 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+            <p className="font-semibold">No trainer selected</p>
+            <p className="text-sm">
+              Please select a trainer from the user selection page.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (isLoading) {
     return <div>Loading clients...</div>;
