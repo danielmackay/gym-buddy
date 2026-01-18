@@ -18,7 +18,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
@@ -28,6 +41,7 @@ import { addExerciseToPlanSchema } from "@/lib/validation/workout-plan";
 import { ExerciseType } from "@/lib/types/exercise";
 import { WeightUnit } from "@/lib/types/workout-plan";
 import type { AddExerciseToPlanFormData } from "@/lib/validation/workout-plan";
+import { cn } from "@/lib/utils";
 
 interface AddExerciseModalProps {
   workoutPlanId: string;
@@ -43,6 +57,7 @@ export function AddExerciseModal({
   const { data: exercises, isLoading: isLoadingExercises } = useExercises();
   const addExercise = useAddExercise();
   const [selectedExerciseId, setSelectedExerciseId] = useState<string>("");
+  const [open, setOpen] = useState(false);
 
   const {
     register,
@@ -131,28 +146,77 @@ export function AddExerciseModal({
                 <LoadingSpinner text="Loading exercises..." />
               </div>
             ) : (
-              <Select
-                value={selectedExerciseId}
-                onValueChange={(value) => {
-                  setSelectedExerciseId(value);
-                  setValue("exerciseId", value);
-                }}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select an exercise" />
-                </SelectTrigger>
-                <SelectContent>
-                  {exercises?.map((exercise) => (
-                    <SelectItem key={exercise.id} value={exercise.id}>
-                      {exercise.name} (
-                      {exercise.type === ExerciseType.RepsAndWeight
-                        ? "Reps & Weight"
-                        : "Time-Based"}
-                      )
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between"
+                  >
+                    {selectedExerciseId
+                      ? exercises?.find((ex) => ex.id === selectedExerciseId)?.name
+                      : "Select an exercise"}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search exercises..." />
+                    <CommandEmpty>No exercise found.</CommandEmpty>
+                    <CommandGroup heading="Reps & Weight">
+                      {exercises
+                        ?.filter((ex) => ex.type === ExerciseType.RepsAndWeight)
+                        .map((exercise) => (
+                          <CommandItem
+                            key={exercise.id}
+                            value={exercise.name}
+                            onSelect={() => {
+                              setSelectedExerciseId(exercise.id);
+                              setValue("exerciseId", exercise.id);
+                              setOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                selectedExerciseId === exercise.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {exercise.name}
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                    <CommandGroup heading="Time-Based">
+                      {exercises
+                        ?.filter((ex) => ex.type === ExerciseType.TimeBased)
+                        .map((exercise) => (
+                          <CommandItem
+                            key={exercise.id}
+                            value={exercise.name}
+                            onSelect={() => {
+                              setSelectedExerciseId(exercise.id);
+                              setValue("exerciseId", exercise.id);
+                              setOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                selectedExerciseId === exercise.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {exercise.name}
+                          </CommandItem>
+                        ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             )}
             {errors.exerciseId && (
               <p className="text-sm text-destructive">
