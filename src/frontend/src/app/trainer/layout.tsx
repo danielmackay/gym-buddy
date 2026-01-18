@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "@/components/Navigation";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useUserStore } from "@/lib/stores/user-store";
 import { UserRole } from "@/lib/types/user";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
@@ -41,11 +42,13 @@ export default function TrainerLayout({
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      <main className="container mx-auto px-4 py-8">
-        {children}
-      </main>
-    </div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="container mx-auto px-4 py-8">
+          {children}
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 }

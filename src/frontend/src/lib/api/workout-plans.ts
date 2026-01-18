@@ -68,19 +68,19 @@ export const workoutPlansApi = {
 
   /**
    * Assign a workout plan to a client
-   * TODO: Implement when backend endpoint is created in Phase 7
    */
   assignPlanToClient: (workoutPlanId: string, clientId: string) =>
-    apiClient.request<void>(`/workout-plans/${workoutPlanId}/clients/${clientId}`, {
+    apiClient.request<void>("/workout-plans/assign", {
       method: "POST",
+      body: JSON.stringify({ workoutPlanId, clientId }),
     }),
 
   /**
    * Unassign a workout plan from a client
-   * TODO: Implement when backend endpoint is created in Phase 7
    */
   unassignPlanFromClient: (workoutPlanId: string, clientId: string) =>
-    apiClient.request<void>(`/workout-plans/${workoutPlanId}/clients/${clientId}`, {
-      method: "DELETE",
+    apiClient.request<void>("/workout-plans/unassign", {
+      method: "POST",
+      body: JSON.stringify({ workoutPlanId, clientId }),
     }),
 };

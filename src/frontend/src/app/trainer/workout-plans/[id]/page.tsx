@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/button";
 import { WorkoutPlanForm } from "@/features/workout-plans/components/WorkoutPlanForm";
 import { PlanExerciseList } from "@/features/workout-plans/components/PlanExerciseList";
 import { AddExerciseModal } from "@/features/workout-plans/components/AddExerciseModal";
+import { ClientAssignmentList } from "@/features/workout-plans/components/ClientAssignmentList";
 import { useWorkoutPlan } from "@/features/workout-plans/hooks/useWorkoutPlan";
 import { useUpdateWorkoutPlan } from "@/features/workout-plans/hooks/useUpdateWorkoutPlan";
+import { useClients } from "@/features/trainer/hooks/useClients";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import type { CreateWorkoutPlanRequest } from "@/lib/types/workout-plan";
 import {
@@ -28,8 +30,14 @@ export default function WorkoutPlanDetailPage({
   const resolvedParams = use(params);
   const router = useRouter();
   const { data: workoutPlan, isLoading } = useWorkoutPlan(resolvedParams.id);
+  const { data: clients = [] } = useClients();
   const updateWorkoutPlan = useUpdateWorkoutPlan();
   const [isAddExerciseModalOpen, setIsAddExerciseModalOpen] = useState(false);
+
+  // Find clients that have this workout plan assigned
+  const assignedClientIds = clients
+    .filter((client) => client.assignedWorkoutPlanIds.includes(resolvedParams.id))
+    .map((client) => client.id);
 
   const handleUpdatePlan = async (data: CreateWorkoutPlanRequest) => {
     await updateWorkoutPlan.mutateAsync({
@@ -101,6 +109,14 @@ export default function WorkoutPlanDetailPage({
           />
         </CardContent>
       </Card>
+
+      <Separator />
+
+      {/* Assigned Clients */}
+      <ClientAssignmentList
+        workoutPlanId={resolvedParams.id}
+        assignedClientIds={assignedClientIds}
+      />
 
       <Separator />
 

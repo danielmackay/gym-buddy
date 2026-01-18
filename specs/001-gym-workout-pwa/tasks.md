@@ -295,7 +295,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Testing [US4]
 
-- [ ] T141 [US4] Manually test User Story 4 acceptance scenarios (create plan, add reps/weight exercise, add time-based exercise, reorder, remove, view)
+- [X] T141 [US4] Manually test User Story 4 acceptance scenarios (create plan, add reps/weight exercise, add time-based exercise, reorder, remove, view)
 
 ---
 
@@ -305,24 +305,24 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend - WorkoutPlans Feature Slice (Assignment) [US5]
 
-- [ ] T142 [US5] Create AssignPlanToClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AssignPlanToClient.cs`
-- [ ] T143 [US5] Create UnassignPlanFromClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UnassignPlanFromClient.cs`
-- [ ] T144 [US5] Test assignment endpoints with Aspire dashboard/Swagger (assign, unassign, verify client workout plans)
+- [X] T142 [US5] Create AssignPlanToClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AssignPlanToClient.cs`
+- [X] T143 [US5] Create UnassignPlanFromClient endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UnassignPlanFromClient.cs`
+- [X] T144 [US5] Test assignment endpoints with Aspire dashboard/Swagger (assign, unassign, verify client workout plans)
 
 ### Frontend - Workout Plans Components (Assignment) [US5]
 
-- [ ] T145 [US5] Create ClientAssignmentList component in `src/frontend/src/features/workout-plans/components/ClientAssignmentList.tsx`
-- [ ] T146 [US5] Update workout plan detail page to show assigned clients in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
-- [ ] T147 [US5] Update client detail page to show assigned plans in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
+- [X] T145 [US5] Create ClientAssignmentList component in `src/frontend/src/features/workout-plans/components/ClientAssignmentList.tsx`
+- [X] T146 [US5] Update workout plan detail page to show assigned clients in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
+- [X] T147 [US5] Update client detail page to show assigned plans in `src/frontend/src/app/trainer/clients/[id]/page.tsx`
 
 ### Frontend - Workout Plans Hooks (Assignment) [US5]
 
-- [ ] T148 [US5] [P] Create useAssignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useAssignPlan.ts`
-- [ ] T149 [US5] [P] Create useUnassignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUnassignPlan.ts`
+- [X] T148 [US5] [P] Create useAssignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useAssignPlan.ts`
+- [X] T149 [US5] [P] Create useUnassignPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUnassignPlan.ts`
 
 ### Testing [US5]
 
-- [ ] T150 [US5] Manually test User Story 5 acceptance scenarios (assign plan to client, view assigned plans, unassign plan)
+- [X] T150 [US5] Manually test User Story 5 acceptance scenarios (assign plan to client, view assigned plans, unassign plan)
 
 ---
 
@@ -332,9 +332,9 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Error Handling & User Feedback
 
-- [ ] T151 Add toast notifications for all mutation success/error states across all features
-- [ ] T152 Add error boundaries to all main pages (admin, trainer, client pages)
-- [ ] T153 Add loading spinners to all data-fetching pages
+- [X] T151 Add toast notifications for all mutation success/error states across all features
+- [X] T152 Add error boundaries to all main pages (admin, trainer, client pages)
+- [X] T153 Add loading spinners to all data-fetching pages
 - [ ] T154 Implement optimistic updates for mutations where appropriate (e.g., adding exercises to plan)
 - [ ] T155 Test FluentValidation error display in all forms
 - [ ] T156 Test Domain error display for all error scenarios
@@ -342,42 +342,42 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Mobile Responsiveness
 
-- [ ] T158 Test all pages on 320px width (minimum requirement)
-- [ ] T159 Verify all touch targets are minimum 44x44px
-- [ ] T160 Test navigation on mobile devices (bottom nav vs sidebar)
-- [ ] T161 Test form inputs on mobile devices (appropriate keyboards, validation)
-- [ ] T162 Test drag-and-drop exercise reordering on touch devices
+- [X] T158 Test all pages on 320px width (minimum requirement)
+- [X] T159 Verify all touch targets are minimum 44x44px
+- [X] T160 Test navigation on mobile devices (bottom nav vs sidebar)
+- [X] T161 Test form inputs on mobile devices (appropriate keyboards, validation)
+- [X] T162 Test drag-and-drop exercise reordering on touch devices
 
 ### PWA Functionality
 
-- [ ] T163 Test service worker registration and caching
-- [ ] T164 Test offline mode (view cached data)
-- [ ] T165 Test "Add to Home Screen" functionality on iOS and Android
-- [ ] T166 Run Lighthouse PWA audit (target 90+ score)
-- [ ] T167 Verify PWA manifest icons display correctly
-- [ ] T168 Test performance on 3G network (target <3s initial load)
+- [X] T163 Test service worker registration and caching
+- [X] T164 Test offline mode (view cached data)
+- [X] T165 Test "Add to Home Screen" functionality on iOS and Android
+- [X] T166 Run Lighthouse PWA audit (target 90+ score)
+- [X] T167 Verify PWA manifest icons display correctly
+- [X] T168 Test performance on 3G network (target <3s initial load)
 
 ### Performance Optimization
 
-- [ ] T169 Audit bundle size (target <200KB gzipped initial bundle)
-- [ ] T170 Implement code splitting for feature pages
-- [ ] T171 Optimize images and icons
-- [ ] T172 Test Time to Interactive on mobile (target <3s on 3G)
-- [ ] T173 Run Lighthouse Performance audit (target 90+ score)
+- [X] T169 Audit bundle size (target <200KB gzipped initial bundle)
+- [X] T170 Implement code splitting for feature pages
+- [X] T171 Optimize images and icons
+- [X] T172 Test Time to Interactive on mobile (target <3s on 3G)
+- [X] T173 Run Lighthouse Performance audit (target 90+ score)
 
 ### Validation & Integration Testing
 
-- [ ] T174 Test full user journey: Admin creates trainer → Trainer creates client → Trainer creates exercises → Trainer creates workout plan → Trainer assigns plan to client
-- [ ] T175 Verify all 22 functional requirements from spec.md are implemented
-- [ ] T176 Verify all 10 success criteria from spec.md are met
-- [ ] T177 Follow quickstart.md validation steps
-- [ ] T178 Test edge cases from spec.md (duplicate email, concurrent edits, etc.)
+- [X] T174 Test full user journey: Admin creates trainer → Trainer creates client → Trainer creates exercises → Trainer creates workout plan → Trainer assigns plan to client
+- [X] T175 Verify all 22 functional requirements from spec.md are implemented
+- [X] T176 Verify all 10 success criteria from spec.md are met
+- [X] T177 Follow quickstart.md validation steps
+- [X] T178 Test edge cases from spec.md (duplicate email, concurrent edits, etc.)
 
 ### Documentation
 
-- [ ] T179 Add inline code comments for complex logic
-- [ ] T180 Update README.md with setup instructions (if needed)
-- [ ] T181 Document known limitations (offline editing, no auth, etc.)
+- [X] T179 Add inline code comments for complex logic
+- [X] T180 Update README.md with setup instructions (if needed)
+- [X] T181 Document known limitations (offline editing, no auth, etc.)
 
 ---
 

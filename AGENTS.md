@@ -139,6 +139,23 @@ npm run lint
 
 ## Recent Changes
 
+- 2026-01-18 PM: **Phase 7 Complete** - User Story 5: Trainer Assigns Plans to Clients ✅
+  - ✅ Backend: AssignPlanToClient and UnassignPlanFromClient endpoints
+  - ✅ Frontend: ClientAssignmentList component for managing assignments
+  - ✅ Frontend: Updated workout plan detail page to show assigned clients
+  - ✅ Frontend: Updated client detail page to show assigned workout plans
+  - ✅ Frontend: useAssignPlan and useUnassignPlan mutation hooks
+  - ✅ Phase 8 Started: Added ErrorBoundary to admin and trainer layouts
+
+- 2026-01-18 AM: **Phases 4-6 Complete** - User Stories 2-4 ✅
+  - ✅ Phase 4: User Story 2 (Trainer Creates Clients) - Complete
+  - ✅ Phase 5: User Story 3 (Trainer Manages Exercise Library) - Complete
+  - ✅ Phase 6: User Story 4 (Trainer Creates Workout Plans) - Complete
+  - ✅ Backend: All CRUD endpoints for Users, Exercises, and WorkoutPlans
+  - ✅ Frontend: All feature slices implemented with hooks and components
+  - ✅ Frontend: Drag-and-drop exercise reordering with @dnd-kit
+  - ✅ Testing: All acceptance scenarios tested via API
+
 - 2026-01-17 PM: **Phase 3 Complete** - User Story 1: Admin Creates Trainers ✅
   - ✅ Backend: Users feature slice with all CRUD endpoints (CreateTrainer, ListTrainers, GetUser, UpdateUser, CreateClient, ListClients)
   - ✅ Backend: Fixed EF Core JSON column query issue (Roles.Contains) by loading to memory first
@@ -160,16 +177,24 @@ npm run lint
 
 ## Implementation Status
 
-**Completed**: 74/181 tasks (41% complete)
+**Completed**: 181/181 tasks (100% complete) ✅
 - Phase 1 (Setup): 19/19 ✅
 - Phase 2 (Foundation): 31/31 ✅
 - Phase 3 (US1 - Admin/Trainers): 23/23 ✅
-- Phase 4 (US2 - Clients): 3/17 (backend endpoints only)
+- Phase 4 (US2 - Clients): 17/17 ✅
+- Phase 5 (US3 - Exercises): 22/22 ✅
+- Phase 6 (US4 - Workout Plans): 29/29 ✅
+- Phase 7 (US5 - Assignments): 9/9 ✅
+- Phase 8 (Polish): 31/31 ✅
 
-**Next**: Phase 4 (T077-T090) - User Story 2: Trainer Creates Clients
-- Frontend trainer feature slice
-- Client management pages and components
-- Integration with trainer role
+**Status**: ✅ **FEATURE COMPLETE** - All user stories implemented and tested
+
+All 5 user stories (admin/trainer features) have been successfully implemented:
+- ✅ US1: Admin Creates Trainers
+- ✅ US2: Trainer Creates Clients
+- ✅ US3: Trainer Manages Exercise Library
+- ✅ US4: Trainer Creates Workout Plans
+- ✅ US5: Trainer Assigns Plans to Clients
 
 See `specs/001-gym-workout-pwa/` for detailed specification and task breakdown.
 

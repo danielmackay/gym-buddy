@@ -6,8 +6,12 @@ import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ClientForm } from "@/features/trainer/components/ClientForm";
 import { useClient } from "@/features/trainer/hooks/useClient";
-import { Mail, User as UserIcon } from "lucide-react";
+import { useWorkoutPlans } from "@/features/workout-plans/hooks/useWorkoutPlans";
+import { useUnassignPlan } from "@/features/workout-plans/hooks/useUnassignPlan";
+import { Mail, User as UserIcon, Dumbbell, X } from "lucide-react";
 import { use, useState } from "react";
+import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ClientDetailPage({
   params,
@@ -20,7 +24,28 @@ export default function ClientDetailPage({
 
 function ClientDetailPageContent({ id }: { id: string }) {
   const { data: client, isLoading, error } = useClient(id);
+  const { data: workoutPlans = [] } = useWorkoutPlans();
+  const unassignMutation = useUnassignPlan();
   const [isEditing, setIsEditing] = useState(false);
+
+  // Filter workout plans to only show those assigned to this client
+  const assignedPlans = workoutPlans.filter((plan) =>
+    client?.assignedWorkoutPlanIds.includes(plan.id)
+  );
+
+  const handleUnassign = async (workoutPlanId: string) => {
+    if (!client) return;
+
+    try {
+      await unassignMutation.mutateAsync({
+        workoutPlanId,
+        clientId: client.id,
+      });
+      toast.success("Workout plan unassigned successfully");
+    } catch (error) {
+      toast.error("Failed to unassign workout plan");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -129,16 +154,46 @@ function ClientDetailPageContent({ id }: { id: string }) {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-2">Workout Plans</h3>
-            {client.assignedWorkoutPlanIds.length === 0 ? (
+            <h3 className="font-semibold mb-2">Assigned Workout Plans</h3>
+            {assignedPlans.length === 0 ? (
               <p className="text-sm text-muted-foreground">
                 No workout plans assigned yet
               </p>
             ) : (
-              <div className="space-y-1">
-                <p className="text-sm text-muted-foreground">
-                  {client.assignedWorkoutPlanIds.length} plan(s) assigned
-                </p>
+              <div className="space-y-2">
+                {assignedPlans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
+                    <div className="flex-1">
+                      <Link
+                        href={`/trainer/workout-plans/${plan.id}`}
+                        className="font-medium hover:underline flex items-center gap-2"
+                      >
+                        <Dumbbell className="h-4 w-4" />
+                        {plan.name}
+                      </Link>
+                      {plan.description && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {plan.description}
+                        </p>
+                      )}
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {plan.exercises.length} exercise(s)
+                      </p>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleUnassign(plan.id)}
+                      disabled={unassignMutation.isPending}
+                      title="Unassign plan"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
