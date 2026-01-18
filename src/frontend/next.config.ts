@@ -14,7 +14,7 @@ export default withPWA({
   runtimeCaching: [
     {
       urlPattern: /^https?:\/\/.+\/api\/.*/i,
-      handler: "NetworkFirst",
+      handler: "StaleWhileRevalidate",
       options: {
         cacheName: "api-cache",
         expiration: {

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { WeightUnit } from "@/lib/types/workout-plan";
+import { WeightUnit, ExerciseType } from "@/lib/types/workout-plan";
 
 // Weight validation (matches backend: value + unit)
 const weightSchema = z.object({
@@ -28,13 +28,30 @@ export const createWorkoutPlanSchema = z.object({
 });
 
 // Validation schema for adding an exercise to a plan
+// Note: This validates at form level. Backend will enforce stricter rules per exercise type.
 export const addExerciseToPlanSchema = z.object({
+  type: z.nativeEnum(ExerciseType),
   exerciseId: z.string().min(1, "Exercise is required"),
   sets: z.number().int().min(1, "Sets must be at least 1"),
   reps: z.number().int().min(1, "Reps must be at least 1").optional(),
   weight: weightSchema.optional(),
   duration: durationSchema.optional(),
-});
+}).refine(
+  (data) => {
+    // For RepsAndWeight, reps is required
+    if (data.type === ExerciseType.RepsAndWeight && !data.reps) {
+      return false;
+    }
+    // For TimeBased, duration is required
+    if (data.type === ExerciseType.TimeBased && !data.duration) {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: "RepsAndWeight exercises require reps, TimeBased exercises require duration",
+  }
+);
 
 // Validation schema for reordering exercises in a plan
 export const reorderExercisesSchema = z.object({

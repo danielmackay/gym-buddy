@@ -6,9 +6,6 @@ using GymBuddy.Api.Host;
 var appAssembly = Assembly.GetExecutingAssembly();
 var builder = WebApplication.CreateBuilder(args);
 
-// Default allowed origins for CORS (used as fallback)
-var defaultAllowedOrigins = new[] { "http://localhost:3000" };
-
 builder.AddServiceDefaults();
 
 builder.Services.AddCustomProblemDetails();
@@ -24,12 +21,23 @@ builder.Services.AddCors(options =>
     {
         var allowedOrigins = builder.Configuration
             .GetSection("CorsSettings:AllowedOrigins")
-            .Get<string[]>() ?? defaultAllowedOrigins;
+            .Get<string[]>();
+
+        // In production, fail fast if CORS origins are not configured
+        if (!builder.Environment.IsDevelopment() && (allowedOrigins == null || allowedOrigins.Length == 0))
+        {
+            throw new InvalidOperationException(
+                "CORS allowed origins must be explicitly configured in production. " +
+                "Set CorsSettings:AllowedOrigins in appsettings.json or environment variables.");
+        }
+
+        // Fallback to localhost for development only
+        allowedOrigins ??= ["http://localhost:3000"];
 
         policy.WithOrigins(allowedOrigins)
               .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials(); // For future Auth0 integration
+              .AllowAnyHeader();
+        // Note: .AllowCredentials() will be added when Auth0 is implemented
     });
 });
 

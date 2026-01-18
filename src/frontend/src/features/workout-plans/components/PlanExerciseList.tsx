@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   DndContext,
   closestCenter,
@@ -39,6 +39,11 @@ export function PlanExerciseList({
   const [localExercises, setLocalExercises] = useState(exercises);
   const removeExercise = useRemoveExercise();
   const reorderExercises = useReorderExercises();
+
+  // Sync local state when exercises prop changes (e.g., after adding new exercise)
+  useEffect(() => {
+    setLocalExercises(exercises);
+  }, [exercises]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),

@@ -34,6 +34,14 @@ public class CreateClientEndpoint(ApplicationDbContext dbContext)
             return;
         }
 
+        // Verify the user has the Trainer role
+        if (!trainer.CanBeAssignedAsTrainer())
+        {
+            AddError("The specified user does not have the Trainer role", "User.NotATrainer");
+            await Send.ErrorsAsync(cancellation: ct);
+            return;
+        }
+
         var user = Domain.Users.User.Create(req.Name, req.Email);
         var addRoleResult = user.AddRole(UserRole.Client);
 

@@ -33,4 +33,8 @@ public static class WorkoutPlanErrors
     public static readonly Error MismatchedExerciseType = Error.Validation(
         "WorkoutPlan.MismatchedExerciseType",
         "Exercise type does not match the provided parameters");
+
+    public static readonly Error InvalidExerciseCount = Error.Validation(
+        "WorkoutPlan.InvalidExerciseCount",
+        "The number of exercises in the reorder list must match the current exercise count");
 }

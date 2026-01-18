@@ -1,8 +1,13 @@
 using GymBuddy.Domain.WorkoutPlans;
 using GymBuddy.Domain.Exercises;
 using GymBuddy.Domain.Common;
+using GymBuddy.Domain.Users;
 
 namespace GymBuddy.Api.Features.WorkoutPlans.Endpoints;
+
+public record ListWorkoutPlansRequest(
+    [property: QueryParam]
+    Guid? TrainerId);
 
 public record WorkoutPlanResponse(
     Guid Id,
@@ -26,7 +31,7 @@ public record WeightResponse(decimal Value, int Unit);  // WeightUnit enum as in
 public record DurationResponse(int Seconds);
 
 public class ListWorkoutPlansEndpoint(ApplicationDbContext dbContext)
-    : EndpointWithoutRequest<List<WorkoutPlanResponse>>
+    : Endpoint<ListWorkoutPlansRequest, List<WorkoutPlanResponse>>
 {
     public override void Configure()
     {
@@ -36,13 +41,20 @@ public class ListWorkoutPlansEndpoint(ApplicationDbContext dbContext)
             .Produces<List<WorkoutPlanResponse>>());
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(ListWorkoutPlansRequest req, CancellationToken ct)
     {
-        // TODO: Filter by authenticated trainer's ID
-        // For now, return all workout plans
-        var workoutPlans = await dbContext.WorkoutPlans
+        // Filter by trainer ID if provided (for future Auth0 integration)
+        var query = dbContext.WorkoutPlans
             .Include(wp => wp.Exercises)
-            .ToListAsync(ct);
+            .AsQueryable();
+
+        if (req.TrainerId.HasValue)
+        {
+            var trainerId = UserId.From(req.TrainerId.Value);
+            query = query.Where(wp => wp.TrainerId == trainerId);
+        }
+
+        var workoutPlans = await query.ToListAsync(ct);
 
         var response = workoutPlans.Select(wp => MapToResponse(wp)).ToList();
 
