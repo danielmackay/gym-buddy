@@ -13,6 +13,12 @@ export default function NewExercisePage() {
   const createExercise = useCreateExercise();
 
   const handleSubmit = async (data: CreateExerciseFormData) => {
+    // Ensure we have the type field (should always be present for create)
+    if (!("type" in data)) {
+      toast.error("Exercise type is required");
+      return;
+    }
+
     try {
       await createExercise.mutateAsync(data);
       toast.success("Exercise created successfully!");
@@ -40,7 +46,7 @@ export default function NewExercisePage() {
       </div>
 
       <ExerciseForm
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit as any}
         isSubmitting={createExercise.isPending}
       />
     </div>

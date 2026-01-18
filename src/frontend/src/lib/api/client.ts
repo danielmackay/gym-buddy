@@ -18,12 +18,33 @@ export class ApiClient {
   ): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
 
+    // Build headers object - omit Content-Type for GET and DELETE requests
+    const headers: Record<string, string> = {};
+
+    // Copy existing headers if any
+    if (options?.headers) {
+      const existingHeaders = options.headers;
+      if (existingHeaders instanceof Headers) {
+        existingHeaders.forEach((value, key) => {
+          headers[key] = value;
+        });
+      } else if (Array.isArray(existingHeaders)) {
+        existingHeaders.forEach(([key, value]) => {
+          headers[key] = value;
+        });
+      } else {
+        Object.assign(headers, existingHeaders);
+      }
+    }
+
+    // Only add Content-Type for requests with a body (not GET or DELETE)
+    if (options?.method && !["GET", "DELETE"].includes(options.method)) {
+      headers["Content-Type"] = "application/json";
+    }
+
     const response = await fetch(url, {
       ...options,
-      headers: {
-        "Content-Type": options?.method === "GET" ? "" : "application/json",
-        ...options?.headers,
-      },
+      headers,
     });
 
     // Handle successful responses

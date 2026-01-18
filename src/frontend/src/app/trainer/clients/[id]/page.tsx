@@ -7,14 +7,15 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { ClientForm } from "@/features/trainer/components/ClientForm";
 import { useClient } from "@/features/trainer/hooks/useClient";
 import { Mail, User as UserIcon } from "lucide-react";
-import { useState } from "react";
+import { use, useState } from "react";
 
 export default function ClientDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  return <ClientDetailPageContent id={params.id} />;
+  const resolvedParams = use(params);
+  return <ClientDetailPageContent id={resolvedParams.id} />;
 }
 
 function ClientDetailPageContent({ id }: { id: string }) {

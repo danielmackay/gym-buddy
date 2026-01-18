@@ -1,8 +1,14 @@
 // Workout Plan types matching backend Domain models
 import type { ExerciseType } from "./exercise";
 
+export enum WeightUnit {
+  Kilograms = 1,
+  Pounds = 2,
+}
+
 export interface Weight {
-  kilograms: number;
+  value: number;
+  unit: WeightUnit;
 }
 
 export interface Duration {

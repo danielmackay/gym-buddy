@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { WeightUnit } from "@/lib/types/workout-plan";
 
-// Weight validation
+// Weight validation (matches backend: value + unit)
 const weightSchema = z.object({
-  kilograms: z.number().positive("Weight must be positive"),
+  value: z.number().positive("Weight must be positive"),
+  unit: z.nativeEnum(WeightUnit),
 });
 
 // Duration validation
@@ -24,7 +26,7 @@ export const createWorkoutPlanSchema = z.object({
 
 // Validation schema for adding an exercise to a plan
 export const addExerciseToPlanSchema = z.object({
-  exerciseId: z.string().uuid("Exercise ID must be a valid UUID"),
+  exerciseId: z.string().min(1, "Exercise is required"),
   sets: z.number().int().min(1, "Sets must be at least 1"),
   reps: z.number().int().min(1, "Reps must be at least 1").optional(),
   weight: weightSchema.optional(),

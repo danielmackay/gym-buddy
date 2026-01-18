@@ -252,46 +252,46 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend - WorkoutPlans Feature Slice [US4]
 
-- [ ] T113 [US4] Create WorkoutPlansFeature.cs group registration in `src/api/src/WebApi/Features/WorkoutPlans/WorkoutPlansFeature.cs`
-- [ ] T114 [US4] Create CreateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/CreateWorkoutPlan.cs`
-- [ ] T115 [US4] Create CreateWorkoutPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/CreateWorkoutPlanValidator.cs`
-- [ ] T116 [US4] Create ListWorkoutPlans endpoint (filtered by trainerId) in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/ListWorkoutPlans.cs`
-- [ ] T117 [US4] Create GetWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/GetWorkoutPlan.cs`
-- [ ] T118 [US4] Create UpdateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UpdateWorkoutPlan.cs`
-- [ ] T119 [US4] Create AddExerciseToPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AddExerciseToPlan.cs`
-- [ ] T120 [US4] Create AddExerciseToPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/AddExerciseToPlanValidator.cs`
-- [ ] T121 [US4] Create RemoveExerciseFromPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/RemoveExerciseFromPlan.cs`
-- [ ] T122 [US4] Create ReorderExercises endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/ReorderExercises.cs`
-- [ ] T123 [US4] Create ReorderExercisesValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/ReorderExercisesValidator.cs`
-- [ ] T124 [US4] Run EF Core migration to ensure WorkoutPlan/PlannedExercise tables exist: `dotnet ef migrations add AddWorkoutPlansFeature`
-- [ ] T125 [US4] Test all WorkoutPlans endpoints with Aspire dashboard/Swagger (create plan, add exercises, reorder, remove)
+- [X] T113 [US4] Create WorkoutPlansFeature.cs group registration in `src/api/src/WebApi/Features/WorkoutPlans/WorkoutPlansFeature.cs`
+- [X] T114 [US4] Create CreateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/CreateWorkoutPlan.cs`
+- [X] T115 [US4] Create CreateWorkoutPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/CreateWorkoutPlanValidator.cs`
+- [X] T116 [US4] Create ListWorkoutPlans endpoint (filtered by trainerId) in `src/api/src/WorkoutPlans/Endpoints/ListWorkoutPlans.cs`
+- [X] T117 [US4] Create GetWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/GetWorkoutPlan.cs`
+- [X] T118 [US4] Create UpdateWorkoutPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/UpdateWorkoutPlan.cs`
+- [X] T119 [US4] Create AddExerciseToPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/AddExerciseToPlan.cs`
+- [X] T120 [US4] Create AddExerciseToPlanValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/AddExerciseToPlanValidator.cs`
+- [X] T121 [US4] Create RemoveExerciseFromPlan endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/RemoveExerciseFromPlan.cs`
+- [X] T122 [US4] Create ReorderExercises endpoint in `src/api/src/WebApi/Features/WorkoutPlans/Endpoints/ReorderExercises.cs`
+- [X] T123 [US4] Create ReorderExercisesValidator in `src/api/src/WebApi/Features/WorkoutPlans/Validators/ReorderExercisesValidator.cs`
+- [X] T124 [US4] Run EF Core migration to ensure WorkoutPlan/PlannedExercise tables exist: `dotnet ef migrations add AddWorkoutPlansFeature`
+- [X] T125 [US4] Test all WorkoutPlans endpoints with Aspire dashboard/Swagger (create plan, add exercises, reorder, remove)
 
 ### Frontend - Workout Plans API Service [US4]
 
-- [ ] T126 [US4] Create workout-plans API service with all endpoint methods in `src/frontend/src/lib/api/workout-plans.ts`
+- [X] T126 [US4] Create workout-plans API service with all endpoint methods in `src/frontend/src/lib/api/workout-plans.ts`
 
 ### Frontend - Workout Plans Feature Slice [US4]
 
-- [ ] T127 [US4] Create workout plan list page in `src/frontend/src/app/trainer/workout-plans/page.tsx`
-- [ ] T128 [US4] Create new workout plan page in `src/frontend/src/app/trainer/workout-plans/new/page.tsx`
-- [ ] T129 [US4] Create workout plan detail/edit page in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
+- [X] T127 [US4] Create workout plan list page in `src/frontend/src/app/trainer/workout-plans/page.tsx`
+- [X] T128 [US4] Create new workout plan page in `src/frontend/src/app/trainer/workout-plans/new/page.tsx`
+- [X] T129 [US4] Create workout plan detail/edit page in `src/frontend/src/app/trainer/workout-plans/[id]/page.tsx`
 
 ### Frontend - Workout Plans Components [US4]
 
-- [ ] T130 [US4] Create WorkoutPlanList component in `src/frontend/src/features/workout-plans/components/WorkoutPlanList.tsx`
-- [ ] T131 [US4] Create WorkoutPlanForm component in `src/frontend/src/features/workout-plans/components/WorkoutPlanForm.tsx`
-- [ ] T132 [US4] Create PlanExerciseList component with drag-and-drop reordering using @dnd-kit/sortable in `src/frontend/src/features/workout-plans/components/PlanExerciseList.tsx`
-- [ ] T133 [US4] Create AddExerciseModal component with exercise selection in `src/frontend/src/features/workout-plans/components/AddExerciseModal.tsx`
+- [X] T130 [US4] Create WorkoutPlanList component in `src/frontend/src/features/workout-plans/components/WorkoutPlanList.tsx`
+- [X] T131 [US4] Create WorkoutPlanForm component in `src/frontend/src/features/workout-plans/components/WorkoutPlanForm.tsx`
+- [X] T132 [US4] Create PlanExerciseList component with drag-and-drop reordering using @dnd-kit/sortable in `src/frontend/src/features/workout-plans/components/PlanExerciseList.tsx`
+- [X] T133 [US4] Create AddExerciseModal component with exercise selection in `src/frontend/src/features/workout-plans/components/AddExerciseModal.tsx`
 
 ### Frontend - Workout Plans Hooks [US4]
 
-- [ ] T134 [US4] [P] Create useWorkoutPlans hook in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlans.ts`
-- [ ] T135 [US4] [P] Create useWorkoutPlan hook (get single) in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlan.ts`
-- [ ] T136 [US4] [P] Create useCreateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useCreateWorkoutPlan.ts`
-- [ ] T137 [US4] [P] Create useUpdateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUpdateWorkoutPlan.ts`
-- [ ] T138 [US4] [P] Create useAddExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useAddExercise.ts`
-- [ ] T139 [US4] [P] Create useRemoveExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useRemoveExercise.ts`
-- [ ] T140 [US4] [P] Create useReorderExercises mutation hook in `src/frontend/src/features/workout-plans/hooks/useReorderExercises.ts`
+- [X] T134 [US4] [P] Create useWorkoutPlans hook in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlans.ts`
+- [X] T135 [US4] [P] Create useWorkoutPlan hook (get single) in `src/frontend/src/features/workout-plans/hooks/useWorkoutPlan.ts`
+- [X] T136 [US4] [P] Create useCreateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useCreateWorkoutPlan.ts`
+- [X] T137 [US4] [P] Create useUpdateWorkoutPlan mutation hook in `src/frontend/src/features/workout-plans/hooks/useUpdateWorkoutPlan.ts`
+- [X] T138 [US4] [P] Create useAddExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useAddExercise.ts`
+- [X] T139 [US4] [P] Create useRemoveExercise mutation hook in `src/frontend/src/features/workout-plans/hooks/useRemoveExercise.ts`
+- [X] T140 [US4] [P] Create useReorderExercises mutation hook in `src/frontend/src/features/workout-plans/hooks/useReorderExercises.ts`
 
 ### Testing [US4]
 
