@@ -67,25 +67,25 @@ public class Exercise : AggregateRoot<ExerciseId>
         return exercise;
     }
 
-    // public ErrorOr<Success> Update(
-    //     string name,
-    //     string? description,
-    //     IEnumerable<MuscleGroup> muscleGroups)
-    // {
-    //     var muscleGroupList = muscleGroups.ToList();
-    //
-    //     if (muscleGroupList.Count == 0)
-    //         return ExerciseErrors.NoMuscleGroups;
-    //
-    //     Name = name;
-    //     Description = description;
-    //
-    //     _muscleGroups.Clear();
-    //     foreach (var muscleGroup in muscleGroupList.Distinct())
-    //     {
-    //         _muscleGroups.Add(muscleGroup);
-    //     }
-    //
-    //     return new Success();
-    // }
+    public ErrorOr<Success> Update(
+        string name,
+        string? description,
+        IEnumerable<MuscleGroup> muscleGroups)
+    {
+        var muscleGroupList = muscleGroups.ToList();
+
+        if (muscleGroupList.Count == 0)
+            return ExerciseErrors.NoMuscleGroups;
+
+        Name = name;
+        Description = description;
+
+        _muscleGroups.Clear();
+        foreach (var muscleGroup in muscleGroupList.Distinct())
+        {
+            _muscleGroups.Add(muscleGroup);
+        }
+
+        return new Success();
+    }
 }

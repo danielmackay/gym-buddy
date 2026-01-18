@@ -196,7 +196,7 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Testing [US2]
 
-- [ ] T090 [US2] Manually test User Story 2 acceptance scenarios (create client, invalid email, list clients, update client, trainer assignment)
+- [X] T090 [US2] Manually test User Story 2 acceptance scenarios (create client, invalid email, list clients, update client, trainer assignment)
 
 ---
 
@@ -206,43 +206,43 @@ Each task follows the format: `- [ ] T### [Flags] Description with file path`
 
 ### Backend - Exercises Feature Slice [US3]
 
-- [ ] T091 [US3] Create ExercisesFeature.cs group registration in `src/api/src/WebApi/Features/Exercises/ExercisesFeature.cs`
-- [ ] T092 [US3] Create CreateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/CreateExercise.cs`
-- [ ] T093 [US3] Create CreateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/CreateExerciseValidator.cs`
-- [ ] T094 [US3] Create ListExercises endpoint with muscle group/type filtering in `src/api/src/WebApi/Features/Exercises/Endpoints/ListExercises.cs`
-- [ ] T095 [US3] Create GetExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/GetExercise.cs`
-- [ ] T096 [US3] Create UpdateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/UpdateExercise.cs`
-- [ ] T097 [US3] Create UpdateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/UpdateExerciseValidator.cs`
-- [ ] T098 [US3] Run EF Core migration to ensure Exercise tables exist: `dotnet ef migrations add AddExercisesFeature`
-- [ ] T099 [US3] Test all Exercises endpoints with Aspire dashboard/Swagger (create, list, filter, get, update)
+- [X] T091 [US3] Create ExercisesFeature.cs group registration in `src/api/src/WebApi/Features/Exercises/ExercisesFeature.cs`
+- [X] T092 [US3] Create CreateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/CreateExercise.cs`
+- [X] T093 [US3] Create CreateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/CreateExerciseValidator.cs`
+- [X] T094 [US3] Create ListExercises endpoint with muscle group/type filtering in `src/api/src/WebApi/Features/Exercises/Endpoints/ListExercises.cs`
+- [X] T095 [US3] Create GetExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/GetExercise.cs`
+- [X] T096 [US3] Create UpdateExercise endpoint in `src/api/src/WebApi/Features/Exercises/Endpoints/UpdateExercise.cs`
+- [X] T097 [US3] Create UpdateExerciseValidator in `src/api/src/WebApi/Features/Exercises/Validators/UpdateExerciseValidator.cs`
+- [X] T098 [US3] Run EF Core migration to ensure Exercise tables exist: `dotnet ef migrations add AddExercisesFeature`
+- [X] T099 [US3] Test all Exercises endpoints with Aspire dashboard/Swagger (create, list, filter, get, update)
 
 ### Frontend - Exercises API Service [US3]
 
-- [ ] T100 [US3] Create exercises API service with all endpoint methods in `src/frontend/src/lib/api/exercises.ts`
+- [X] T100 [US3] Create exercises API service with all endpoint methods in `src/frontend/src/lib/api/exercises.ts`
 
 ### Frontend - Exercise Library Feature Slice [US3]
 
-- [ ] T101 [US3] Create exercise list page in `src/frontend/src/app/trainer/exercises/page.tsx`
-- [ ] T102 [US3] Create new exercise page in `src/frontend/src/app/trainer/exercises/new/page.tsx`
-- [ ] T103 [US3] Create exercise detail page in `src/frontend/src/app/trainer/exercises/[id]/page.tsx`
+- [X] T101 [US3] Create exercise list page in `src/frontend/src/app/trainer/exercises/page.tsx`
+- [X] T102 [US3] Create new exercise page in `src/frontend/src/app/trainer/exercises/new/page.tsx`
+- [X] T103 [US3] Create exercise detail page in `src/frontend/src/app/trainer/exercises/[id]/page.tsx`
 
 ### Frontend - Exercise Library Components [US3]
 
-- [ ] T104 [US3] Create ExerciseList component with filtering in `src/frontend/src/features/exercise-library/components/ExerciseList.tsx`
-- [ ] T105 [US3] Create ExerciseForm component with type/muscle group selection in `src/frontend/src/features/exercise-library/components/ExerciseForm.tsx`
-- [ ] T106 [US3] Create ExerciseFilter component (muscle group, type) in `src/frontend/src/features/exercise-library/components/ExerciseFilter.tsx`
-- [ ] T107 [US3] Create MuscleGroupBadge component in `src/frontend/src/features/exercise-library/components/MuscleGroupBadge.tsx`
+- [X] T104 [US3] Create ExerciseList component with filtering in `src/frontend/src/features/exercise-library/components/ExerciseList.tsx`
+- [X] T105 [US3] Create ExerciseForm component with type/muscle group selection in `src/frontend/src/features/exercise-library/components/ExerciseForm.tsx`
+- [X] T106 [US3] Create ExerciseFilter component (muscle group, type) in `src/frontend/src/features/exercise-library/components/ExerciseFilter.tsx`
+- [X] T107 [US3] Create MuscleGroupBadge component in `src/frontend/src/features/exercise-library/components/MuscleGroupBadge.tsx`
 
 ### Frontend - Exercise Library Hooks [US3]
 
-- [ ] T108 [US3] [P] Create useExercises hook with filtering support in `src/frontend/src/features/exercise-library/hooks/useExercises.ts`
-- [ ] T109 [US3] [P] Create useCreateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useCreateExercise.ts`
-- [ ] T110 [US3] [P] Create useUpdateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useUpdateExercise.ts`
-- [ ] T111 [US3] [P] Create useExercise hook (get single) in `src/frontend/src/features/exercise-library/hooks/useExercise.ts`
+- [X] T108 [US3] [P] Create useExercises hook with filtering support in `src/frontend/src/features/exercise-library/hooks/useExercises.ts`
+- [X] T109 [US3] [P] Create useCreateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useCreateExercise.ts`
+- [X] T110 [US3] [P] Create useUpdateExercise mutation hook in `src/frontend/src/features/exercise-library/hooks/useUpdateExercise.ts`
+- [X] T111 [US3] [P] Create useExercise hook (get single) in `src/frontend/src/features/exercise-library/hooks/useExercise.ts`
 
 ### Testing [US3]
 
-- [ ] T112 [US3] Manually test User Story 3 acceptance scenarios (create reps/weight exercise, create time-based exercise, list, filter, update)
+- [X] T112 [US3] Manually test User Story 3 acceptance scenarios (create reps/weight exercise, create time-based exercise, list, filter, update)
 
 ---
 
