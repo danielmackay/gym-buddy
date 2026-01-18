@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { workoutPlansApi } from "@/lib/api/workout-plans";
 
 interface UnassignPlanParams {
-  workoutPlanId: string;
   clientId: string;
+  workoutPlanId: string;
 }
 
 /**
@@ -13,8 +13,8 @@ export function useUnassignPlan() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ workoutPlanId, clientId }: UnassignPlanParams) =>
-      workoutPlansApi.unassignPlanFromClient(workoutPlanId, clientId),
+    mutationFn: ({ clientId, workoutPlanId }: UnassignPlanParams) =>
+      workoutPlansApi.unassignPlanFromClient(clientId, workoutPlanId),
     onSuccess: () => {
       // Invalidate relevant queries to refetch updated data
       queryClient.invalidateQueries({ queryKey: ["workoutPlans"] });

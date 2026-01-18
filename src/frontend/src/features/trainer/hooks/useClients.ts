@@ -12,6 +12,6 @@ export function useClients(trainerId: string) {
     queryKey: ["clients", trainerId],
     queryFn: () => usersApi.listClients(trainerId),
     staleTime: 60 * 1000, // Consider data fresh for 1 minute
-    enabled: !!trainerId, // Only fetch if trainerId is provided
+    enabled: !!trainerId && trainerId.length > 0, // Only fetch if trainerId is provided and non-empty
   });
 }

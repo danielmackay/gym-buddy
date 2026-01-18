@@ -69,18 +69,18 @@ export const workoutPlansApi = {
   /**
    * Assign a workout plan to a client
    */
-  assignPlanToClient: (workoutPlanId: string, clientId: string) =>
+  assignPlanToClient: (clientId: string, workoutPlanId: string) =>
     apiClient.request<void>("/workout-plans/assign", {
       method: "POST",
-      body: JSON.stringify({ workoutPlanId, clientId }),
+      body: JSON.stringify({ clientId, workoutPlanId }),
     }),
 
   /**
    * Unassign a workout plan from a client
    */
-  unassignPlanFromClient: (workoutPlanId: string, clientId: string) =>
+  unassignPlanFromClient: (clientId: string, workoutPlanId: string) =>
     apiClient.request<void>("/workout-plans/unassign", {
       method: "POST",
-      body: JSON.stringify({ workoutPlanId, clientId }),
+      body: JSON.stringify({ clientId, workoutPlanId }),
     }),
 };

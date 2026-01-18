@@ -29,9 +29,11 @@ function ClientDetailPageContent({ id }: { id: string }) {
   const [isEditing, setIsEditing] = useState(false);
 
   // Filter workout plans to only show those assigned to this client
-  const assignedPlans = workoutPlans.filter((plan) =>
-    client?.assignedWorkoutPlanIds.includes(plan.id)
-  );
+  const assignedPlans = client
+    ? workoutPlans.filter((plan) =>
+        client.assignedWorkoutPlanIds.includes(plan.id)
+      )
+    : [];
 
   const handleUnassign = async (workoutPlanId: string) => {
     if (!client) return;
