@@ -1,3 +1,4 @@
+using DotNet.Testcontainers.Images;
 using Microsoft.Data.SqlClient;
 using Polly;
 using Testcontainers.MsSql;
@@ -9,8 +10,7 @@ namespace GymBuddy.Api.IntegrationTests.Common.Infrastructure.Database;
 /// </summary>
 public class SqlServerContainer : IAsyncDisposable
 {
-    private readonly MsSqlContainer _container = new MsSqlBuilder()
-        .WithImage("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04")
+    private readonly MsSqlContainer _container = new MsSqlBuilder(new DockerImage("mcr.microsoft.com/mssql/server:2022-CU14-ubuntu-22.04"))
         .WithName($"WebApi-IntegrationTests-{Guid.NewGuid()}")
         .WithPassword("Password123")
         .WithPortBinding(1433, true)

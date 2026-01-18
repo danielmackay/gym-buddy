@@ -46,7 +46,7 @@ public class ListClientsEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(1);
+        await Assert.That(result.Result!).Count().IsEqualTo(1);
         
         var returnedClient = result.Result.First();
         await Assert.That(returnedClient.Id).IsEqualTo(clientUser.Id.Value);
@@ -75,7 +75,7 @@ public class ListClientsEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(3);
+        await Assert.That(result.Result!).Count().IsEqualTo(3);
         
         var clientIds = result.Result.Select(c => c.Id).ToList();
         await Assert.That(clientIds).Contains(client1.Id.Value);
@@ -111,7 +111,7 @@ public class ListClientsEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(2);
+        await Assert.That(result.Result!).Count().IsEqualTo(2);
         
         var clientIds = result.Result.Select(c => c.Id).ToList();
         await Assert.That(clientIds).Contains(client1ForTrainer1.Id.Value);
@@ -173,7 +173,7 @@ public class ListClientsEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(1);
+        await Assert.That(result.Result!).Count().IsEqualTo(1);
         await Assert.That(result.Result.First().Id).IsEqualTo(client.Id.Value);
     }
 
@@ -195,7 +195,7 @@ public class ListClientsEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(1);
+        await Assert.That(result.Result!).Count().IsEqualTo(1);
         await Assert.That(result.Result.First().Id).IsEqualTo(client.Id.Value);
     }
 }

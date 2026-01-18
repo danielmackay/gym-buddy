@@ -34,7 +34,7 @@ public class CreateTrainerEndpointTests : IntegrationTestBase
         await Assert.That(user!.Name).IsEqualTo(request.Name);
         await Assert.That(user.Email).IsEqualTo(request.Email);
         await Assert.That(user.Roles).Contains(UserRole.Trainer);
-        await Assert.That(user.Roles).HasCount().EqualTo(1);
+        await Assert.That(user.Roles).Count().IsEqualTo(1);
         await Assert.That(user.TrainerId).IsNull();
     }
 

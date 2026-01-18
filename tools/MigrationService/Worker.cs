@@ -34,7 +34,9 @@ public class Worker(
             }
 
             sw.Stop();
+#pragma warning disable CA1848
             logger.LogInformation("DB creation and seeding took {ElapsedTime}", sw.Elapsed);
+#pragma warning restore CA1848
         }
         catch (Exception ex)
         {

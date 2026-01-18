@@ -39,7 +39,7 @@ public class CreateClientEndpointTests : IntegrationTestBase
         await Assert.That(user!.Name).IsEqualTo(request.Name);
         await Assert.That(user.Email).IsEqualTo(request.Email);
         await Assert.That(user.Roles).Contains(UserRole.Client);
-        await Assert.That(user.Roles).HasCount().EqualTo(1);
+        await Assert.That(user.Roles).Count().IsEqualTo(1);
         await Assert.That(user.TrainerId).IsNotNull();
         await Assert.That(user.TrainerId!.Value.Value).IsEqualTo(trainer.Id.Value);
     }

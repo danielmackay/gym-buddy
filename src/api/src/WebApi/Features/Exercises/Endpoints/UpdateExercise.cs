@@ -45,7 +45,7 @@ public class UpdateExerciseEndpoint(ApplicationDbContext dbContext)
 
         await dbContext.SaveChangesAsync(ct);
 
-        await Send.OkAsync(ct);
+        await Send.OkAsync(null, ct);
     }
 }
 

@@ -40,7 +40,7 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(1);
+        await Assert.That(result.Result!).Count().IsEqualTo(1);
         
         var returnedUser = result.Result.First();
         await Assert.That(returnedUser.Id).IsEqualTo(user.Id.Value);
@@ -68,7 +68,7 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(5);
+        await Assert.That(result.Result!).Count().IsEqualTo(5);
         
         var userIds = result.Result.Select(u => u.Id).ToList();
         await Assert.That(userIds).Contains(trainer1.Id.Value);
@@ -94,10 +94,10 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(2);
+        await Assert.That(result.Result!).Count().IsEqualTo(2);
         
         var trainers = result.Result.Where(u => u.Roles.Contains(UserRole.Trainer)).ToList();
-        await Assert.That(trainers).HasCount().EqualTo(2);
+        await Assert.That(trainers).Count().IsEqualTo(2);
     }
 
     [Test]
@@ -117,10 +117,10 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(3);
+        await Assert.That(result.Result!).Count().IsEqualTo(3);
         
         var clients = result.Result.Where(u => u.Roles.Contains(UserRole.Client)).ToList();
-        await Assert.That(clients).HasCount().EqualTo(2);
+        await Assert.That(clients).Count().IsEqualTo(2);
     }
 
     [Test]
@@ -139,10 +139,10 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(2);
+        await Assert.That(result.Result!).Count().IsEqualTo(2);
         
         var admins = result.Result.Where(u => u.Roles.Contains(UserRole.Admin)).ToList();
-        await Assert.That(admins).HasCount().EqualTo(2);
+        await Assert.That(admins).Count().IsEqualTo(2);
     }
 
     [Test]
@@ -211,6 +211,6 @@ public class ListAllUsersEndpointTests : IntegrationTestBase
         // Assert
         await Assert.That(result.Response.StatusCode).IsEqualTo(HttpStatusCode.OK);
         await Assert.That(result.Result).IsNotNull();
-        await Assert.That(result.Result!).HasCount().EqualTo(50);
+        await Assert.That(result.Result!).Count().IsEqualTo(50);
     }
 }
